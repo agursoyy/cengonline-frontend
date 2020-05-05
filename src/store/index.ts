@@ -1,11 +1,6 @@
 import { observable, action } from "mobx";
 import User from './user';
 
-declare global {
-  interface Window {
-    store: Store;
-  }
-}
 
 export default class Store {
   @observable

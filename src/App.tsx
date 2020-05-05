@@ -3,14 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import { inject, observer } from 'mobx-react';
 import Store from './store';
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import "materialize-css/dist/css/materialize.min.css";
-
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import 'materialize-css/dist/css/materialize.min.css';
 
 
 interface IProps {
   store?: Store
-};
+}
 
 const App: FC<IProps> = (props) => {
   useEffect(() => {

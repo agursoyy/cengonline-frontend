@@ -1,20 +1,34 @@
 {
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "sourceType": "module",
-    "allowImportExportEverywhere": false,
-    "codeFrame": false
-  },
   "extends": [
-    "airbnb",
-    "prettier"
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended"
   ],
-  "env": {
-    "browser": true,
-    "jest": true
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
   },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
   "rules": {
-    "semi": "error",
+    "semi": [
+      "error",
+      "always"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
     "no-unused-vars": "off",
     "max-len": [
       "error",
@@ -29,7 +43,7 @@
       "off"
     ],
     "react/prop-types": [
-      "warn"
+      "off"
     ],
     "no-return-assign": [
       "off"

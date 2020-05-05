@@ -17,7 +17,7 @@ export default class User {
   public getCurrent = async (): Promise<boolean> => {
     return new Promise((res, rej) => {
       res(true);
-    })
+    });
 
   };
 
