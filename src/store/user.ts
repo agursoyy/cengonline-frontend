@@ -3,6 +3,7 @@ import Store from '.';
 
 export default class User {
   private remote = false;
+  public user: any;
   private url = {
     base: '/users',
     favoriteIds_url: '/favoriteIDs',
@@ -15,10 +16,7 @@ export default class User {
   constructor(private store: Store) { }
 
   public getCurrent = async (): Promise<boolean> => {
-    return new Promise((res, rej) => {
-      res(true);
-    });
-
+    return this.user;
   };
 
 

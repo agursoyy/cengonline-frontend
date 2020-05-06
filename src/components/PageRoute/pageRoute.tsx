@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-
+import { observer, inject } from 'mobx-react';
+import Store from '../../store';
+import { Signup, Login } from '../../pages/authentication';
 const config = require('../../config');
 const { publicRuntimeConfig: { pageConfig } } = config;
 
@@ -14,16 +16,23 @@ interface IpageConfig {
 interface IProps {
   pageConfiguration?: IpageConfig,
   Component: FC,
+  store?: Store,
   // All other props
   [x: string]: any;
 }
 
-const PageRoute: FC<IProps> = ({ pageConfiguration, Component, ...rest }) => {
+const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest }) => {
+
   const config: IpageConfig = {
     ...pageConfig,
     ...pageConfiguration
   };
   const { layout, header, footer, auth } = config;
+  const { user } = store!.user;
+  const { location, path } = rest;
+  let Redirected = false;
+  if (location.state && location.state.from.pathname == path)
+    Redirected = true;
   return (
     <Route {...rest} render={props => {
 
@@ -35,15 +44,22 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, ...rest }) => {
         </>
         :
         <Component {...rest} {...props} />;
-      /* return Auth.isUserAuthenticated() ? (
-         newComponent
-       ) : (
-           <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-         ); */
-      return newComponent;
+
+      return (auth && user) ? (
+        newComponent
+      ) :
+        (
+          auth ? (
+            (Redirected) ?  // to prevent infinite redirection.(maximum-depth exceeded error).
+              <Component />
+              :
+              <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
+          ) :
+            <Component />
+        );
 
     }} />
   );
 };
 
-export default PageRoute;
+export default inject('store')(observer(PageRoute));
