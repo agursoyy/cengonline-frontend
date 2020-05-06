@@ -18,7 +18,7 @@ interface IProps {
   [x: string]: any;
 }
 
-const PrivateRoute: FC<IProps> = ({ pageConfiguration, Component, ...rest }) => {
+const PageRoute: FC<IProps> = ({ pageConfiguration, Component, ...rest }) => {
   const config: IpageConfig = {
     ...pageConfig,
     ...pageConfiguration
@@ -46,4 +46,4 @@ const PrivateRoute: FC<IProps> = ({ pageConfiguration, Component, ...rest }) => 
   );
 };
 
-export default PrivateRoute;
+export default PageRoute;

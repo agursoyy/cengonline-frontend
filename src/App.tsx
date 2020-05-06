@@ -7,7 +7,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import { inject, observer } from 'mobx-react';
 import Store from './store';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import PrivateRoute from './components/privateRoute';
+import PageRoute from './components/PageRoute';
 import { Login, Signup } from './pages/authentication';
 
 interface IProps {
@@ -28,8 +28,8 @@ const App: FC<IProps> = (props) => {
         <a className="waves-effect waves-light btn">button</a>
        */}
         <Switch>
-          <PrivateRoute path="/sign-in" Component={Login} pageConfiguration={{ layout: false }}></PrivateRoute>
-          <PrivateRoute path="/sign-up" Component={Signup}></PrivateRoute>
+          <PageRoute path="/sign-in" Component={Login} pageConfiguration={{ layout: false }}></PageRoute>
+          <PageRoute path="/sign-up" Component={Signup}></PageRoute>
         </Switch>
       </Router>
     </div>
