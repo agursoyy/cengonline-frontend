@@ -1,0 +1,27 @@
+$white: #fff !default;
+$black: #020d18 !default;
+$dusk: #577592 !default;
+$candlelight: #dcf836 !default;
+$blue: #007bff !default;
+$darkblue: #233a50 !default;
+$colors: (
+  "white": $white,
+  "black": $black,
+  "dusk": $dusk,
+  "blue": $blue,
+  "candlelight": $candlelight,
+) !default;
+
+$primary: $black !default;
+$secondary: $darkblue !default;
+
+$theme-colors: (
+  "black": $black,
+  "white": $white,
+  "dusk": $dusk,
+  "blue": $blue,
+  "candlelight": $candlelight,
+  "darkblue": $darkblue
+) !default;
+
+$body-color: $black !default;

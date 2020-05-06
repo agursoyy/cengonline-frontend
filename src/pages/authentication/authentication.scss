@@ -1,0 +1,61 @@
+@import '../../styles/mixins/breakpoint';
+@import '../../styles/variables/index';
+@import '../../styles/utils//index';
+
+
+.auth-container {
+  min-height: 100vh;
+  background-color: $blue;
+    &__box {
+      background-color: $white;
+      box-shadow: 0px 0px 14px 0px rgba(0,0,0,.5);
+      border-radius: 5px;
+      padding: 4rem 3.2rem;
+      &__header {
+        text-align: center;
+        color: $black;
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 6rem;
+      }
+      form {
+        .tip {
+          font-weight: 500;
+          color: $blue;
+          text-decoration: none;
+        }
+        .form-group {
+          position: relative;
+          margin-bottom: 2.6rem;
+          label {
+            font-size: 1.2rem;
+            font-weight: 500;
+          }
+          .tip {
+            font-size: 1.1rem;
+          }
+          input.input-text {
+            padding-bottom: .6rem;
+            font-size: 1.6rem;
+          }
+      
+          .form__error {
+            margin-top: .6rem;
+            font-size: 1.2rem;
+          }
+        }
+        .submit {
+          margin-top: 6rem;
+          .tip {
+            font-size: 1.2rem;
+          }
+          &-btn {
+            width: 12rem;
+          }
+        }
+      }
+      
+     }
+  
+  
+}
