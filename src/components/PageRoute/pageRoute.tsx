@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import Store from '../../store';
@@ -21,7 +21,36 @@ interface IProps {
   [x: string]: any;
 }
 
+
+
+
 const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest }) => {
+
+  const [firstRender, setFirstRender] = useState(false);
+
+  const handleCookieAuth = async (store: Store) => {
+    const accessToken = store.cookies.get('accessToken');
+    console.log(accessToken);
+    if (accessToken) {
+      store.api.accessToken = accessToken;
+    }
+    const user = await store.user.getCurrent();
+    console.log(user);
+    if (!user) {
+      console.log('NO USER');
+      store.api.accessToken = undefined;
+      store.cookies.remove('accessToken');
+    }
+    if (!firstRender)
+      setFirstRender(true);
+  };
+
+  useEffect(() => {
+    const authAsync = async () => {
+      await handleCookieAuth(store!);
+    };
+    authAsync();
+  });
 
   const config: IpageConfig = {
     ...pageConfig,
@@ -34,31 +63,37 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
   if (location.state && location.state.from.pathname == path)
     Redirected = true;
   return (
-    <Route {...rest} render={props => {
+    firstRender ?
+      <Route {...rest} render={props => {
 
-      const newComponent = layout ?
-        <>
-          {header && <h1>HEADER</h1>}
-          <Component {...rest} {...props} />
-          {footer && <h1 className=" text-center">FOOTER</h1>}
-        </>
-        :
-        <Component {...rest} {...props} />;
+        const newComponent = layout ?
+          <>
+            {header && <h1>HEADER</h1>}
+            <Component {...rest} {...props} />
+            {footer && <h1 className=" text-center">FOOTER</h1>}
+          </>
+          :
+          <Component {...rest} {...props} />;
 
-      return (auth && user) ? (
-        newComponent
-      ) :
-        (
-          auth ? (
-            (Redirected) ?  // to prevent infinite redirection.(maximum-depth exceeded error).
-              <Component />
-              :
-              <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
-          ) :
-            <Component />
-        );
+        return (auth && user) ? (
+          newComponent
+        ) :
+          (
+            auth ? (
+              (Redirected) ?  // to prevent infinite redirection.(maximum-depth exceeded error).
+                newComponent
+                :
+                <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
+            ) :
+              (
+                (path === '/sign-in' || path === '/sign-up') ?
+                  <Redirect to={{ pathname: '/' }} />
+                  :
+                  newComponent
+              )
+          );
 
-    }} />
+      }} /> : <h1>Loading...</h1>
   );
 };
 

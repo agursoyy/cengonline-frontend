@@ -2,8 +2,8 @@ import Axios from 'axios';
 import Store from '.';
 import queryString from 'query-string';
 const config = require('../config');
-const { api } = config;
-
+const { publicRuntimeConfig: { api } } = config;
+console.log(api);
 type IParams = {
   url: string;
   method?: 'get' | 'post' | 'put' | 'delete',
@@ -20,9 +20,7 @@ export default class Api {
   public accessToken?: string;
   public refreshToken?: string;
 
-  constructor(private store: Store) {
-    this.store;
-  }
+  constructor(private store: Store) { }
 
   public fetch = ({
     url,

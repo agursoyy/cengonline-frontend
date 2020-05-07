@@ -8,6 +8,7 @@ import { inject, observer } from 'mobx-react';
 import Store from './store';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import PageRoute from './components/PageRoute';
+
 import Home from './pages/home';
 import { Login, Signup } from './pages/authentication';
 
@@ -16,15 +17,13 @@ interface IProps {
 }
 
 const App: FC<IProps> = (props) => {
-  useEffect(() => {
-    const { store } = props;
-    console.log(store);
-  });
+  const { store } = props;
+
   return (
     <div className="App">
       <Router>
         <Switch>  {/* Actually the only thing done here is defining the layout and the protection of the route */}
-          <PageRoute path="/" exact Component={Home} ></PageRoute>
+          <PageRoute path="/" exact Component={Home} pageConfiguration={{ auth: true }} ></PageRoute>
           <PageRoute path="/sign-in" exact Component={Login} pageConfiguration={{ layout: false, auth: false }}></PageRoute>
           <PageRoute path="/sign-up" exact Component={Signup} pageConfiguration={{ layout: false, auth: false }}></PageRoute>
         </Switch>

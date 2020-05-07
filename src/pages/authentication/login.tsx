@@ -2,8 +2,12 @@ import React, { FC } from 'react';
 import './authentication.scss';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
+import Store from '../../store';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
+
+
 
 
 const LoginSchema = Yup.object().shape({
@@ -15,7 +19,18 @@ const LoginSchema = Yup.object().shape({
     .min(8, 'Too Short')
 });
 
-const Login = () => {
+interface IProps {
+  store?: Store,
+  location?: any
+}
+const Login: FC<IProps> = ({ store, location }) => {
+  const { auth: { login } } = store!;
+  const history = useHistory();
+  const { state } = location; // which page has been redirected to login
+  let from: '/'; // default redirect route after logged in.
+  if (state)
+    from = state.from;
+
   return (
     <div className="auth-container d-flex align-items-center">
       < div className="container" >
@@ -25,23 +40,23 @@ const Login = () => {
               <h1 className="auth-container__box__header">Sign in to continue to Cengonline</h1>
               <Formik
                 initialValues={{
-                  password: '',
                   email: '',
+                  password: '',
                 }}
                 validationSchema={LoginSchema}
                 onSubmit={async (values, { setSubmitting, setFieldError }) => {
-                  console.log(values);
-                  /*const result = await login({ email: values.email, password: values.password });
+                  const result = await login({ email: values.email, password: values.password });
                   const { auth } = result;
                   if (auth) {
                     console.log('LOGIN SUCCEEDED');
-                    Router.pushRoute('home');
+
+                    history.push('/');
                   }
                   else {
                     const { errors } = result;
-                    handleServerErrors(errors, setFieldError);
+                    setFieldError('password', errors.message);
                   }
-                  setSubmitting(false); */
+                  setSubmitting(false);
                 }}
               >
                 {({ errors, touched, values, isSubmitting }) => (
@@ -65,6 +80,8 @@ const Login = () => {
                         required />
                       <ErrorMessage name="password" component="div" className="form__error text-danger" />
                     </div>
+                    <ErrorMessage name="error" component="div" className="form__error text-danger" />
+
                     <div className="submit d-flex flex-wrap justify-content-between align-items-center">
                       <Link to="/sign-up" className="tip">Create an account</Link>
                       <button type="submit" className='btn btn-lg blue waves-effect waves-light submit-btn' disabled={isSubmitting}>Login</button>
