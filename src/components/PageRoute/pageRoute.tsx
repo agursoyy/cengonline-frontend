@@ -50,7 +50,7 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
       await handleCookieAuth(store!);
     };
     authAsync();
-  });
+  }, []);
 
   const config: IpageConfig = {
     ...pageConfig,
@@ -80,20 +80,23 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
         ) :
           (
             auth ? (
-              (Redirected) ?  // to prevent infinite redirection.(maximum-depth exceeded error).
+              /*(Redirected) ?  // to prevent infinite redirection.(maximum-depth exceeded error).
                 newComponent
-                :
-                <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
+              : */
+              <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
             ) :
               (
                 (path === '/sign-in' || path === '/sign-up') ?
-                  <Redirect to={{ pathname: '/' }} />
+                  (
+                    user ? <Redirect to={{ pathname: '/' }} /> : newComponent
+
+                  )
                   :
                   newComponent
               )
           );
 
-      }} /> : <h1>Loading...</h1>
+      }} /> : null
   );
 };
 
