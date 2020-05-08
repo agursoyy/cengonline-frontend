@@ -1,22 +1,27 @@
 import Store from '.';
 
 export default class User {
-  private remote = false;
   public user;
   private url = {
     base: '/users',
-    favoriteIds_url: '/favoriteIDs',
-    favorites_url: '/favorites', // ?page = 1 .
-    addFavorite_url: '/addfavorite',
-    removeFavorite_url: '/favorites/remove',
+    currentUrl: '/current',
   };
-  public age = 23;
 
   constructor(private store: Store) {}
 
-  public getCurrent = async (): Promise<string> => {
-    if (this.store.api.accessToken) this.user = 'loggedin';
-    else this.user = undefined;
+  public getCurrent = async (): Promise<any> => {
+    const url = `${this.url.base}${this.url.currentUrl}`;
+    if (!this.user) {
+      const response = await this.store.api.fetch({ url }, 200);
+      const { status } = response;
+      if (!status) {
+        // failed response, data and status code is sent together.
+        this.user = response;
+      } else {
+        // successful response(200), only data is sent from api.
+        this.user = null;
+      }
+    }
     return this.user;
   };
 }

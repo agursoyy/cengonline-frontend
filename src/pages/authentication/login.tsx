@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import './authentication.scss';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
@@ -22,6 +22,13 @@ const LoginSchema = Yup.object().shape({
 interface IProps {
   store?: Store,
   location?: any
+}
+
+interface IPRops {
+  card: {
+    id: Number,
+    title: string
+  }
 }
 const Login: FC<IProps> = ({ store, location }) => {
   const { auth: { login } } = store!;
@@ -47,10 +54,10 @@ const Login: FC<IProps> = ({ store, location }) => {
                 onSubmit={async (values, { setSubmitting, setFieldError }) => {
                   const result = await login({ email: values.email, password: values.password });
                   const { auth } = result;
-                  if (auth) {
+                  const user = await store?.user.getCurrent();
+                  if (auth && user) {
                     console.log('LOGIN SUCCEEDED');
-
-                    history.push('/');
+                    window.location.href = '/';
                   }
                   else {
                     const { errors } = result;
