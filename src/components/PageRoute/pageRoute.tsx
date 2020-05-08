@@ -76,27 +76,23 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
 
         return auth && user ? (
           newComponent
-        ) :
-          (
-            auth ? (
-              /*(Redirected) ?  // to prevent infinite redirection.(maximum-depth exceeded error).
+        ) : auth ? (
+          /*(Redirected) ?  // to prevent infinite redirection.(maximum-depth exceeded error).
                 newComponent
               : */
-              <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
-            ) :
-              (
-                (path === '/sign-in' || path === '/sign-up') ?
-                  (
-                    user ? <Redirect to={{ pathname: '/' }} /> : newComponent
-
-                  )
-                  :
-                  newComponent
-              )
-          );
-
-      }} /> : null
-  );
+          <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
+        ) : path === '/sign-in' || path === '/sign-up' ? (
+          user ? (
+            <Redirect to={{ pathname: '/' }} />
+          ) : (
+            newComponent
+          )
+        ) : (
+          newComponent
+        );
+      }}
+    />
+  ) : null;
 };
 
 export default inject('store')(observer(PageRoute));
