@@ -6,7 +6,6 @@ import User from './user';
 import Course from './course';
 
 export default class Store {
-  @observable
   public api = new Api(this);
   public auth = new Auth(this);
   public cookies = new Cookies();

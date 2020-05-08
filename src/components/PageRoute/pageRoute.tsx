@@ -71,8 +71,8 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
             {footer && <h1 className=" text-center">FOOTER</h1>}
           </>
         ) : (
-          <Component {...rest} {...props} />
-        );
+            <Component {...rest} {...props} />
+          );
 
         return auth && user ? (
           newComponent
@@ -85,11 +85,11 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
           user ? (
             <Redirect to={{ pathname: '/' }} />
           ) : (
-            newComponent
-          )
+              newComponent
+            )
         ) : (
-          newComponent
-        );
+                newComponent
+              );
       }}
     />
   ) : null;

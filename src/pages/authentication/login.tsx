@@ -38,6 +38,7 @@ const Login: FC<IProps> = ({ store, location }) => {
   if (state)
     from = state.from;
 
+
   return (
     <div className="auth-container d-flex align-items-center">
       < div className="container" >

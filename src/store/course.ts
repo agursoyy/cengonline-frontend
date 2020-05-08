@@ -1,10 +1,12 @@
 
 import Store from '.';
+import { observable } from 'mobx';
 
 export default class User {
   private url = {
     base: '/courses',
   };
+  @observable
   public courses: any;
   public age = 23;
 

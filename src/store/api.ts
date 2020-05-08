@@ -56,6 +56,7 @@ export default class Api {
     }
 
     return Axios(config).then(({ data, status }) => {
+      console.log('response');
       return expected ? (expected === status ? data : null) : { data, status }; // successful expected response(200), only data is sent from api.
     }).catch(err => {
       if (err.response) {
@@ -64,6 +65,9 @@ export default class Api {
           // if(this.refreshToken ) {} // auth not implemented yet.
         }
         return { data, status };   // failed response, data and status code is sent together.
+      }
+      else {  // network error
+        return { status: 'network error' };
       }
     });
   }

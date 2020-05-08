@@ -1,13 +1,15 @@
 import Store from '.';
+import { observable } from 'mobx';
 
 export default class User {
+  @observable
   public user;
   private url = {
     base: '/users',
     currentUrl: '/current',
   };
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   public getCurrent = async (): Promise<any> => {
     const url = `${this.url.base}${this.url.currentUrl}`;

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import './home.scss';
@@ -6,9 +6,22 @@ import Store from '../../store';
 import { Teaching } from '../../components/Illustrations';
 import ClassCard from '../../components/ClassCard';
 
-const Home: FC = () => {
+
+type IProps = {
+  store?: Store
+};
+const Home: FC<IProps> = ({ store }) => {
+  const [unMount, setUnMount] = useState(false);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      await store!.course.fetchAllCourses();
+      setUnMount(true);
+    };
+    fetchCourses();
+  }, []);
+  const { course: { courses } } = store!;
   let content;
-  if (!courses || courses.length == 0) {
+  if (!courses || courses.length === 0) {
     content = (
       <>
         <Teaching className="teaching-illustrator" />
@@ -24,109 +37,18 @@ const Home: FC = () => {
       </div>
     );
   }
-
   return (
-    <div className="Home">
-      <div className="Home-container">{content}</div>
-    </div>
+    unMount ?
+      <div className="Home">
+        <div className="Home-container">{content}</div>
+      </div>
+      :
+      null
   );
 };
 
 //const courses = [];
 
-const courses = [
-  {
-    createdAt: '2020-04-27T15:17:08.262+0000',
-    updatedAt: '2020-04-27T16:20:57.235+0000',
-    id: 4,
-    title: 'DOM',
-    term: 'Spring',
-    teacher: {
-      id: 9,
-      createdAt: '2020-04-27T15:14:44.636+0000',
-      updatedAt: '2020-04-27T15:14:44.636+0000',
-      name: 'Adil',
-      surname: 'Alpkoçak',
-      email: 'adil.alpkocak@ceng.deu.edu.tr',
-      roles: [
-        {
-          createdAt: '2020-04-25T10:19:34.497+0000',
-          updatedAt: '2020-04-25T10:19:34.497+0000',
-          id: 3,
-          name: 'ROLE_TEACHER',
-        },
-      ],
-    },
-  },
-  {
-    createdAt: '2020-04-27T15:17:08.262+0000',
-    updatedAt: '2020-04-27T16:20:57.235+0000',
-    id: 4,
-    title: 'DOM',
-    term: 'Spring',
-    teacher: {
-      id: 9,
-      createdAt: '2020-04-27T15:14:44.636+0000',
-      updatedAt: '2020-04-27T15:14:44.636+0000',
-      name: 'Adil',
-      surname: 'Alpkoçak',
-      email: 'adil.alpkocak@ceng.deu.edu.tr',
-      roles: [
-        {
-          createdAt: '2020-04-25T10:19:34.497+0000',
-          updatedAt: '2020-04-25T10:19:34.497+0000',
-          id: 3,
-          name: 'ROLE_TEACHER',
-        },
-      ],
-    },
-  },
-  {
-    createdAt: '2020-04-27T15:17:08.262+0000',
-    updatedAt: '2020-04-27T16:20:57.235+0000',
-    id: 4,
-    title: 'DOM',
-    term: 'Spring',
-    teacher: {
-      id: 9,
-      createdAt: '2020-04-27T15:14:44.636+0000',
-      updatedAt: '2020-04-27T15:14:44.636+0000',
-      name: 'Adil',
-      surname: 'Alpkoçak',
-      email: 'adil.alpkocak@ceng.deu.edu.tr',
-      roles: [
-        {
-          createdAt: '2020-04-25T10:19:34.497+0000',
-          updatedAt: '2020-04-25T10:19:34.497+0000',
-          id: 3,
-          name: 'ROLE_TEACHER',
-        },
-      ],
-    },
-  },
-  {
-    createdAt: '2020-04-27T15:17:08.262+0000',
-    updatedAt: '2020-04-27T16:20:57.235+0000',
-    id: 4,
-    title: 'DOM',
-    term: 'Spring',
-    teacher: {
-      id: 9,
-      createdAt: '2020-04-27T15:14:44.636+0000',
-      updatedAt: '2020-04-27T15:14:44.636+0000',
-      name: 'Adil',
-      surname: 'Alpkoçak',
-      email: 'adil.alpkocak@ceng.deu.edu.tr',
-      roles: [
-        {
-          createdAt: '2020-04-25T10:19:34.497+0000',
-          updatedAt: '2020-04-25T10:19:34.497+0000',
-          id: 3,
-          name: 'ROLE_TEACHER',
-        },
-      ],
-    },
-  },
-];
+
 
 export default inject('store')(observer(Home));
