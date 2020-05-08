@@ -4,7 +4,6 @@ import User from './user';
 import Auth from './auth';
 import Api from './api';
 
-
 export default class Store {
   @observable
   public api = new Api(this);
@@ -14,8 +13,8 @@ export default class Store {
   [name: string]: any;
 
   /* public export = (): string => Stringify(this);
- 
- 
+
+
    public import = (data: string) =>
      Object.entries(JSON.parse(data)).forEach(([storeName, store]) =>
        Object.entries(store).forEach(([variableName, value]) => {
@@ -24,5 +23,3 @@ export default class Store {
        })
      );*/
 }
-
-
