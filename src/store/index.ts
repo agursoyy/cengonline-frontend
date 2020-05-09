@@ -4,6 +4,7 @@ import Auth from './auth';
 import Api from './api';
 import User from './user';
 import Course from './course';
+import Announcement from './announcement';
 
 export default class Store {
   public api = new Api(this);
@@ -11,6 +12,7 @@ export default class Store {
   public cookies = new Cookies();
   public user = new User(this);
   public course = new Course(this);
+  public announcement = new Announcement(this);
   [name: string]: any;
 
   /* public export = (): string => Stringify(this);

@@ -10,6 +10,7 @@ import PageRoute from './components/PageRoute';
 
 import Home from './pages/home';
 import { Login, Signup } from './pages/authentication';
+import Course from './pages/course';
 
 interface IProps {
   store?: Store;
@@ -25,6 +26,12 @@ const App: FC<IProps> = (props) => {
           {/* Actually the only thing done here is defining the layout and the protection of the route */}
           {/* auth: true olcak / için */}
           <PageRoute path="/" exact Component={Home} pageConfiguration={{ auth: true }}></PageRoute>
+          <PageRoute
+            path="/course/:id"
+            exact
+            Component={Course}
+            pageConfiguration={{ auth: true }}
+          ></PageRoute>
           <PageRoute
             path="/sign-in"
             exact

@@ -1,9 +1,10 @@
 import Store from '.';
 import { observable } from 'mobx';
+import { TEACHER, STUDENT } from '../constants/role';
 
 export default class User {
   @observable
-  public user;
+  public user: any;
   private url = {
     base: '/users',
     currentUrl: '/current',
@@ -26,4 +27,16 @@ export default class User {
     }
     return this.user;
   };
+
+  public isTeacher = () => {
+    if (!this.user)
+      return false;
+    else {
+      const { roles } = this.user;
+      if (roles.length > 0 && roles[0].name == TEACHER) {
+        return true;
+      }
+
+    }
+  }
 }

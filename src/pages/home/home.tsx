@@ -5,7 +5,7 @@ import './home.scss';
 import Store from '../../store';
 import { Teaching } from '../../components/Illustrations';
 import ClassCard from '../../components/ClassCard';
-
+import CreateAnnouncement from '../../components/CreataAnnouncement';
 
 type IProps = {
   store?: Store
@@ -40,6 +40,8 @@ const Home: FC<IProps> = ({ store }) => {
   return (
     unMount ?
       <div className="Home">
+        <div className="col-sm-5">
+        </div>
         <div className="Home-container">{content}</div>
       </div>
       :

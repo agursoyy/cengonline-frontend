@@ -7,6 +7,7 @@ export default class User {
     base: '/courses',
   };
   @observable
+  public course: any; // course-detail
   public courses: any;
   public age = 23;
 
@@ -23,5 +24,16 @@ export default class User {
       else
         this.courses = null;
     }
+  };
+
+  public fetchCourse = async (courseID): Promise<void> => {
+    const url = `${this.url.base}/${courseID}`;
+    const response = await this.store.api.fetch({ url }, 200);
+    const { status } = response;
+    if (!status) {
+      this.course = response;
+    }
+    else
+      this.course = null;
   };
 }

@@ -35,7 +35,7 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
       store.api.accessToken = accessToken;
     }
     const user = await store.user.getCurrent();
-    console.log(user);
+    //console.log(user);
     if (!user) {
       console.log('NO USER');
       store.api.accessToken = undefined;
