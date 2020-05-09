@@ -1,4 +1,3 @@
-
 import Store from '.';
 import { observable } from 'mobx';
 
@@ -11,7 +10,7 @@ export default class User {
   public courses: any;
   public age = 23;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   public fetchAllCourses = async (): Promise<void> => {
     const url = `${this.url.base}`;
@@ -20,9 +19,7 @@ export default class User {
       const { status } = response;
       if (!status) {
         this.courses = response;
-      }
-      else
-        this.courses = null;
+      } else this.courses = null;
     }
   };
 
@@ -32,8 +29,6 @@ export default class User {
     const { status } = response;
     if (!status) {
       this.course = response;
-    }
-    else
-      this.course = null;
+    } else this.course = null;
   };
 }

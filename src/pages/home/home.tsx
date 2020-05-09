@@ -1,14 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Route, Redirect } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
-import './home.scss';
 import Store from '../../store';
 import { Teaching } from '../../components/Illustrations';
 import ClassCard from '../../components/ClassCard';
-import CreateAnnouncement from '../../components/CreataAnnouncement';
+
+import './home.scss';
 
 type IProps = {
-  store?: Store
+  store?: Store;
 };
 const Home: FC<IProps> = ({ store }) => {
   const [unMount, setUnMount] = useState(false);
@@ -19,7 +18,9 @@ const Home: FC<IProps> = ({ store }) => {
     };
     fetchCourses();
   }, []);
-  const { course: { courses } } = store!;
+  const {
+    course: { courses },
+  } = store!;
   let content;
   if (!courses || courses.length === 0) {
     content = (
@@ -37,20 +38,12 @@ const Home: FC<IProps> = ({ store }) => {
       </div>
     );
   }
-  return (
-    unMount ?
-      <div className="Home">
-        <div className="col-sm-5">
-        </div>
-        <div className="Home-container">{content}</div>
-      </div>
-      :
-      null
-  );
+
+  return unMount ? (
+    <div className="Home">
+      <div className="Home-container">{content}</div>
+    </div>
+  ) : null;
 };
-
-//const courses = [];
-
-
 
 export default inject('store')(observer(Home));
