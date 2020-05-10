@@ -1,4 +1,10 @@
-@import "./styles/utils";
+@import './styles/utils';
 .title {
   color: #ffffff;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
