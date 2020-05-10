@@ -19,7 +19,7 @@ const Home: FC<IProps> = ({ store }) => {
     };
     fetchCourses();
   }, []);
-  const { course: { courses } } = store!;
+  const { course: { courses } } = store;
   let content;
   if (!courses || courses.length === 0) {
     content = (
