@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Route, Redirect, useParams } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import Store from '../../store';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CreateAnnouncement from '../../components/CreataAnnouncement';
 
 import './course.scss';
@@ -45,13 +46,31 @@ const Course: FC<IProps> = ({ store }) => {
             <div className="col-sm-4">
               <div className="border">Left Side Component</div>
             </div>
-            <div className="col-sm-7 pl-sm-3 pr-sm-3 border course_container__content">
-              <div
-                className={!isTeacher ? 'd-none' : 'course-container__content__create-announcement'}
-              >
-                <CreateAnnouncement />
-              </div>
-              <div className={!isTeacher ? 'd-none' : 'course-container__content__timeline'}>
+            <div className="col-sm-7 pl-sm-3 pr-sm-3 course-container__content">
+              <Tabs>
+                <TabList>
+                  <Tab>Title 1</Tab>
+                  <Tab>Title 2</Tab>
+                </TabList>
+
+                <TabPanel>
+                  <div className="react-tabs__tab-panel__course-announcement">
+                    <h2>Any content 2</h2>
+                    <div
+                      className={!isTeacher() ? 'd-none' : 'course-container__content__create-announcement'}
+                    >
+                      <CreateAnnouncement />
+                    </div>
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <div className="react-tabs__tab-panel__course-assignment">
+                    <h2>Any content 1</h2>
+                  </div>
+                </TabPanel>
+              </Tabs>
+
+              <div className={!isTeacher() ? 'd-none' : 'course-container__content__timeline'}>
                 <h2>Timeline</h2>
               </div>
             </div>
