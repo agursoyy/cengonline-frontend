@@ -49,8 +49,8 @@ const Course: FC<IProps> = ({ store }) => {
             <div className="col-sm-7 pl-sm-3 pr-sm-3 course-container__content">
               <Tabs>
                 <TabList>
-                  <Tab>Title 1</Tab>
-                  <Tab>Title 2</Tab>
+                  <Tab>Announcements</Tab>
+                  <Tab>Courses</Tab>
                 </TabList>
 
                 <TabPanel>
