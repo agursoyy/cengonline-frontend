@@ -8,15 +8,15 @@ import Store from '../../store';
 import login from '../../pages/authentication/login';
 
 const formSchema = Yup.object().shape({
-  description: Yup.string()
-    .required('Required')
+  description: Yup.string().required('Required'),
 });
 
 type IProps = {
-  store?: Store
-}
-const CreateAnnouncement: FC<IProps> = ({ store }) => {
-  return (
+  store?: Store;
+  courseID: number;
+};
+const CreateAnnouncement: FC<IProps> = ({ courseID, store }) => {
+  return courseID > 0 ? (
     <div className="announcement-create-container border">
       <div className="announcement-create-container__form">
         <Formik
@@ -25,17 +25,18 @@ const CreateAnnouncement: FC<IProps> = ({ store }) => {
           }}
           validationSchema={formSchema}
           onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
-            console.log(values);
+            console.log('values', values);
             const { description } = values;
-            const { announcement: { createAnnouncement } } = store;
+            const {
+              announcement: { createAnnouncement },
+            } = store;
 
-            const success = await createAnnouncement({ courseID: 2, description });
+            const success = await createAnnouncement({ courseID, description });
             if (success) {
               setTimeout(() => {
                 resetForm();
               }, 1000);
-            }
-            else {
+            } else {
               setFieldError('error', 'something went wrong.');
             }
             setSubmitting(false);
@@ -44,27 +45,46 @@ const CreateAnnouncement: FC<IProps> = ({ store }) => {
           {({ errors, touched, values, setFieldValue, isSubmitting }) => (
             <Form noValidate>
               <div className="form-group description">
-                <i className="material-icons user">account_circle</i>
-                <Field name="description" type="text" as="textarea" rows={4} className="materialize-textarea" aria-describedby="emailHelp"
-                  placeholder='Share something...' required />
+                <Field
+                  name="description"
+                  type="text"
+                  as="textarea"
+                  rows={4}
+                  className="materialize-textarea"
+                  aria-describedby="emailHelp"
+                  placeholder="Make an announcement..."
+                  required
+                />
               </div>
               <ErrorMessage name="error" component="div" className="form__error text-danger" />
 
-              <div className={`${!values.description ? 'd-none' : 'button-container d-flex justify-content-end'} `} >
-                <button className='btn btn-small transparent waves-effect text-dark mr-2 cancel-btn'
-                  onClick={() => { setFieldValue('description', ''); }}>Cancel</button>
-                <button type="submit" className='btn btn-small waves-effect submit-btn' disabled={isSubmitting}>
+              <div
+                className={`${
+                  !values.description ? 'd-none' : 'button-container d-flex justify-content-end'
+                } `}
+              >
+                <button
+                  className="btn btn-small transparent waves-effect text-dark mr-2 cancel-btn"
+                  onClick={() => {
+                    setFieldValue('description', '');
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-small waves-effect submit-btn"
+                  disabled={isSubmitting}
+                >
                   Share <i className="material-icons right">send</i>
                 </button>
               </div>
-
             </Form>
           )}
         </Formik>
       </div>
-
     </div>
-  );
+  ) : null;
 };
 
 export default inject('store')(observer(CreateAnnouncement));

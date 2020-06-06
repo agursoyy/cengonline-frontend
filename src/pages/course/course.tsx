@@ -92,7 +92,7 @@ const Course: FC<IProps> = ({ store }) => {
                         !isTeacher() ? 'd-none' : 'course-container__content__create-announcement'
                       }
                     >
-                      <CreateAnnouncement />
+                      <CreateAnnouncement courseID={CourseID} />
                     </div>
                     {announcementsTab}
                   </div>
@@ -103,10 +103,6 @@ const Course: FC<IProps> = ({ store }) => {
                   </div>
                 </TabPanel>
               </Tabs>
-
-              <div className={!isTeacher() ? 'd-none' : 'course-container__content__timeline'}>
-                <h2>Timeline</h2>
-              </div>
             </div>
           </div>
         </div>

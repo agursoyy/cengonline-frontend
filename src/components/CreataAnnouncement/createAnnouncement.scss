@@ -1,35 +1,32 @@
-
-
 .announcement-create-container {
   padding: 2rem 3rem;
   border-radius: 1rem;
-  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
-  & &__form {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin-bottom: 20px;
+
+  &__form {
     form {
       .form-group.description {
         display: flex;
         align-items: center;
-        .material-icons.user {
-          font-size: 5rem;
-          margin-right:1.6rem;
-          flex-grow: 1;
-        }
+
         textarea {
           flex-grow: 99;
           height: 6rem;
           padding-top: 1rem;
-          font-family: 'Dosis','Times New Roman', Times, serif;
-          font-size: 1.6rem;
+          padding-bottom: 1rem;
+          font-size: 1.5rem;
           overflow-y: auto;
         }
-     }  
-     .form__error {
-      font-size: 1.7rem;
-      text-align: end;
-     }
-     .button-container {
-     }
+      }
+
+      .form__error {
+        font-size: 1.7rem;
+        text-align: end;
+      }
+
+      .button-container {
+      }
     }
   }
-  
 }
