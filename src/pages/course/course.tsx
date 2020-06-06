@@ -38,6 +38,32 @@ const Course: FC<IProps> = ({ store }) => {
     user: { user, isTeacher },
   } = store!;
 
+  const timelineOfAnnouncements = store!.announcement.announcements.map((a) => {
+    const dateTime = new Date(a.createdAt);
+    const minutes = dateTime.getMinutes();
+    const hours = dateTime.getHours();
+
+    let minutesString = minutes < 10 ? `0${minutes}` : minutes;
+    let hoursString = hours < 10 ? `0${hours}` : hours;
+    const dateString = `${dateTime.toLocaleDateString()} ${hoursString}:${minutesString}`;
+
+    return (
+      <div className="announcement-detail" key={`announcement-${a.id}`}>
+        <div className="announcement-teacher">
+          {course.teacher.name} {course.teacher.surname}
+        </div>
+        <div className="announcement-date">{dateString}</div>
+        <div className="announcement-content">{a.description}</div>
+      </div>
+    );
+  });
+
+  const announcementsTab = !store!.announcement.announcements.length ? (
+    <p>No announcement in this course yet!</p>
+  ) : (
+    timelineOfAnnouncements
+  );
+
   return unMount ? (
     course ? (
       <div className="course-container">
@@ -61,35 +87,6 @@ const Course: FC<IProps> = ({ store }) => {
 
                 <TabPanel>
                   <div className="react-tabs__tab-panel__course-announcement">
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis officia
-                      nostrum amet debitis architecto? Impedit eum sequi excepturi, aperiam nesciunt
-                      quibusdam delectus veniam aut, nulla ipsam, rem odit exercitationem
-                      dignissimos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
-                      reiciendis sed error vitae ea sint magni dicta quod laudantium rerum
-                      architecto dignissimos sunt, animi praesentium, asperiores assumenda, modi
-                      autem culpa. Quidem rerum blanditiis labore atque quos consectetur at modi.
-                      Molestias nihil ipsa saepe rem iure alias quia porro! Officia et quis iste
-                      pariatur cupiditate error corporis aliquam consectetur laborum maxime. Facilis
-                      ratione omnis facere voluptatum accusamus neque debitis cumque sed a quis.
-                      Deleniti expedita consequuntur reprehenderit corporis. Dolorem reprehenderit
-                      repellat quidem aspernatur nisi ad distinctio beatae dignissimos temporibus
-                      neque! Molestiae? Hic possimus officiis tempore libero quas rerum facilis quis
-                      temporibus ut iure est nihil itaque a ducimus excepturi, laudantium molestiae
-                      eaque reiciendis ipsa unde doloremque dolorum. Aperiam dolorem quam explicabo.
-                      Magni repellat commodi veritatis iste vero, laudantium facilis quis, magnam
-                      est, velit aut consequuntur dolor quas corporis voluptates in! Ipsum, nihil
-                      alias perspiciatis quasi nulla fugit quas quae ipsam maiores? Quam, ut hic
-                      recusandae illo fuga a libero adipisci enim quae vitae sapiente fugiat error
-                      sunt amet. Atque saepe quos accusantium laboriosam officiis reprehenderit vel
-                      inventore beatae, minus rem sed. Magni eveniet nemo commodi molestias ut,
-                      omnis laboriosam quasi quaerat fuga. Unde maxime, tempore ab, esse
-                      accusantium, expedita nisi labore amet quia numquam dolor magnam? Perspiciatis
-                      deleniti labore provident animi? Magni iste delectus eius reiciendis. Delectus
-                      fuga blanditiis error nulla veniam voluptatem corporis neque atque deleniti
-                      dolorem! Aliquam repudiandae, nihil reprehenderit eaque ad quis repellendus,
-                      cumque animi, culpa maxime a.
-                    </p>
                     <div
                       className={
                         !isTeacher() ? 'd-none' : 'course-container__content__create-announcement'
@@ -97,11 +94,12 @@ const Course: FC<IProps> = ({ store }) => {
                     >
                       <CreateAnnouncement />
                     </div>
+                    {announcementsTab}
                   </div>
                 </TabPanel>
                 <TabPanel>
                   <div className="react-tabs__tab-panel__course-assignment">
-                    <h2>Any content 1</h2>
+                    <p>Assignments hallo</p>
                   </div>
                 </TabPanel>
               </Tabs>
