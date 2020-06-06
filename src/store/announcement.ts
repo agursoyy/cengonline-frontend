@@ -1,11 +1,10 @@
-
 import Store from '.';
 import { observable } from 'mobx';
 import IAnnouncement from '../interfaces/announcement';
 
 type ICreateAnnouncement = {
-  courseID: number,
-  description: string
+  courseID: number;
+  description: string;
 };
 
 export default class Announcement {
@@ -13,10 +12,9 @@ export default class Announcement {
     base: '/announcements',
   };
   @observable
-  public announcements: IAnnouncement;
-  public age = 23;
+  public announcements: Array<IAnnouncement> = [];
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   public fetchAllAnnouncements = async (courseID: number): Promise<void> => {
     const url = `${this.url.base}/course/${courseID}`;
@@ -24,25 +22,26 @@ export default class Announcement {
     const { status } = response;
     if (!status) {
       this.announcements = response;
-    }
-    else {
+    } else {
       this.announcements = null;
     }
   };
 
-  public createAnnouncement = async ({ courseID, description }: ICreateAnnouncement): Promise<boolean> => {
+  public createAnnouncement = async ({
+    courseID,
+    description,
+  }: ICreateAnnouncement): Promise<boolean> => {
     const url = `${this.url.base}/${courseID}`;
     const form = {
-      description
+      description,
     };
     const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
     console.log(response);
     const { status } = response;
     if (!status) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
-  }
+  };
 }
