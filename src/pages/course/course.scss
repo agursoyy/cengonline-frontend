@@ -1,64 +1,86 @@
 .course-container {
-  padding-top: 6rem;
+  padding-top: 4rem;
   padding-bottom: 6rem;
-   & &__content {
+
+  .sidebar {
+    box-sizing: border-box;
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 1.8rem;
+    position: sticky;
+    top: 16px;
+
+    &-term,
+    &-teacher {
+      font-size: 1.4rem;
+      color: rgba(0, 0, 0, 0.55);
+    }
+  }
+
+  & &__content {
+    border-radius: 10px;
+
     .react-tabs {
       &__tab-list {
         display: flex;
-        border-bottom: .0625rem solid #e0e0e0;
+        border-bottom: 0.0625rem solid #e0e0e0;
       }
+
       &__tab {
         padding: 1rem 2.8rem;
         cursor: pointer;
         font-size: 1.65rem;
         font-weight: 500;
+
         &:hover {
           background-color: rgb(243, 242, 242);
         }
+
         &--selected {
           position: relative;
           color: #1967d2;
 
           &:after {
             border-color: #1967d2;
-         }
-          &:after {
             border-top-width: 0.35rem;
             border-top-style: solid;
             -webkit-border-radius: 0.25rem 0.25rem 0 0;
             border-radius: 0.25rem 0.25rem 0 0;
             bottom: 0;
-            content: "";
+            content: '';
             left: 0;
             right: 0;
             position: absolute;
-            bottom: -.0625rem;
-            animation: myanim .6s ease-in-out;
+            bottom: -0.0625rem;
+            animation: myanim 0.3s ease-in-out;
+
             @keyframes myanim {
               from {
                 left: 8rem;
                 right: 8rem;
               }
-           }
+            }
           }
+
           &:hover {
             background-color: rgb(236, 242, 248);
           }
         }
-        &-panel {
-         &__course-announcement {
-         }
-         &__course-assignment {
 
-        }
+        &-panel {
+          font-size: 1.5rem;
+
+          &__course-announcement {
+          }
+
+          &__course-assignment {
+          }
         }
       }
     }
 
-
-   &__create-announcement {
-     display: block;
+    &__create-announcement {
+      display: block;
     }
   }
- 
 }

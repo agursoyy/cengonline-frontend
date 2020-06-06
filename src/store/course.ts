@@ -1,14 +1,13 @@
 import Store from '.';
 import { observable } from 'mobx';
 
-export default class User {
+export default class Course {
   private url = {
     base: '/courses',
   };
   @observable
   public course: any; // course-detail
   public courses: any;
-  public age = 23;
 
   constructor(private store: Store) {}
 
