@@ -8,10 +8,21 @@ interface IProps {
   store?: Store;
   teacherName: string;
   date: Date;
+  dueDate: Date;
+  submitted: boolean;
+  title: string;
   content: string;
 }
 
-const AssignmentContent: FC<IProps> = ({ teacherName, date, content, store }) => {
+const AssignmentContent: FC<IProps> = ({
+  teacherName,
+  date,
+  dueDate,
+  submitted,
+  title,
+  content,
+  store,
+}) => {
   const dateTime = new Date(date);
   const minutes = dateTime.getMinutes();
   const hours = dateTime.getHours();
@@ -24,13 +35,16 @@ const AssignmentContent: FC<IProps> = ({ teacherName, date, content, store }) =>
     <div className="assignment-detail">
       <div className="assignment-firstline">
         <span>{teacherName}</span>
-        <span className="due-date">Due Date: 20.02.2020 23:59</span>
+        {/* TODO: handle duedate time string */}
+        <span className="due-date">Due Date: ${dueDate.toLocaleDateString()}</span>
       </div>
       <div className="assignment-secondline">
         <span>{dateString}</span>
-        <span className="not-submitted">Not Submitted</span>
+        <span className={submitted ? 'submitted' : 'not-submitted'}>
+          {submitted ? 'Submitted' : 'Not Submitted'}
+        </span>
       </div>
-      <h4 className="assignment-title">Homework Assignment II</h4>
+      <h4 className="assignment-title">{title}</h4>
       <div className="assignment-content">{content}</div>
     </div>
   );
