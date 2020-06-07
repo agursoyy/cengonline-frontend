@@ -93,17 +93,26 @@ const Course: FC<IProps> = ({ store }) => {
                     <AssignmentContent
                       teacherName="Gökhan Dalkılıç"
                       date={new Date('2020-06-07T13:37:42.574+0000')}
+                      dueDate={new Date('2020-06-07T13:37:42.574+0000')}
+                      title="Homework Assignment III"
                       content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
+                      submitted
                     />
                     <AssignmentContent
                       teacherName="Gökhan Dalkılıç"
                       date={new Date('2020-06-07T13:37:42.574+0000')}
+                      dueDate={new Date('2020-06-07T13:37:42.574+0000')}
+                      title="Homework Assignment II"
                       content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
+                      submitted={false}
                     />
                     <AssignmentContent
                       teacherName="Gökhan Dalkılıç"
                       date={new Date('2020-06-07T13:37:42.574+0000')}
+                      dueDate={new Date('2020-06-07T13:37:42.574+0000')}
+                      title="Homework Assignment I"
                       content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
+                      submitted
                     />
                   </div>
                 </TabPanel>
