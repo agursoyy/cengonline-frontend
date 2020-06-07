@@ -1,0 +1,54 @@
+.assignment-detail {
+  display: flex;
+  flex-direction: column;
+
+  &:not(:last-child) {
+    border-bottom: 1px rgba(0, 0, 0, 0.15) solid;
+    padding-bottom: 20px;
+  }
+
+  & + .assignment-detail {
+    margin-top: 20px;
+  }
+
+  .assignment-firstline,
+  .assignment-secondline {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .assignment-firstline {
+    .due-date {
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+  }
+
+  .assignment-secondline {
+    font-size: 1.4rem;
+    color: rgba(0, 0, 0, 0.55);
+    line-height: 14px;
+    margin-bottom: 12px;
+
+    .not-submitted {
+      color: #d62e21;
+      font-size: 1.4rem;
+    }
+
+    .submitted {
+      color: #087b0c;
+      font-size: 1.4rem;
+    }
+  }
+
+  .assignment-title {
+    margin-top: 5px;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+
+  .assignment-content {
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
+}
