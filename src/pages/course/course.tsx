@@ -4,6 +4,8 @@ import { observer, inject } from 'mobx-react';
 import Store from '../../store';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CreateAnnouncement from '../../components/CreataAnnouncement';
+import AnnouncementContent from '../../components/AnnouncementContent';
+import AssignmentContent from '../../components/AssignmentContent';
 
 import './course.scss';
 
@@ -38,30 +40,19 @@ const Course: FC<IProps> = ({ store }) => {
     user: { user, isTeacher },
   } = store!;
 
-  const timelineOfAnnouncements = store!.announcement.announcements.map((a) => {
-    const dateTime = new Date(a.createdAt);
-    const minutes = dateTime.getMinutes();
-    const hours = dateTime.getHours();
-
-    let minutesString = minutes < 10 ? `0${minutes}` : minutes;
-    let hoursString = hours < 10 ? `0${hours}` : hours;
-    const dateString = `${dateTime.toLocaleDateString()} ${hoursString}:${minutesString}`;
-
-    return (
-      <div className="announcement-detail" key={`announcement-${a.id}`}>
-        <div className="announcement-teacher">
-          {course.teacher.name} {course.teacher.surname}
-        </div>
-        <div className="announcement-date">{dateString}</div>
-        <div className="announcement-content">{a.description}</div>
-      </div>
-    );
-  });
-
-  const announcementsTab = !store!.announcement.announcements.length ? (
-    <p>No announcement in this course yet!</p>
+  const announcementsTab = store!.announcement.announcements.length ? (
+    store!.announcement.announcements.map((a) => {
+      return (
+        <AnnouncementContent
+          teacherName={`${course.teacher.name} ${course.teacher.surname}`}
+          date={a.createdAt}
+          content={a.description}
+          key={`announcement-${a.id}`}
+        />
+      );
+    })
   ) : (
-    timelineOfAnnouncements
+    <p>No announcement in this course yet!</p>
   );
 
   return unMount ? (
@@ -99,7 +90,21 @@ const Course: FC<IProps> = ({ store }) => {
                 </TabPanel>
                 <TabPanel>
                   <div className="react-tabs__tab-panel__course-assignment">
-                    <p>Assignments hallo</p>
+                    <AssignmentContent
+                      teacherName="Gökhan Dalkılıç"
+                      date={new Date('2020-06-07T13:37:42.574+0000')}
+                      content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
+                    />
+                    <AssignmentContent
+                      teacherName="Gökhan Dalkılıç"
+                      date={new Date('2020-06-07T13:37:42.574+0000')}
+                      content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
+                    />
+                    <AssignmentContent
+                      teacherName="Gökhan Dalkılıç"
+                      date={new Date('2020-06-07T13:37:42.574+0000')}
+                      content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
+                    />
                   </div>
                 </TabPanel>
               </Tabs>
