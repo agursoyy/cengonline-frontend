@@ -5,7 +5,7 @@ import IAssignment from '../interfaces/assignment';
 type ICreateAssignment = {
   courseID: number;
   title: string;
-  dueDate: Date;
+  dueDate: any;
   description: string;
 };
 

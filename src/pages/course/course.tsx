@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import Store from '../../store';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CreateAnnouncement from '../../components/CreateAnnouncement';
+import CreateAssignment from '../../components/CreateAssignment';
 import AnnouncementContent from '../../components/AnnouncementContent';
 import AssignmentContent from '../../components/AssignmentContent';
 
@@ -115,8 +116,7 @@ const Course: FC<IProps> = ({ store }) => {
                         !isTeacher() ? 'd-none' : 'course-container__content__create-assignment'
                       }
                     >
-                      {/*// TODO: Implement a create assignment component
-                      <CreateAnnouncement courseID={CourseID} />*/}
+                      <CreateAssignment courseID={CourseID} />
                     </div>
                     {assignmentsTab}
                   </div>

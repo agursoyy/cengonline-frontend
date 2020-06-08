@@ -1,0 +1,50 @@
+.assignment-create-container {
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin-bottom: 20px;
+
+  &__form {
+    form {
+      .form-group.description {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        & > *:not(:last-child) {
+          margin-bottom: 10px;
+        }
+
+        & > :last-child {
+          margin-bottom: 0;
+        }
+
+        textarea {
+          flex-grow: 99;
+          height: 6rem;
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+          font-size: 1.5rem;
+          overflow-y: auto;
+        }
+      }
+
+      .form__error {
+        font-size: 1.7rem;
+        text-align: end;
+      }
+
+      .button-container {
+      }
+    }
+  }
+}
+
+.modal {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.datepicker-day-button {
+  font-size: 1.5rem;
+}
