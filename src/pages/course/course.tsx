@@ -22,6 +22,7 @@ const Course: FC<IProps> = ({ store }) => {
       await Promise.all([
         store!.course.fetchCourse(CourseID),
         store!.announcement.fetchAllAnnouncements(CourseID),
+        store!.assignment.fetchAllAssignments(CourseID),
       ]);
 
       setUnMount(true);
@@ -30,6 +31,7 @@ const Course: FC<IProps> = ({ store }) => {
       return () => {
         store!.course.course = null;
         store!.announcement.announcements = null;
+        store!.assignment.assignments = null;
       };
     };
     fetchData();
@@ -53,6 +55,24 @@ const Course: FC<IProps> = ({ store }) => {
     })
   ) : (
     <p>No announcement in this course yet!</p>
+  );
+
+  const assignmentsTab = store!.assignment.assignments.length ? (
+    store!.assignment.assignments.map((a) => {
+      return (
+        <AssignmentContent
+          teacherName={`${course.teacher.name} ${course.teacher.surname}`}
+          date={a.createdAt}
+          content={a.description}
+          title={a.title}
+          dueDate={a.dueDate}
+          submitted={false}
+          key={`assignment-${a.id}`}
+        />
+      );
+    })
+  ) : (
+    <p>No assignment in this course yet!</p>
   );
 
   return unMount ? (
@@ -90,30 +110,15 @@ const Course: FC<IProps> = ({ store }) => {
                 </TabPanel>
                 <TabPanel>
                   <div className="react-tabs__tab-panel__course-assignment">
-                    <AssignmentContent
-                      teacherName="Gökhan Dalkılıç"
-                      date={new Date('2020-06-07T13:37:42.574+0000')}
-                      dueDate={new Date('2020-06-07T13:37:42.574+0000')}
-                      title="Homework Assignment III"
-                      content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
-                      submitted
-                    />
-                    <AssignmentContent
-                      teacherName="Gökhan Dalkılıç"
-                      date={new Date('2020-06-07T13:37:42.574+0000')}
-                      dueDate={new Date('2020-06-07T13:37:42.574+0000')}
-                      title="Homework Assignment II"
-                      content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
-                      submitted={false}
-                    />
-                    <AssignmentContent
-                      teacherName="Gökhan Dalkılıç"
-                      date={new Date('2020-06-07T13:37:42.574+0000')}
-                      dueDate={new Date('2020-06-07T13:37:42.574+0000')}
-                      title="Homework Assignment I"
-                      content="Bu ödevinizde lorem ipsum falan yapacaksınız arkadaşlar"
-                      submitted
-                    />
+                    <div
+                      className={
+                        !isTeacher() ? 'd-none' : 'course-container__content__create-assignment'
+                      }
+                    >
+                      {/*// TODO: Implement a create assignment component
+                      <CreateAnnouncement courseID={CourseID} />*/}
+                    </div>
+                    {assignmentsTab}
                   </div>
                 </TabPanel>
               </Tabs>
