@@ -4,6 +4,8 @@ import IAssignment from '../interfaces/assignment';
 
 type ICreateAssignment = {
   courseID: number;
+  title: string;
+  dueDate: Date;
   description: string;
 };
 
@@ -27,15 +29,17 @@ export default class Assignment {
     }
   };
 
-  // TODO: customize for assignment data type etc.
-  // TODO: test the function
   public createAssignment = async ({
     courseID,
+    title,
+    dueDate,
     description,
   }: ICreateAssignment): Promise<boolean> => {
     const url = `${this.url.base}/${courseID}`;
     const form = {
+      title,
       description,
+      dueDate,
     };
     const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
     console.log(response);

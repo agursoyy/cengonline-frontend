@@ -5,6 +5,7 @@ import Api from './api';
 import User from './user';
 import Course from './course';
 import Announcement from './announcement';
+import Assignment from './assignment';
 
 export default class Store {
   public api = new Api(this);
@@ -13,6 +14,7 @@ export default class Store {
   public user = new User(this);
   public course = new Course(this);
   public announcement = new Announcement(this);
+  public assignment = new Assignment(this);
   [name: string]: any;
 
   /* public export = (): string => Stringify(this);
