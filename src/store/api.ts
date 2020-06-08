@@ -2,32 +2,29 @@ import Axios from 'axios';
 import Store from '.';
 import queryString from 'query-string';
 const config = require('../config');
-const { publicRuntimeConfig: { api } } = config;
-console.log(api);
+const {
+  publicRuntimeConfig: { api },
+} = config;
+
 type IParams = {
   url: string;
-  method?: 'get' | 'post' | 'put' | 'delete',
+  method?: 'get' | 'post' | 'put' | 'delete';
   form?: {
-    [x: string]: any
+    [x: string]: any;
   };
   auth?: boolean;
 };
 
-
 export default class Api {
-  private url = api;  // .env den çekelim
+  private url = api; // .env den çekelim
   //private local_api;
   public accessToken?: string;
   public refreshToken?: string;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
-  public fetch = ({
-    url,
-    method = 'get',
-    form,
-    auth = true,
-  }: IParams, expected?: number) => { // expected http response status code
+  public fetch = ({ url, method = 'get', form, auth = true }: IParams, expected?: number) => {
+    // expected http response status code
 
     const config = {
       data: {},
@@ -45,33 +42,31 @@ export default class Api {
       if (method === 'get') {
         const queryParams = queryString.stringify(form, { arrayFormat: 'bracket' });
         config.url = `${config.url}?${queryParams}`;
-      }
-      else {
+      } else {
         config.data = { ...form };
       }
     }
 
-    if (config.method === 'get') {   // redundant data leads the api to create an error.
+    if (config.method === 'get') {
+      // redundant data leads the api to create an error.
       delete config.data;
     }
 
-    return Axios(config).then(({ data, status }) => {
-      console.log('response');
-      return expected ? (expected === status ? data : null) : { data, status }; // successful expected response(200), only data is sent from api.
-    }).catch(err => {
-      if (err.response) {
-        const { status, data } = err.response;
-        if (status === 401) {
-          // if(this.refreshToken ) {} // auth not implemented yet.
+    return Axios(config)
+      .then(({ data, status }) => {
+        return expected ? (expected === status ? data : null) : { data, status }; // successful expected response(200), only data is sent from api.
+      })
+      .catch((err) => {
+        if (err.response) {
+          const { status, data } = err.response;
+          if (status === 401) {
+            // if(this.refreshToken ) {} // auth not implemented yet.
+          }
+          return { data, status }; // failed response, data and status code is sent together.
+        } else {
+          // network error
+          return { status: 'network error' };
         }
-        return { data, status };   // failed response, data and status code is sent together.
-      }
-      else {  // network error
-        return { status: 'network error' };
-      }
-    });
-  }
-
-
-
+      });
+  };
 }

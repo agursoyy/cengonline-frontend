@@ -3,7 +3,7 @@ import { Route, Redirect, useParams } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import Store from '../../store';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import CreateAnnouncement from '../../components/CreataAnnouncement';
+import CreateAnnouncement from '../../components/CreateAnnouncement';
 import AnnouncementContent from '../../components/AnnouncementContent';
 import AssignmentContent from '../../components/AssignmentContent';
 

@@ -42,12 +42,10 @@ export default class Assignment {
       dueDate,
     };
     const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
-    console.log(response);
     const { status } = response;
     if (!status) {
-      return false;
-    } else {
       return true;
     }
+    return false;
   };
 }
