@@ -46,18 +46,16 @@
             border-top-style: solid;
             -webkit-border-radius: 0.25rem 0.25rem 0 0;
             border-radius: 0.25rem 0.25rem 0 0;
-            bottom: 0;
             content: '';
+            position: absolute;
             left: 0;
             right: 0;
-            position: absolute;
             bottom: -0.0625rem;
             animation: myanim 0.3s ease-in-out;
 
             @keyframes myanim {
               from {
-                left: 8rem;
-                right: 8rem;
+                transform: scaleX(0.2);
               }
             }
           }
