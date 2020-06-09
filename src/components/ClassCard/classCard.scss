@@ -1,27 +1,9 @@
 .class {
-  width: 300px;
   color: white;
   box-sizing: border-box;
   padding: 20px;
   border-radius: 6px;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
-
-  &:nth-child(odd) {
-    background-color: #3367d5;
-  }
-
-  &:nth-child(even) {
-    background-color: #d91a60;
-  }
-
-  &:nth-child(3n):nth-child(odd) {
-    background-color: #00a96f;
-  }
-
-  &:nth-child(4n) {
-    background-color: #c12e07;
-  }
-
   a {
     color: white;
   }

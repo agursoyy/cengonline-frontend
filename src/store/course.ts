@@ -9,7 +9,7 @@ export default class Course {
   public course: any; // course-detail
   public courses: any;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   public fetchAllCourses = async (): Promise<void> => {
     const url = `${this.url.base}`;
@@ -30,4 +30,16 @@ export default class Course {
       this.course = response;
     } else this.course = null;
   };
+
+  public addCourse = async ({ title, term }: { title: string, term: string }): Promise<boolean> => {
+    const url = `${this.url.base}`;
+    const form = { title, term };
+    const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
+    const { status } = response;
+    console.log(response);
+    if (!status) {
+      return true;  // course created successfully.
+    }
+    return false;
+  }
 }

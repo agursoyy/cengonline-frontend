@@ -1,7 +1,6 @@
 .Home {
   &-container {
     font-size: 1.6em;
-    width: 960px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -23,15 +22,32 @@
 
     .Home-classes {
       margin-top: 20px;
-      display: flex;
-      flex-wrap: wrap;
-
-      .class {
-        margin-right: 20px;
-        margin-bottom: 20px;
-
-        &:nth-last-of-type(1) {
-          margin-right: 0;
+      .row {
+        .class-column {
+          padding-bottom: 20px;
+          &:nth-child(odd) {
+            .class {
+              background-color: #3367d5;
+            }
+          }
+          &:nth-child(even) {
+            .class {
+              background-color: #d91a60;
+            }
+          }
+        
+          &:nth-child(3n):nth-child(odd) {
+            .class {
+              background-color: #00a96f;
+            }
+          }
+        
+          &:nth-child(4n) {
+            .class {
+              background-color: #c12e07;
+            }
+          }
+        
         }
       }
     }

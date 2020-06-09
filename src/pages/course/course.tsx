@@ -55,8 +55,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No announcement in this course yet!</p>
-  );
+      <p>No announcement in this course yet!</p>
+    );
 
   const assignmentsTab = store!.assignment.assignments.length ? (
     store!.assignment.assignments.map((a) => {
@@ -73,8 +73,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No assignment in this course yet!</p>
-  );
+      <p>No assignment in this course yet!</p>
+    );
 
   return unMount ? (
     course ? (
@@ -90,49 +90,51 @@ const Course: FC<IProps> = ({ store }) => {
                 </div>
               </div>
             </div>
-            <div className="col-sm-8 pl-sm-4 pr-sm-4 course-container__content border">
-              <Tabs>
-                <TabList>
-                  <Tab>Announcements</Tab>
-                  <Tab>Assignments</Tab>
-                </TabList>
+            <div className="col-sm-8">
+              <div className="course-container__content border">
+                <Tabs>
+                  <TabList>
+                    <Tab>Announcements</Tab>
+                    <Tab>Assignments</Tab>
+                  </TabList>
 
-                <TabPanel>
-                  <div className="react-tabs__tab-panel__course-announcement">
-                    <div
-                      className={
-                        !isTeacher() ? 'd-none' : 'course-container__content__create-announcement'
-                      }
-                    >
-                      <CreateAnnouncement courseID={CourseID} />
+                  <TabPanel>
+                    <div className="react-tabs__tab-panel__course-announcement">
+                      <div
+                        className={
+                          !isTeacher() ? 'd-none' : 'course-container__content__create-announcement'
+                        }
+                      >
+                        <CreateAnnouncement courseID={CourseID} />
+                      </div>
+                      {announcementsTab}
                     </div>
-                    {announcementsTab}
-                  </div>
-                </TabPanel>
-                <TabPanel>
-                  <div className="react-tabs__tab-panel__course-assignment">
-                    <div
-                      className={
-                        !isTeacher() ? 'd-none' : 'course-container__content__create-assignment'
-                      }
-                    >
-                      <CreateAssignment courseID={CourseID} />
+                  </TabPanel>
+                  <TabPanel>
+                    <div className="react-tabs__tab-panel__course-assignment">
+                      <div
+                        className={
+                          !isTeacher() ? 'd-none' : 'course-container__content__create-assignment'
+                        }
+                      >
+                        <CreateAssignment courseID={CourseID} />
+                      </div>
+                      {assignmentsTab}
                     </div>
-                    {assignmentsTab}
-                  </div>
-                </TabPanel>
-              </Tabs>
+                  </TabPanel>
+                </Tabs>
+              </div>
             </div>
           </div>
         </div>
       </div>
     ) : (
-      <Redirect
-        to={{
-          pathname: '/',
-        }}
-      />
-    )
+        <Redirect
+          to={{
+            pathname: '/',
+          }}
+        />
+      )
   ) : null;
 };
 

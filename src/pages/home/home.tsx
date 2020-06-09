@@ -31,10 +31,15 @@ const Home: FC<IProps> = ({ store }) => {
     );
   } else {
     content = (
-      <div className="Home-classes">
-        {courses.map(function (item, i) {
-          return <ClassCard key={i} card={item} />;
-        })}
+      <div className="container">
+        <div className="Home-classes">
+          <div className="row">
+            {courses.map(function (item, i) {
+              return <div key={i} className="col-sm-6 col-md-4 class-column"><ClassCard card={item} /></div>;
+            })
+            }
+          </div>
+        </div>
       </div>
     );
   }

@@ -36,7 +36,6 @@ export default class User {
       if (roles.length > 0 && roles[0].name == TEACHER) {
         return true;
       }
-
     }
   }
 }
