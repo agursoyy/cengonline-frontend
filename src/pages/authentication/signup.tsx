@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import './authentication.scss';
+import Store from '../../store';
 import { inject, observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -12,7 +14,15 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string().required('Required').min(6, 'Too Short'),
 });
 
-const Signup = () => {
+
+interface IProps {
+  store?: Store;
+  location?: any;
+}
+
+const Signup: FC<IProps> = (props) => {
+  const { store } = props;
+  const history = useHistory();
   return (
     <div className="auth-container d-flex align-items-center">
       <div className="container">
@@ -26,21 +36,29 @@ const Signup = () => {
                   surname: '',
                   password: '',
                   email: '',
+                  errorMsg: '',
+                  successMsg: ''
                 }}
                 validationSchema={LoginSchema}
                 onSubmit={async (values, { setSubmitting, setFieldError }) => {
                   console.log(values);
-                  /*const result = await login({ email: values.email, password: values.password });
-                  const { auth } = result;
-                  if (auth) {
-                    console.log('LOGIN SUCCEEDED');
-                    Router.pushRoute('home');
+                  const { auth: { signup } } = store;
+                  const result = await signup({ email: values.email, name: values.name, surname: values.surname, password: values.password });
+                  const { success, message } = result;
+                  if (success) {
+                    setFieldError('successMsg', message);
+                    setTimeout(() => {
+                      history.push('/sign-in');
+                      setSubmitting(false);
+                    }, 2000);
+
                   }
                   else {
-                    const { errors } = result;
-                    handleServerErrors(errors, setFieldError);
+                    console.log(result);
+                    const { message } = result;
+                    setFieldError('errorMsg', message);
+                    setSubmitting(false);
                   }
-                  setSubmitting(false); */
                 }}
               >
                 {({ errors, touched, values, isSubmitting }) => (
@@ -95,7 +113,7 @@ const Signup = () => {
                       <ErrorMessage
                         name="email"
                         component="div"
-                        className="form__error text-danger"
+                        className="form__error"
                       />
                     </div>
                     <div className="form-group">
@@ -119,8 +137,18 @@ const Signup = () => {
                         className="form__error text-danger"
                       />
                     </div>
+                    <ErrorMessage
+                      name="errorMsg"
+                      component="div"
+                      className="form__error"
+                    />
+                    <ErrorMessage
+                      name="successMsg"
+                      component="div"
+                      className="form__success"
+                    />
                     <div className="submit d-flex flex-wrap justify-content-between align-items-center">
-                      <Link to="/sign-in" className="tip">
+                      <Link to="/sign-in" className="tip mb-3">
                         Already have an account?
                       </Link>
                       <button
@@ -138,7 +166,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

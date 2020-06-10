@@ -38,11 +38,18 @@
             padding-bottom: .6rem;
             font-size: 1.6rem;
           }
-      
-          .form__error {
-            margin-top: .6rem;
-            font-size: 1.2rem;
-          }
+        }
+        .form__error, .form__success {
+          font-size: 1.33rem;
+          font-weight: 500;
+          line-height: 22px;
+          letter-spacing: .1px;
+        }
+        .form__success {
+          color: $form--success_msg;
+        }
+        .form__error {
+          color: $form--error_msg;
         }
         .submit {
           margin-top: 6rem;

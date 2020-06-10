@@ -50,7 +50,6 @@ export default class User {
     else {
       const { data: { message } } = response;
       return { success: false, courseId: Number(code), message };
-
     }
   };
 }

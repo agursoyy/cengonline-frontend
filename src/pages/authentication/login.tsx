@@ -47,14 +47,14 @@ const Login: FC<IProps> = ({ store, location }) => {
                 validationSchema={LoginSchema}
                 onSubmit={async (values, { setSubmitting, setFieldError }) => {
                   const result = await login({ email: values.email, password: values.password });
-                  const { auth } = result;
+                  const { success } = result;
                   const user = await store?.user.getCurrent();
-                  if (auth && user) {
+                  if (success && user) {
                     console.log('LOGIN SUCCEEDED');
                     window.location.href = '/';
                   } else {
-                    const { errors } = result;
-                    setFieldError('password', errors.message);
+                    const { message } = result;
+                    setFieldError('password', message);
                   }
                   setSubmitting(false);
                 }}
@@ -110,7 +110,7 @@ const Login: FC<IProps> = ({ store, location }) => {
                     />
 
                     <div className="submit d-flex flex-wrap justify-content-between align-items-center">
-                      <Link to="/sign-up" className="tip">
+                      <Link to="/sign-up" className="tip mb-3">
                         Create an account
                       </Link>
                       <button

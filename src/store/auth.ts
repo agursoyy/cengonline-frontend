@@ -11,7 +11,7 @@ interface ISignupForm {
   surname: string,
   email: string,
   password: string,
-  role: string
+  role?: ['teacher'] | ['teacher'] | ['teacher' | 'student']
 }
 
 export default class Auth {
@@ -19,7 +19,10 @@ export default class Auth {
   public loading = '/false';
 
   constructor(private store: Store) { }
-  public login = async ({ email, password }: ILoginForm) => {
+  public login = async ({ email, password }: ILoginForm): Promise<{
+    success: boolean,
+    message: string
+  }> => {
     const url = `${this.url}/signin`;
     const method = 'post';
     const auth = false;
@@ -28,38 +31,49 @@ export default class Auth {
       password,
     };
     const response = await this.store.api.fetch({ url, method, auth, form }, 200);
-    const { status } = response;
-    if (status && status === 400) { // failed response, data and status code is sent together.
-      const { data } = response;
-      return { auth: false, errors: data };
+    if (response) {
+      const { status } = response;
+      if (status && status === 400) { // failed response, data and status code is sent together.
+        const { data: { message } } = response;
+        return { success: false, message };
+      }
+      else { // successful response(200), only data is sent from api.
+        const { accessToken } = response;
+        const { cookies } = this.store;
+        cookies.set('accessToken', accessToken, { path: '/' });
+        this.store.api.accessToken = accessToken;
+        return { success: true, message: 'Logged in successfully' };
+      }
     }
-    else { // successful response(200), only data is sent from api.
-      const { accessToken } = response;
-      const { cookies } = this.store;
-      cookies.set('accessToken', accessToken, { path: '/' });
-      this.store.api.accessToken = accessToken;
-      return { auth: true };
-    }
+    return { success: false, message: 'Something has gone wrong' };
   };
 
-  public signup = async ({ name, surname, email, password, role }: ISignupForm) => {
+  public signup = async ({ name, surname, email, password, role = ['teacher'] }: ISignupForm): Promise<{
+    success: boolean,
+    message: string
+  }> => {
     const url = `${this.url}/signup`;
     const method = 'post';
     const auth = false;
     const form = {
+      name,
       surname,
       email,
       password,
+      role
     };
-    const response = await this.store.api.fetch({ url, method, auth, form }, 201);
-    const { status } = response;
-    if (status && status === 400) { // failed response, data and status code is sent together.
-      const { data } = response;
-      return { signup_success: false, errors: data };
+    const response = await this.store.api.fetch({ url, method, auth, form }, 200);
+    if (response) {
+      const { status } = response;
+      if (status && status === 400) { // failed response, data and status code is sent together.
+        const { data: { message } } = response;
+        return { success: false, message };
+      }
+      else { // successful response(200), only data is sent from api.
+        return { success: true, message: 'confirmation mail has been sent to your mail account, please confirm it to sign in' };
+      }
     }
-    else { // successful response(200), only data is sent from api.
-      return { signup_success: true, msg: 'confirmation mail has been sent to your mail account, please confirm it to sign in' };
-    }
+    return { success: false, message: 'Something has gone wrong' };
   };
 
 

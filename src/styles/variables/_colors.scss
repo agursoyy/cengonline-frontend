@@ -15,6 +15,9 @@ $colors: (
 $primary: $black !default;
 $secondary: $darkblue !default;
 
+$form--success_msg: green;
+$form--error_msg: rgb(206, 29, 29);
+
 $theme-colors: (
   "black": $black,
   "white": $white,
