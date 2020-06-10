@@ -6,17 +6,22 @@ import { Plus } from '../Icons';
 import './header.scss';
 import ReactModal from 'react-modal';
 import CreateClass from '../CreateClass';
+import AttendClass from '../AttendClass';
 
 interface IProps {
   store?: Store;
 }
 
 const Header: FC<IProps> = ({ store }) => {
+  const [showCreateClassModal, setShowCreateClassModal] = useState(false);
   const [showAttendIntoModal, setShowAttendIntoModal] = useState(false);
   const { user, isTeacher } = store!.user;
   let Redirected = false;
 
   const createClass = () => {
+    setShowCreateClassModal(true);
+  };
+  const attendToClass = () => {
     setShowAttendIntoModal(true);
   };
   return (
@@ -34,7 +39,7 @@ const Header: FC<IProps> = ({ store }) => {
                 <span>Create a Class</span>
               </button>
             }
-            <button>
+            <button onClick={attendToClass}>
               <Plus />
               <span>Attend to Class</span>
             </button>
@@ -43,13 +48,27 @@ const Header: FC<IProps> = ({ store }) => {
           </div>
         </div>
         <ReactModal
+          isOpen={showCreateClassModal}
+          contentLabel="Minimal Modal Example"
+          className="class-modal"
+          ariaHideApp={false}
+          onRequestClose={() => { setShowCreateClassModal(false); }}
+          closeTimeoutMS={50}
+        >
+          <div className="modal-container">
+            <CreateClass closeModal={() => { setShowCreateClassModal(false); }} />
+          </div>
+        </ReactModal>
+        <ReactModal
           isOpen={showAttendIntoModal}
           contentLabel="Minimal Modal Example"
           className="class-modal"
           ariaHideApp={false}
+          onRequestClose={() => { setShowAttendIntoModal(false); }}
+          closeTimeoutMS={50}
         >
           <div className="modal-container">
-            <CreateClass closeModal={() => { setShowAttendIntoModal(false); }} />
+            <AttendClass closeModal={() => { setShowAttendIntoModal(false); }} />
           </div>
         </ReactModal>
       </header>

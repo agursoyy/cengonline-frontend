@@ -8,6 +8,7 @@ export default class User {
   private url = {
     base: '/users',
     currentUrl: '/current',
+    attendCourseUrl: '/attend-class'
   };
 
   constructor(private store: Store) { }
@@ -18,10 +19,10 @@ export default class User {
       const response = await this.store.api.fetch({ url }, 200);
       const { status } = response;
       if (!status) {
-        // failed response, data and status code is sent together.
+        // successful response(200), only data is sent from api.
         this.user = response;
       } else {
-        // successful response(200), only data is sent from api.
+        // failed response, data and status code is sent together.
         this.user = null;
       }
     }
@@ -38,4 +39,18 @@ export default class User {
       }
     }
   }
+  public attendCourse = async (code: string): Promise<{ success: boolean, courseId: number, message: string }> => {
+    const url = `${this.url.base}${this.url.attendCourseUrl}/${code}`;
+    const response = await this.store.api.fetch({ url, method: 'post' }, 200);
+    const { status } = response;
+    if (!status || status === '200') {
+      this.store.course.courses = null;
+      return { success: true, courseId: Number(code), message: 'You have attented the course successfully ' };
+    }
+    else {
+      const { data: { message } } = response;
+      return { success: false, courseId: Number(code), message };
+
+    }
+  };
 }
