@@ -1,7 +1,9 @@
-@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
 @import 'material-icons/iconfont/material-icons.scss';
 
-@import "mixins/index";
-@import "variables/index";
-@import "bootstrap/index";
-@import "utils/index";
+@import 'mixins/index';
+@import 'variables/index';
+@import 'bootstrap/index';
+@import 'utils/index';
+
+@import '_modal';

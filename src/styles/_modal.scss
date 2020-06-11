@@ -1,0 +1,64 @@
+.modal__container {
+  .title {
+    color: rgba(0, 0, 0, 0.87);
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    line-height: 24px;
+    margin-bottom: 1rem;
+  }
+  .subtitle {
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    margin-bottom: 0.5rem;
+  }
+  .button-container {
+    margin-top: 2rem;
+  }
+  form {
+    .form-group {
+      select.browser-default {
+        color: rgb(110, 110, 110);
+        font-size: 1.6rem;
+        height: 4rem;
+        margin: 0 0 8px 0;
+      }
+    }
+    .form--error,
+    .form--success {
+      margin-left: 1px;
+      font-size: 13.3px;
+      font-weight: 500;
+      line-height: 22px;
+      letter-spacing: 0.1px;
+    }
+    .form--success {
+      color: green;
+    }
+    .form--error {
+      color: rgb(206, 29, 29);
+    }
+  }
+}
+
+.class-modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -70%);
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  border-radius: 4px;
+  outline: none;
+
+  .modal-container {
+    padding: 2rem 2rem;
+    @include respond-above(sm) {
+      width: 40rem;
+      padding: 2rem 4rem;
+    }
+  }
+}

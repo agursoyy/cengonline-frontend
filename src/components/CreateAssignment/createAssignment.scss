@@ -11,12 +11,29 @@
         align-items: center;
         flex-direction: column;
 
-        & > *:not(:last-child) {
+        & > input:not(:last-child),
+        & > textarea:not(:last-child) {
           margin-bottom: 10px;
         }
 
         & > :last-child {
           margin-bottom: 0;
+        }
+
+        label {
+          align-self: flex-start;
+          font-size: 1.6rem;
+          color: #212529;
+          margin-bottom: 2px;
+
+          &:not(:first-child) {
+            margin-top: 15px;
+          }
+        }
+
+        .form__error {
+          align-self: flex-start;
+          font-size: 1.3rem;
         }
 
         textarea {
@@ -47,4 +64,9 @@
 
 .datepicker-day-button {
   font-size: 1.5rem;
+}
+
+.timepicker-span-hours.text-primary,
+.timepicker-span-minutes.text-primary {
+  color: #fff !important;
 }

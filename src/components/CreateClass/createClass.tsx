@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Store from '../../store';
-import './createClass.scss';
 import { observer, inject } from 'mobx-react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -12,23 +11,21 @@ interface IProps {
 }
 const formSchema = Yup.object().shape({
   title: Yup.string().required('required'),
-  term: Yup.string().required()
+  term: Yup.string().required(),
 });
 
 const CreateClass: FC<IProps> = (props) => {
   const { store } = props;
   const history = useHistory();
   return (
-    <div className="create-class__container">
-      <div className="title">
-        Create Class
-      </div>
+    <div className="modal__container">
+      <div className="title">Create Class</div>
       <Formik
         initialValues={{
           title: '',
           term: '',
           errorMsg: '',
-          successMsg: ''
+          successMsg: '',
         }}
         validationSchema={formSchema}
         onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
@@ -64,10 +61,17 @@ const CreateClass: FC<IProps> = (props) => {
             </div>
             <ErrorMessage name="title" component="div" className="form--error" />
             <div className="form-group">
-              <Field name="term" component="select" placeholder="Favorite Color" className="browser-default" >
-                <option value="" disabled defaultValue={''}>Select course term</option>
+              <Field
+                name="term"
+                component="select"
+                placeholder="Favorite Color"
+                className="browser-default"
+              >
+                <option value="" disabled defaultValue={''}>
+                  Select course term
+                </option>
                 <option value="Spring">Spring</option>
-                <option value="Autumn">Autumn</option>
+                <option value="Fall">Fall</option>
               </Field>
             </div>
 
@@ -82,7 +86,7 @@ const CreateClass: FC<IProps> = (props) => {
                 }}
               >
                 Cancel
-                </button>
+              </button>
               <button
                 type="submit"
                 className="btn btn-small waves-effect submit-btn"

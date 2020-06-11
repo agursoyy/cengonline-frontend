@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Store from '../../store';
-import './attendClass.scss';
 import { observer, inject } from 'mobx-react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -11,7 +10,7 @@ interface IProps {
   closeModal: () => void;
 }
 const formSchema = Yup.object().shape({
-  code: Yup.string().required().min(1)
+  code: Yup.string().required().min(1),
 });
 
 const AttendClass: FC<IProps> = (props) => {
@@ -19,24 +18,22 @@ const AttendClass: FC<IProps> = (props) => {
   const history = useHistory();
 
   return (
-    <div className="attend-class__container">
-      <div className="title">
-        Attend to Class
-      </div>
-      <div className="subtitle">
-        Enter the code you have got from your teacher
-      </div>
+    <div className="modal__container">
+      <div className="title">Attend to Class</div>
+      <div className="subtitle">Enter the code you have got from your teacher</div>
       <Formik
         initialValues={{
           code: '',
           errorMsg: '',
-          successMsg: ''
+          successMsg: '',
         }}
         validationSchema={formSchema}
         onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
           const { code } = values;
           console.log(code);
-          const { user: { attendCourse } } = store;
+          const {
+            user: { attendCourse },
+          } = store;
           const { success, courseId, message } = await attendCourse(code);
           if (success) {
             setFieldError('successMsg', message);
@@ -55,13 +52,7 @@ const AttendClass: FC<IProps> = (props) => {
         {({ errors, touched, values, setFieldValue, isSubmitting, isValid, dirty }) => (
           <Form noValidate>
             <div className="form-group description">
-              <Field
-                name="code"
-                type="text"
-                className="form-control"
-                placeholder="Code"
-                required
-              />
+              <Field name="code" type="text" className="form-control" placeholder="Code" required />
             </div>
             <ErrorMessage name="errorMsg" component="div" className="form--error " />
             <ErrorMessage name="successMsg" component="div" className="form--success " />
@@ -75,7 +66,7 @@ const AttendClass: FC<IProps> = (props) => {
                 }}
               >
                 Cancel
-                </button>
+              </button>
               <button
                 type="submit"
                 className="btn btn-small waves-effect submit-btn"
@@ -83,12 +74,11 @@ const AttendClass: FC<IProps> = (props) => {
               >
                 Attend <i className="material-icons right">send</i>
               </button>
-
             </div>
           </Form>
         )}
       </Formik>
-    </div >
+    </div>
   );
 };
 

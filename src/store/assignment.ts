@@ -6,6 +6,7 @@ type ICreateAssignment = {
   courseID: number;
   title: string;
   dueDate: any;
+  dueTime: string;
   description: string;
 };
 
@@ -32,8 +33,9 @@ export default class Assignment {
   public createAssignment = async ({
     courseID,
     title,
-    dueDate,
     description,
+    dueDate,
+    dueTime,
   }: ICreateAssignment): Promise<boolean> => {
     const url = `${this.url.base}/${courseID}`;
     const form = {
