@@ -26,6 +26,7 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
 
   const {
     announcement: { fetchAllAnnouncements, deleteAnnouncement: deleteAnn },
+    user: { isTeacher },
   } = store;
 
   const editAnnouncement = () => {
@@ -51,17 +52,17 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
           <div>{teacherName}</div>
           <div className="announcement-date">{dateString}</div>
         </div>
-        <div className="ann-icons">
-          <IconButton aria-label="edit">
-            <EditIcon fontSize="small" />
-          </IconButton>
-          <IconButton aria-label="delete" onClick={deleteAnnouncement}>
-            <DeleteIcon fontSize="small" />
-          </IconButton>
-        </div>
+        {isTeacher() && (
+          <div className="ann-icons">
+            <IconButton aria-label="edit">
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton aria-label="delete" onClick={deleteAnnouncement}>
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </div>
+        )}
       </div>
-
-      <div className="announcement-modify"></div>
       <div className="announcement-content">{content}</div>
 
       <ReactModal

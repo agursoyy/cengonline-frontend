@@ -104,9 +104,6 @@ const Signup: FC<IProps> = (props) => {
                     <div className="form-group">
                       <div className="d-flex flex-wrap justify-content-between align-items-center">
                         <label htmlFor="email">Email</label>
-                        <a href="#" className="tip">
-                          Forgot Email?
-                        </a>
                       </div>
                       <Field
                         name="email"
@@ -121,9 +118,6 @@ const Signup: FC<IProps> = (props) => {
                     <div className="form-group">
                       <div className="d-flex flex-wrap justify-content-between align-items-center">
                         <label htmlFor="email">Password</label>
-                        <a href="#" className="tip">
-                          Forgot Password?
-                        </a>
                       </div>
                       <Field
                         name="password"

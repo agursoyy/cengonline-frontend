@@ -57,9 +57,11 @@ const AssignmentContent: FC<IProps> = ({
       </div>
       <div className="assignment-secondline">
         <span>{dateString}</span>
-        <span className={submitted ? 'submitted' : 'not-submitted'}>
-          {submitted ? 'Submitted' : 'Not Submitted'}
-        </span>
+        {!store!.user.isTeacher() && (
+          <span className={submitted ? 'submitted' : 'not-submitted'}>
+            {submitted ? 'Submitted' : 'Not Submitted'}
+          </span>
+        )}
       </div>
       <h4 className="assignment-title">{title}</h4>
       <div className="assignment-content">{content}</div>

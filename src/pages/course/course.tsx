@@ -61,6 +61,15 @@ const Course: FC<IProps> = ({ store }) => {
 
   const assignmentsTab = store!.assignment.assignments.length ? (
     store!.assignment.assignments.map((a) => {
+      let isSubmitted = false;
+
+      if (!isTeacher()) {
+        const submission = a.submissions.find((s) => s.user.id === store!.user.user.id);
+        if (submission) {
+          isSubmitted = true;
+        }
+      }
+
       return (
         <AssignmentContent
           teacherName={`${course.teacher.name} ${course.teacher.surname}`}
@@ -68,7 +77,7 @@ const Course: FC<IProps> = ({ store }) => {
           content={a.description}
           title={a.title}
           dueDate={a.dueDate}
-          submitted={false}
+          submitted={isSubmitted}
           key={`assignment-${a.id}`}
         />
       );
