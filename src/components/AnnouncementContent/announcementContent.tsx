@@ -16,10 +16,11 @@ interface IProps {
   id: any;
   teacherName: string;
   date: Date;
+  updatedAt: Date;
   content: string;
 }
 
-const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store }) => {
+const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, updatedAt, content, store }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [success, setSuccess] = useState(true);
@@ -40,19 +41,30 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
   };
 
   const dateTime = new Date(date);
-  const minutes = dateTime.getMinutes();
-  const hours = dateTime.getHours();
+  const dateMinutes = dateTime.getMinutes();
+  const dateHours = dateTime.getHours();
 
-  let minutesString = minutes < 10 ? `0${minutes}` : minutes;
-  let hoursString = hours < 10 ? `0${hours}` : hours;
-  const dateString = `${dateTime.toLocaleDateString()} ${hoursString}:${minutesString}`;
+  let dateMinutesString = dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes;
+  let dateHoursString = dateHours < 10 ? `0${dateHours}` : dateHours;
+  const dateString = `${dateTime.toLocaleDateString()} ${dateHoursString}:${dateMinutesString}`;
+
+  const updatedAtDate = new Date(updatedAt);
+  const updatedAtMinutes = updatedAtDate.getMinutes();
+  const updatedAtHours = updatedAtDate.getHours();
+
+  let updatedAtMinutesString = updatedAtMinutes < 10 ? `0${updatedAtMinutes}` : updatedAtMinutes;
+  let updatedAtHoursString = updatedAtHours < 10 ? `0${updatedAtHours}` : updatedAtHours;
+  const updatedAtString = `${updatedAtDate.toLocaleDateString()} ${updatedAtHoursString}:${updatedAtMinutesString}`;
 
   return (
     <div className="announcement-detail">
       <div className="announcement-teacher">
         <div>
           <div>{teacherName}</div>
-          <div className="announcement-date">{dateString}</div>
+          <div className="announcement-date">
+            {dateString}{' '}
+            {updatedAtDate.getTime() > dateTime.getTime() && `(Updated: ${updatedAtString})`}
+          </div>
         </div>
         {isTeacher() && (
           <div className="ann-icons">

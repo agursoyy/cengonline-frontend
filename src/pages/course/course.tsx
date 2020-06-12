@@ -50,6 +50,7 @@ const Course: FC<IProps> = ({ store }) => {
           id={a.id}
           teacherName={`${course.teacher.name} ${course.teacher.surname}`}
           date={a.createdAt}
+          updatedAt={a.updatedAt}
           content={a.description}
           key={`announcement-${a.id}`}
         />
