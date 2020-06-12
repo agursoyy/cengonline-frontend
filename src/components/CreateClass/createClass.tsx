@@ -69,59 +69,59 @@ const CreateClass: FC<IProps> = (props) => {
           dirty,
           isValid,
         }) => (
-          <Form noValidate>
-            <div className="form-group description">
-              <Box width="100%" mb={2}>
-                <TextField
-                  id="title"
-                  name="title"
-                  label="Course Title"
-                  variant="filled"
-                  onChange={handleChange('title')}
-                  fullWidth
-                  required
-                />
-                <ErrorMessage name="title" component="div" className="form__error text-danger" />
-              </Box>
-            </div>
-            <div className="form-group">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Course Term</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  name="term"
-                  onChange={handleChange('term')}
-                >
-                  <MenuItem value={'Spring'}>Spring</MenuItem>
-                  <MenuItem value={'Fall'}>Fall</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
+            <Form noValidate>
+              <div className="form-group description">
+                <Box width="100%" mb={2}>
+                  <TextField
+                    id="title"
+                    name="title"
+                    label="Course Title"
+                    variant="filled"
+                    onChange={handleChange('title')}
+                    fullWidth
+                    required
+                  />
+                  <ErrorMessage name="title" component="div" className="form__error text-danger" />
+                </Box>
+              </div>
+              <div className="form-group">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Course Term</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="term"
+                    onChange={handleChange('term')}
+                  >
+                    <MenuItem value={'Spring'}>Spring</MenuItem>
+                    <MenuItem value={'Fall'}>Fall</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
 
-            <ErrorMessage name="errorMsg" component="div" className="form--error" />
-            <ErrorMessage name="successMsg" component="div" className="form--success " />
-            <div className={'button-container d-flex justify-content-end'}>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  props.closeModal();
-                }}
-                className="mr-2"
-              >
-                Cancel
+              <ErrorMessage name="errorMsg" component="div" className="form--error" />
+              <ErrorMessage name="successMsg" component="div" className="form--success " />
+              <div className={'button-container d-flex justify-content-end'}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    props.closeModal();
+                  }}
+                  className="mr-2"
+                >
+                  Cancel
               </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={!(dirty && isValid)}
-              >
-                Submit
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={!(dirty && isValid)}
+                >
+                  Submit
               </Button>
-            </div>
-          </Form>
-        )}
+              </div>
+            </Form>
+          )}
       </Formik>
     </div>
   );
