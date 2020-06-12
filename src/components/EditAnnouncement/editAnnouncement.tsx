@@ -18,45 +18,45 @@ import {
 
 interface IProps {
   store?: Store;
+  id: number;
+  announcementText: string
   closeModal: () => void;
 }
 const formSchema = Yup.object().shape({
-  title: Yup.string().required('required'),
-  term: Yup.string().required(),
+  announcement: Yup.string().required('required'),
 });
 
-const CreateClass: FC<IProps> = (props) => {
+const EditAnnouncement: FC<IProps> = (props) => {
   const { store } = props;
   const history = useHistory();
   return (
     <div className="modal__container">
-      <div className="title">Create Class</div>
+      <div className="title">Edit Announcement</div>
       <Formik
         initialValues={{
-          title: '',
-          term: '',
+          announcement: props.announcementText,
           errorMsg: '',
           successMsg: '',
         }}
         validationSchema={formSchema}
         onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
           console.log(values);
-          const { title, term } = values;
+          const { announcement } = values;
           const {
             course: { addCourse },
           } = store;
-
-          const { success, courseId } = await addCourse({ title, term });
-          if (success) {
-            setFieldError('successMsg', 'Course created successfully and redirecting');
-            setTimeout(() => {
-              props.closeModal();
-              history.push(`/course/${courseId}`);
-            }, 750);
-          } else {
-            setFieldError('errorMsg', 'Something has gone wrong');
-          }
-          setSubmitting(false);
+          console.log(values);
+          /*  const { success, courseId } = await addCourse({ title, term });
+            if (success) {
+              setFieldError('successMsg', 'Course created successfully and redirecting');
+              setTimeout(() => {
+                props.closeModal();
+                history.push(`/course/${courseId}`);
+              }, 750);
+            } else {
+              setFieldError('errorMsg', 'Something has gone wrong');
+            }
+            setSubmitting(false); */
         }}
       >
         {({
@@ -70,33 +70,19 @@ const CreateClass: FC<IProps> = (props) => {
           isValid,
         }) => (
             <Form noValidate>
-              <div className="form-group description">
+              <div className="form-group announcement-edit">
                 <Box width="100%" mb={2}>
                   <TextField
-                    id="title"
-                    name="title"
-                    label="Course Title"
+                    id="announcement-edit"
+                    name="announcement"
+                    label="Announcement"
                     variant="filled"
-                    onChange={handleChange('title')}
+                    onChange={handleChange('description')}
                     fullWidth
                     required
                   />
                   <ErrorMessage name="title" component="div" className="form__error text-danger" />
                 </Box>
-              </div>
-              <div className="form-group">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Course Term</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="term"
-                    onChange={handleChange('term')}
-                  >
-                    <MenuItem value={'Spring'}>Spring</MenuItem>
-                    <MenuItem value={'Fall'}>Fall</MenuItem>
-                  </Select>
-                </FormControl>
               </div>
 
               <ErrorMessage name="errorMsg" component="div" className="form--error" />
@@ -127,4 +113,4 @@ const CreateClass: FC<IProps> = (props) => {
   );
 };
 
-export default inject('store')(observer(CreateClass));
+export default inject('store')(observer(EditAnnouncement));

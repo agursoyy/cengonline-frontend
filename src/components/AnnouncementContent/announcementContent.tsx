@@ -6,6 +6,8 @@ import ReactModal from 'react-modal';
 
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
+import EditAnnouncement from '../EditAnnouncement';
+import CreateClass from '../CreateClass';
 
 import './announcementContent.scss';
 
@@ -62,9 +64,35 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
             </IconButton>
           </div>
         )}
+        <div className="ann-icons">
+          <IconButton aria-label="edit">
+            <EditIcon fontSize="small" onClick={editAnnouncement} />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={deleteAnnouncement}>
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </div>
       </div>
       <div className="announcement-content">{content}</div>
-
+      <ReactModal
+        isOpen={showEditModal}
+        contentLabel="Delete Announcement"
+        className="class-modal"
+        ariaHideApp={false}
+        onRequestClose={() => {
+          setShowEditModal(false);
+          setSuccess(true);
+        }}
+        closeTimeoutMS={50}
+      >
+        <EditAnnouncement
+          id={id}
+          announcementText={content}
+          closeModal={() => {
+            setShowEditModal(false);
+          }}
+        />
+      </ReactModal>
       <ReactModal
         isOpen={showDeleteModal}
         contentLabel="Delete Announcement"
@@ -76,7 +104,7 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
         }}
         closeTimeoutMS={50}
       >
-        <div className="modal-container">
+        <div className="modal__container">
           <Box display="flex" flexDirection="column" alignItems="center">
             {success ? (
               <>
@@ -93,7 +121,7 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
                   </Button>
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     onClick={async () => {
                       const deleted = await deleteAnn(id);
                       if (deleted) {
