@@ -17,7 +17,7 @@ export default class Assignment {
   @observable
   public assignments: Array<IAssignment> = [];
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   public fetchAllAssignments = async (courseID: number): Promise<void> => {
     const url = `${this.url.base}/course/${courseID}`;
@@ -26,7 +26,7 @@ export default class Assignment {
     if (!status) {
       this.assignments = response;
     } else {
-      this.assignments = null;
+      this.assignments = [];
     }
   };
 

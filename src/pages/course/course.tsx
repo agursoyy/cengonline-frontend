@@ -7,6 +7,8 @@ import CreateAnnouncement from '../../components/CreateAnnouncement';
 import CreateAssignment from '../../components/CreateAssignment';
 import AnnouncementContent from '../../components/AnnouncementContent';
 import AssignmentContent from '../../components/AssignmentContent';
+import { Box, IconButton, Button, Typography } from '@material-ui/core';
+import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 
 import './course.scss';
 
@@ -16,8 +18,8 @@ type IProps = {
 
 const Course: FC<IProps> = ({ store }) => {
   const [unMount, setUnMount] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const { id: CourseID } = useParams();
-
   useEffect(() => {
     const fetchData = async () => {
       await Promise.all([
@@ -56,8 +58,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No announcement in this course yet!</p>
-  );
+      <p>No announcement in this course yet!</p>
+    );
 
   const assignmentsTab = store!.assignment.assignments.length ? (
     store!.assignment.assignments.map((a) => {
@@ -74,8 +76,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No assignment in this course yet!</p>
-  );
+      <p>No assignment in this course yet!</p>
+    );
 
   return unMount ? (
     course ? (
@@ -88,6 +90,14 @@ const Course: FC<IProps> = ({ store }) => {
                 <div className="sidebar-term">{course.term}</div>
                 <div className="sidebar-teacher">
                   {course.teacher.name} {course.teacher.surname}
+                </div>
+                <div className="sidebar__edit-course">
+                  <IconButton aria-label="edit">
+                    <EditIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton aria-label="delete" >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
                 </div>
               </div>
             </div>
@@ -130,12 +140,12 @@ const Course: FC<IProps> = ({ store }) => {
         </div>
       </div>
     ) : (
-      <Redirect
-        to={{
-          pathname: '/',
-        }}
-      />
-    )
+        <Redirect
+          to={{
+            pathname: '/',
+          }}
+        />
+      )
   ) : null;
 };
 

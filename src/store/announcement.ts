@@ -1,6 +1,7 @@
 import Store from '.';
 import { observable } from 'mobx';
 import IAnnouncement from '../interfaces/announcement';
+import { CropOriginal } from '@material-ui/icons';
 
 type ICreateAnnouncement = {
   courseID: number;
@@ -23,7 +24,7 @@ export default class Announcement {
     if (!status) {
       this.announcements = response;
     } else {
-      this.announcements = null;
+      this.announcements = [];
     }
   };
 
@@ -53,4 +54,17 @@ export default class Announcement {
     }
     return false;
   };
+  public updateAnnouncement = async ({ courseId, announcementId, announcementDescription }: {
+    courseId: number, announcementId: number,
+    announcementDescription: string
+  }): Promise<boolean> => {
+    const url = `${this.url.base}/${announcementId}`;
+    const response = await this.store.api.fetch({ url, method: 'put', form: { description: announcementDescription } }, 200);
+    const { status } = response;
+    if (!status) {
+      await this.fetchAllAnnouncements(courseId);
+      return true;
+    }
+    return false;
+  }
 }

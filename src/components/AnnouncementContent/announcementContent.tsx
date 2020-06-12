@@ -87,7 +87,7 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
         }}
         closeTimeoutMS={50}
       >
-        <div className="modal__container">
+        <div className="modal-container">
           <Box display="flex" flexDirection="column" alignItems="center">
             {success ? (
               <>
