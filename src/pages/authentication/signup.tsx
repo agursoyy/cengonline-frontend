@@ -7,13 +7,14 @@ import { Link, useHistory } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+import { Button } from '@material-ui/core';
+
 const LoginSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
   surname: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required').min(6, 'Too Short'),
 });
-
 
 interface IProps {
   store?: Store;
@@ -37,13 +38,20 @@ const Signup: FC<IProps> = (props) => {
                   password: '',
                   email: '',
                   errorMsg: '',
-                  successMsg: ''
+                  successMsg: '',
                 }}
                 validationSchema={LoginSchema}
                 onSubmit={async (values, { setSubmitting, setFieldError }) => {
                   console.log(values);
-                  const { auth: { signup } } = store;
-                  const result = await signup({ email: values.email, name: values.name, surname: values.surname, password: values.password });
+                  const {
+                    auth: { signup },
+                  } = store;
+                  const result = await signup({
+                    email: values.email,
+                    name: values.name,
+                    surname: values.surname,
+                    password: values.password,
+                  });
                   const { success, message } = result;
                   if (success) {
                     setFieldError('successMsg', message);
@@ -51,9 +59,7 @@ const Signup: FC<IProps> = (props) => {
                       history.push('/sign-in');
                       setSubmitting(false);
                     }, 2000);
-
-                  }
-                  else {
+                  } else {
                     console.log(result);
                     const { message } = result;
                     setFieldError('errorMsg', message);
@@ -110,11 +116,7 @@ const Signup: FC<IProps> = (props) => {
                         placeholder=" "
                         required
                       />
-                      <ErrorMessage
-                        name="email"
-                        component="div"
-                        className="form__error"
-                      />
+                      <ErrorMessage name="email" component="div" className="form__error" />
                     </div>
                     <div className="form-group">
                       <div className="d-flex flex-wrap justify-content-between align-items-center">
@@ -137,27 +139,20 @@ const Signup: FC<IProps> = (props) => {
                         className="form__error text-danger"
                       />
                     </div>
-                    <ErrorMessage
-                      name="errorMsg"
-                      component="div"
-                      className="form__error"
-                    />
-                    <ErrorMessage
-                      name="successMsg"
-                      component="div"
-                      className="form__success"
-                    />
+                    <ErrorMessage name="errorMsg" component="div" className="form__error" />
+                    <ErrorMessage name="successMsg" component="div" className="form__success" />
                     <div className="submit d-flex flex-wrap justify-content-between align-items-center">
                       <Link to="/sign-in" className="tip mb-3">
                         Already have an account?
                       </Link>
-                      <button
+                      <Button
                         type="submit"
-                        className="btn btn-lg blue waves-effect waves-light submit-btn"
+                        variant="contained"
+                        color="primary"
                         disabled={isSubmitting}
                       >
                         Sign up
-                      </button>
+                      </Button>
                     </div>
                   </Form>
                 )}
@@ -166,7 +161,7 @@ const Signup: FC<IProps> = (props) => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

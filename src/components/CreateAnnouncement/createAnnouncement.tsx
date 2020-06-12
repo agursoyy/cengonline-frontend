@@ -4,9 +4,11 @@ import { observer, inject } from 'mobx-react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Store from '../../store';
+import { Typography, Button, Box } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 
 const formSchema = Yup.object().shape({
-  description: Yup.string().required('Required'),
+  description: Yup.string().trim().required('Required'),
 });
 
 type IProps = {
@@ -40,42 +42,39 @@ const CreateAnnouncement: FC<IProps> = ({ courseID, store }) => {
             setSubmitting(false);
           }}
         >
-          {({ errors, touched, values, setFieldValue, isSubmitting }) => (
+          {({ errors, touched, values, setFieldValue, handleChange, isSubmitting }) => (
             <Form noValidate>
               <div className="form-group description">
-                <Field
-                  name="description"
-                  type="text"
-                  as="textarea"
-                  rows={4}
-                  className="materialize-textarea"
-                  aria-describedby="emailHelp"
-                  placeholder="Make an announcement..."
-                  required
-                />
+                <Typography variant="h6" component="h6" className="align-self-start mb-4">
+                  Publish a new announcement
+                </Typography>
+                <Box width="100%" mb={2}>
+                  <TextField
+                    id="description"
+                    name="description"
+                    label="Description"
+                    variant="outlined"
+                    onChange={handleChange('description')}
+                    multiline
+                    fullWidth
+                    required
+                  />
+                  <ErrorMessage
+                    name="description"
+                    component="div"
+                    className="form__error text-danger"
+                  />
+                </Box>
               </div>
-              <ErrorMessage name="error" component="div" className="form__error text-danger" />
 
               <div
                 className={`${
                   !values.description ? 'd-none' : 'button-container d-flex justify-content-end'
                 } `}
               >
-                <button
-                  className="btn btn-small transparent waves-effect text-dark mr-2 cancel-btn"
-                  onClick={() => {
-                    setFieldValue('description', '');
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-small waves-effect submit-btn"
-                  disabled={isSubmitting}
-                >
-                  Share <i className="material-icons right">send</i>
-                </button>
+                <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+                  Submit
+                </Button>
               </div>
             </Form>
           )}

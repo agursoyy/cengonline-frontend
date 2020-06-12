@@ -5,6 +5,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router';
 
+import { Typography, Button, Box, TextField } from '@material-ui/core';
+
 interface IProps {
   store?: Store;
   closeModal: () => void;
@@ -49,31 +51,53 @@ const AttendClass: FC<IProps> = (props) => {
           setSubmitting(false);
         }}
       >
-        {({ errors, touched, values, setFieldValue, isSubmitting, isValid, dirty }) => (
+        {({
+          errors,
+          touched,
+          values,
+          setFieldValue,
+          handleChange,
+          isSubmitting,
+          isValid,
+          dirty,
+        }) => (
           <Form noValidate>
             <div className="form-group description">
-              <Field name="code" type="text" className="form-control" placeholder="Code" required />
+              <Box width="100%" mb={2}>
+                <TextField
+                  id="code"
+                  name="code"
+                  label="Course Code"
+                  variant="filled"
+                  type="number"
+                  onChange={handleChange('code')}
+                  fullWidth
+                  required
+                />
+                <ErrorMessage name="code" component="div" className="form__error text-danger" />
+              </Box>
             </div>
             <ErrorMessage name="errorMsg" component="div" className="form--error " />
             <ErrorMessage name="successMsg" component="div" className="form--success " />
 
             <div className={'button-container d-flex justify-content-end'}>
-              <button
-                type="button"
-                className="btn btn-small transparent waves-effect text-dark mr-2 cancel-btn"
+              <Button
+                variant="contained"
                 onClick={() => {
                   props.closeModal();
                 }}
+                className="mr-2"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                className="btn btn-small waves-effect submit-btn"
+                variant="contained"
+                color="primary"
                 disabled={!(dirty && isValid)}
               >
-                Attend <i className="material-icons right">send</i>
-              </button>
+                Attend
+              </Button>
             </div>
           </Form>
         )}

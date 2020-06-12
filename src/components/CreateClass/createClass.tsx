@@ -5,6 +5,17 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Router, useHistory } from 'react-router';
 
+import {
+  Typography,
+  Button,
+  Box,
+  Select,
+  TextField,
+  FormControl,
+  MenuItem,
+  InputLabel,
+} from '@material-ui/core';
+
 interface IProps {
   store?: Store;
   closeModal: () => void;
@@ -48,52 +59,66 @@ const CreateClass: FC<IProps> = (props) => {
           setSubmitting(false);
         }}
       >
-        {({ errors, touched, values, setFieldValue, isSubmitting, dirty, isValid }) => (
+        {({
+          errors,
+          touched,
+          values,
+          setFieldValue,
+          handleChange,
+          isSubmitting,
+          dirty,
+          isValid,
+        }) => (
           <Form noValidate>
             <div className="form-group description">
-              <Field
-                name="title"
-                type="text"
-                className="form-control"
-                placeholder="Course Title"
-                required
-              />
+              <Box width="100%" mb={2}>
+                <TextField
+                  id="title"
+                  name="title"
+                  label="Course Title"
+                  variant="filled"
+                  onChange={handleChange('title')}
+                  fullWidth
+                  required
+                />
+                <ErrorMessage name="title" component="div" className="form__error text-danger" />
+              </Box>
             </div>
-            <ErrorMessage name="title" component="div" className="form--error" />
             <div className="form-group">
-              <Field
-                name="term"
-                component="select"
-                placeholder="Favorite Color"
-                className="browser-default"
-              >
-                <option value="" disabled defaultValue={''}>
-                  Select course term
-                </option>
-                <option value="Spring">Spring</option>
-                <option value="Fall">Fall</option>
-              </Field>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Course Term</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="term"
+                  onChange={handleChange('term')}
+                >
+                  <MenuItem value={'Spring'}>Spring</MenuItem>
+                  <MenuItem value={'Fall'}>Fall</MenuItem>
+                </Select>
+              </FormControl>
             </div>
 
             <ErrorMessage name="errorMsg" component="div" className="form--error" />
             <ErrorMessage name="successMsg" component="div" className="form--success " />
             <div className={'button-container d-flex justify-content-end'}>
-              <button
-                type="button"
-                className="btn btn-small transparent waves-effect text-dark mr-2 cancel-btn"
+              <Button
+                variant="contained"
                 onClick={() => {
                   props.closeModal();
                 }}
+                className="mr-2"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                className="btn btn-small waves-effect submit-btn"
+                variant="contained"
+                color="primary"
                 disabled={!(dirty && isValid)}
               >
-                Submit <i className="material-icons right">send</i>
-              </button>
+                Submit
+              </Button>
             </div>
           </Form>
         )}

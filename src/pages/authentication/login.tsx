@@ -7,6 +7,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 
+import { Button } from '@material-ui/core';
+
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required').min(6, 'Too Short'),
@@ -113,13 +115,14 @@ const Login: FC<IProps> = ({ store, location }) => {
                       <Link to="/sign-up" className="tip mb-3">
                         Create an account
                       </Link>
-                      <button
+                      <Button
                         type="submit"
-                        className="btn btn-lg blue waves-effect waves-light submit-btn"
+                        variant="contained"
+                        color="primary"
                         disabled={isSubmitting}
                       >
                         Login
-                      </button>
+                      </Button>
                     </div>
                   </Form>
                 )}
