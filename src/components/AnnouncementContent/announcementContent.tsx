@@ -57,21 +57,13 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
         {isTeacher() && (
           <div className="ann-icons">
             <IconButton aria-label="edit">
-              <EditIcon fontSize="small" />
+              <EditIcon fontSize="small" onClick={editAnnouncement} />
             </IconButton>
             <IconButton aria-label="delete" onClick={deleteAnnouncement}>
               <DeleteIcon fontSize="small" />
             </IconButton>
           </div>
         )}
-        <div className="ann-icons">
-          <IconButton aria-label="edit">
-            <EditIcon fontSize="small" onClick={editAnnouncement} />
-          </IconButton>
-          <IconButton aria-label="delete" onClick={deleteAnnouncement}>
-            <DeleteIcon fontSize="small" />
-          </IconButton>
-        </div>
       </div>
       <div className="announcement-content">{content}</div>
       <ReactModal

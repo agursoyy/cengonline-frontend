@@ -45,6 +45,13 @@
     margin-top: 5px;
     font-size: 1.6rem;
     font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    p {
+      margin-bottom: 0;
+    }
   }
 
   .assignment-content {

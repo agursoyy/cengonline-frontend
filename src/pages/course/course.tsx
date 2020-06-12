@@ -72,6 +72,7 @@ const Course: FC<IProps> = ({ store }) => {
 
       return (
         <AssignmentContent
+          id={a.id}
           teacherName={`${course.teacher.name} ${course.teacher.surname}`}
           date={a.createdAt}
           content={a.description}
