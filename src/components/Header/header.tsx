@@ -32,17 +32,18 @@ const Header: FC<IProps> = ({ store }) => {
             CengOnline
           </Link>
           <div className="nav">
-            {
-              isTeacher() &&
+            {isTeacher() && (
               <button className="mr-2" onClick={createClass}>
                 <Plus />
                 <span>Create a Class</span>
               </button>
-            }
-            <button onClick={attendToClass}>
-              <Plus />
-              <span>Attend to Class</span>
-            </button>
+            )}
+            {!isTeacher() && (
+              <button onClick={attendToClass}>
+                <Plus />
+                <span>Attend to Class</span>
+              </button>
+            )}
             <Link to="/messages">Messages</Link>
             <Link to="/logout">Log Out</Link>
           </div>
@@ -52,11 +53,17 @@ const Header: FC<IProps> = ({ store }) => {
           contentLabel="Minimal Modal Example"
           className="class-modal"
           ariaHideApp={false}
-          onRequestClose={() => { setShowCreateClassModal(false); }}
+          onRequestClose={() => {
+            setShowCreateClassModal(false);
+          }}
           closeTimeoutMS={50}
         >
           <div className="modal-container">
-            <CreateClass closeModal={() => { setShowCreateClassModal(false); }} />
+            <CreateClass
+              closeModal={() => {
+                setShowCreateClassModal(false);
+              }}
+            />
           </div>
         </ReactModal>
         <ReactModal
@@ -64,11 +71,17 @@ const Header: FC<IProps> = ({ store }) => {
           contentLabel="Minimal Modal Example"
           className="class-modal"
           ariaHideApp={false}
-          onRequestClose={() => { setShowAttendIntoModal(false); }}
+          onRequestClose={() => {
+            setShowAttendIntoModal(false);
+          }}
           closeTimeoutMS={50}
         >
           <div className="modal-container">
-            <AttendClass closeModal={() => { setShowAttendIntoModal(false); }} />
+            <AttendClass
+              closeModal={() => {
+                setShowAttendIntoModal(false);
+              }}
+            />
           </div>
         </ReactModal>
       </header>
