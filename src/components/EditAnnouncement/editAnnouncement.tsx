@@ -76,6 +76,7 @@ const EditAnnouncement: FC<IProps> = (props) => {
                     name="announcement"
                     label="Announcement"
                     variant="filled"
+                    value={values.announcement}
                     onChange={handleChange('announcement')}
                     fullWidth
                     required
