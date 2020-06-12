@@ -94,7 +94,7 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
                     variant="contained"
                     color="primary"
                     onClick={async () => {
-                      const deleted = await deleteAnn(127);
+                      const deleted = await deleteAnn(id);
                       if (deleted) {
                         await fetchAllAnnouncements(courseID);
                         setTimeout(() => {
@@ -113,11 +113,6 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, content, store
               <Typography>Something went wrong. Please try again.</Typography>
             )}
           </Box>
-          {/**<CreateClass
-            closeModal={() => {
-              setShowDeleteModal(false);
-            }}
-          /> */}
         </div>
       </ReactModal>
     </div>
