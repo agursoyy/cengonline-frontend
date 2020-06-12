@@ -25,6 +25,10 @@
       font-size: 1.4rem;
       color: rgba(0, 0, 0, 0.55);
     }
+    &__edit-course {
+      margin-top: 2rem;
+      display: flex;
+    }
   }
 
   & &__content {

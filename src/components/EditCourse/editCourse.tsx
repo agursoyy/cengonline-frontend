@@ -3,7 +3,7 @@ import Store from '../../store';
 import { observer, inject } from 'mobx-react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useParams } from 'react-router';
+import { Router, useHistory } from 'react-router';
 
 import {
   Typography,
@@ -15,47 +15,49 @@ import {
   MenuItem,
   InputLabel,
 } from '@material-ui/core';
-import { id } from 'date-fns/locale';
 
 interface IProps {
   store?: Store;
   id: number;
-  announcementText: string
+  courseTitle: string;
+  courseTerm: string;
   closeModal: () => void;
 }
 const formSchema = Yup.object().shape({
-  announcement: Yup.string().required('required'),
+  title: Yup.string().required('required'),
+  term: Yup.string().required('required'),
 });
 
-const EditAnnouncement: FC<IProps> = (props) => {
+const EditCourse: FC<IProps> = (props) => {
   const { store } = props;
-  const { id: courseId } = useParams();
+  const history = useHistory();
   return (
     <div className="modal__container">
-      <div className="title">Edit Announcement</div>
+      <div className="title">Edit Course</div>
       <Formik
         initialValues={{
-          announcement: props.announcementText,
+          title: props.courseTitle,
+          term: props.courseTerm,
           errorMsg: '',
           successMsg: '',
         }}
         validationSchema={formSchema}
         onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
-          const { announcement } = values;
+          const { title, term } = values;
           const {
-            announcement: { updateAnnouncement },
+            course: { updateCourse },
           } = store;
-          const success = await updateAnnouncement({ courseId: courseId, announcementId: props.id, announcementDescription: announcement });
+          const { id } = props;
+          const { success } = await updateCourse({ courseId: id, title, term });
           if (success) {
-            setFieldError('successMsg', 'Announcement has been updated');
+            setFieldError('successMsg', 'Course has been updated successfully');
             setTimeout(() => {
               props.closeModal();
-              setSubmitting(false);
             }, 750);
           } else {
             setFieldError('errorMsg', 'Something has gone wrong');
-            setSubmitting(false);
           }
+
         }}
       >
         {({
@@ -69,20 +71,35 @@ const EditAnnouncement: FC<IProps> = (props) => {
           isValid,
         }) => (
             <Form noValidate>
-              <div className="form-group announcement-edit">
+              <div className="form-group description">
                 <Box width="100%" mb={2}>
                   <TextField
-                    id="announcement-edit"
-                    name="announcement"
-                    label="Announcement"
+                    id="title"
+                    name="title"
+                    label="Course Title"
                     variant="filled"
-                    value={values.announcement}
-                    onChange={handleChange('announcement')}
+                    value={props.courseTitle}
+                    onChange={handleChange}
                     fullWidth
                     required
                   />
                   <ErrorMessage name="title" component="div" className="form__error text-danger" />
                 </Box>
+              </div>
+              <div className="form-group">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Course Term</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="term"
+                    value={props.courseTerm}
+                    onChange={handleChange('term')}
+                  >
+                    <MenuItem value={'Spring'}>Spring</MenuItem>
+                    <MenuItem value={'Fall'}>Fall</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
 
               <ErrorMessage name="errorMsg" component="div" className="form--error" />
@@ -101,7 +118,7 @@ const EditAnnouncement: FC<IProps> = (props) => {
                   type="submit"
                   variant="contained"
                   color="primary"
-                  disabled={!(dirty && isValid)}
+                  disabled={!(isValid)}
                 >
                   Submit
               </Button>
@@ -113,4 +130,4 @@ const EditAnnouncement: FC<IProps> = (props) => {
   );
 };
 
-export default inject('store')(observer(EditAnnouncement));
+export default inject('store')(observer(EditCourse));

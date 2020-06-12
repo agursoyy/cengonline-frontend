@@ -17,6 +17,7 @@ export default class Course {
       const response = await this.store.api.fetch({ url }, 200);
       const { status } = response;
       if (!status) {
+        console.log(response);
         this.courses = response;
       } else this.courses = null;
     }
@@ -39,7 +40,7 @@ export default class Course {
       const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
       const { status } = response;
       if (!status) {
-        this.courses = null;
+        this.courses = null;  // to fetch all courses again on courses page
         const { id } = response;
         return { success: true, courseId: id };
       }
@@ -47,5 +48,26 @@ export default class Course {
     }
     return { success: false };
   }
+
+  public updateCourse = async ({ courseId, title, term }: { courseId: number, title: string, term: string }):
+    Promise<{ success: boolean, courseId?: number }> => {
+    const isTeacher = this.store.user.isTeacher();
+    if (isTeacher) {
+      const url = `${this.url.base}/${courseId}`;
+      const form = { title, term };
+      const response = await this.store.api.fetch({ url, form, method: 'put' }, 200);
+      const { status } = response;
+      if (!status) {
+        this.courses = null; // to fetch all courses again on courses page
+        await this.fetchCourse(courseId);
+        const { id } = response;
+        return { success: true, courseId: id };
+      }
+      return { success: false };
+    }
+    return { success: false };
+  }
+
+
 
 }
