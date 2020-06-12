@@ -42,4 +42,15 @@ export default class Announcement {
     }
     return false;
   };
+
+  public deleteAnnouncement = async (id: any): Promise<boolean> => {
+    const url = `${this.url.base}/${id}`;
+    const response = await this.store.api.fetch({ url, method: 'delete' }, 200);
+    const { status } = response;
+    console.log(response);
+    if (status === 'OK') {
+      return true;
+    }
+    return false;
+  };
 }
