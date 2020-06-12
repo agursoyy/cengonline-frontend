@@ -14,7 +14,7 @@ export default class Announcement {
   @observable
   public announcements: Array<IAnnouncement> = [];
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   public fetchAllAnnouncements = async (courseID: number): Promise<void> => {
     const url = `${this.url.base}/course/${courseID}`;
