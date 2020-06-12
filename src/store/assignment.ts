@@ -6,7 +6,7 @@ type ICreateAssignment = {
   courseID: number;
   title: string;
   dueDate: any;
-  dueTime: string;
+  dueTime: any;
   description: string;
 };
 
@@ -37,11 +37,16 @@ export default class Assignment {
     dueDate,
     dueTime,
   }: ICreateAssignment): Promise<boolean> => {
+    let hoursString = dueTime.getHours() < 10 ? `0${dueTime.getHours()}` : dueTime.getHours();
+    let minutesString =
+      dueTime.getMinutes() < 10 ? `0${dueTime.getMinutes()}` : dueTime.getMinutes();
+    const date = `${dueDate.toLocaleDateString()} ${hoursString}:${minutesString}`;
+
     const url = `${this.url.base}/${courseID}`;
     const form = {
       title,
       description,
-      dueDate,
+      dueDate: date,
     };
     const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
     const { status } = response;
