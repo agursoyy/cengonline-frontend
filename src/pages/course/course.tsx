@@ -47,6 +47,7 @@ const Course: FC<IProps> = ({ store }) => {
     store!.announcement.announcements.map((a) => {
       return (
         <AnnouncementContent
+          id={a.id}
           teacherName={`${course.teacher.name} ${course.teacher.surname}`}
           date={a.createdAt}
           content={a.description}
@@ -55,8 +56,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-      <p>No announcement in this course yet!</p>
-    );
+    <p>No announcement in this course yet!</p>
+  );
 
   const assignmentsTab = store!.assignment.assignments.length ? (
     store!.assignment.assignments.map((a) => {
@@ -73,8 +74,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-      <p>No assignment in this course yet!</p>
-    );
+    <p>No assignment in this course yet!</p>
+  );
 
   return unMount ? (
     course ? (
@@ -129,12 +130,12 @@ const Course: FC<IProps> = ({ store }) => {
         </div>
       </div>
     ) : (
-        <Redirect
-          to={{
-            pathname: '/',
-          }}
-        />
-      )
+      <Redirect
+        to={{
+          pathname: '/',
+        }}
+      />
+    )
   ) : null;
 };
 
