@@ -3,7 +3,7 @@ import Store from '../../store';
 import { observer, inject } from 'mobx-react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Router, useHistory } from 'react-router';
+import { useParams } from 'react-router';
 
 import {
   Typography,
@@ -15,6 +15,7 @@ import {
   MenuItem,
   InputLabel,
 } from '@material-ui/core';
+import { id } from 'date-fns/locale';
 
 interface IProps {
   store?: Store;
@@ -28,7 +29,7 @@ const formSchema = Yup.object().shape({
 
 const EditAnnouncement: FC<IProps> = (props) => {
   const { store } = props;
-  const history = useHistory();
+  const { id: courseId } = useParams();
   return (
     <div className="modal__container">
       <div className="title">Edit Announcement</div>
@@ -40,23 +41,21 @@ const EditAnnouncement: FC<IProps> = (props) => {
         }}
         validationSchema={formSchema}
         onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
-          console.log(values);
           const { announcement } = values;
           const {
-            course: { addCourse },
+            announcement: { updateAnnouncement },
           } = store;
-          console.log(values);
-          /*  const { success, courseId } = await addCourse({ title, term });
-            if (success) {
-              setFieldError('successMsg', 'Course created successfully and redirecting');
-              setTimeout(() => {
-                props.closeModal();
-                history.push(`/course/${courseId}`);
-              }, 750);
-            } else {
-              setFieldError('errorMsg', 'Something has gone wrong');
-            }
-            setSubmitting(false); */
+          const success = await updateAnnouncement({ courseId: courseId, announcementId: props.id, announcementDescription: announcement });
+          if (success) {
+            setFieldError('successMsg', 'Announcement has been updated');
+            setTimeout(() => {
+              props.closeModal();
+              setSubmitting(false);
+            }, 750);
+          } else {
+            setFieldError('errorMsg', 'Something has gone wrong');
+            setSubmitting(false);
+          }
         }}
       >
         {({
@@ -77,7 +76,7 @@ const EditAnnouncement: FC<IProps> = (props) => {
                     name="announcement"
                     label="Announcement"
                     variant="filled"
-                    onChange={handleChange('description')}
+                    onChange={handleChange('announcement')}
                     fullWidth
                     required
                   />
