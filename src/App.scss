@@ -13,3 +13,7 @@
 button.MuiButtonBase-root:focus {
   outline: none;
 }
+
+label.MuiInputLabel-outlined {
+  z-index: 0;
+}
