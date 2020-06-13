@@ -9,7 +9,7 @@ export default class Course {
   public course: any; // course-detail
   public courses: any;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   public fetchAllCourses = async (): Promise<void> => {
     const url = `${this.url.base}`;
@@ -32,7 +32,13 @@ export default class Course {
     } else this.course = null;
   };
 
-  public addCourse = async ({ title, term }: { title: string, term: string }): Promise<{ success: boolean, courseId?: number }> => {
+  public addCourse = async ({
+    title,
+    term,
+  }: {
+    title: string;
+    term: string;
+  }): Promise<{ success: boolean; courseId?: number }> => {
     const isTeacher = this.store.user.isTeacher();
     if (isTeacher) {
       const url = `${this.url.base}`;
@@ -40,17 +46,24 @@ export default class Course {
       const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
       const { status } = response;
       if (!status) {
-        this.courses = null;  // to fetch all courses again on courses page
+        this.courses = null; // to fetch all courses again on courses page
         const { id } = response;
         return { success: true, courseId: id };
       }
       return { success: false };
     }
     return { success: false };
-  }
+  };
 
-  public updateCourse = async ({ courseId, title, term }: { courseId: number, title: string, term: string }):
-    Promise<{ success: boolean, courseId?: number }> => {
+  public updateCourse = async ({
+    courseId,
+    title,
+    term,
+  }: {
+    courseId: number;
+    title: string;
+    term: string;
+  }): Promise<{ success: boolean; courseId?: number }> => {
     const isTeacher = this.store.user.isTeacher();
     if (isTeacher) {
       const url = `${this.url.base}/${courseId}`;
@@ -66,8 +79,16 @@ export default class Course {
       return { success: false };
     }
     return { success: false };
-  }
+  };
 
-
-
+  public deleteCourse = async (id: any): Promise<boolean> => {
+    const url = `${this.url.base}/${id}`;
+    const response = await this.store.api.fetch({ url, method: 'delete' }, 200);
+    const { status } = response;
+    console.log(response);
+    if (status === 'OK') {
+      return true;
+    }
+    return false;
+  };
 }
