@@ -4,7 +4,7 @@ import './styles/index.scss';
 
 import { inject, observer } from 'mobx-react';
 import Store from './store';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import PageRoute from './components/PageRoute';
 
 import Home from './pages/home';
@@ -26,10 +26,11 @@ interface IProps {
 
 const App: FC<IProps> = (props) => {
   const { store } = props;
+  const customHistory = store.customHistory;
 
   return (
     <div className="App">
-      <Router>
+      <Router history={customHistory}>
         <MuiThemeProvider theme={theme}>
           <Switch>
             {/* Actually the only thing done here is defining the layout and the protection of the route */}
