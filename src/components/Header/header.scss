@@ -1,79 +1,35 @@
 @import '../../styles/mixins/';
 
-.Header {
-  width: 100%;
-  height: 64px;
-  background-color: white;
-  border-bottom: 2px solid #d1d6e2;
-  box-sizing: border-box;
-
-  + div {
-    flex-grow: 1;
-
-    + p {
-      font-size: 1.2em;
-      color: #333;
-    }
-  }
-
-  &-container {
-    height: 100%;
-    width: 900px;
-    font-size: 1.6em;
-    font-weight: 400;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    align-items: center;
-
-    &-title {
+.header {
+  .navbar {
+    &-brand {
       color: #3d3d3d;
       font-weight: 600;
-      font-size: 1.2em;
+      font-size: 2.2rem;
 
       &:hover {
         text-decoration: none;
       }
     }
-
-    .nav {
-      background-color: transparent;
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      button {
-        height: 40px;
-        border: 1px solid #eee;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom: 2px;
-        border-radius: 20px;
+    .navbar-collapse {
+      .navbar-nav {
         display: flex;
         align-items: center;
-        justify-content: center;
-        border: 1px solid #dfdfdf;
-
-        &:hover {
-          background-color: #dfdfdf;
+        .nav-item {
+          .nav-link {
+            font-weight: 600;
+            svg {
+              width: 16px;
+              height: 16px;
+              margin-right: .2rem;
+            }
+          }
+          .authentication-button {
+            font-weight: 600;
+            color: rgba($color: #000000, $alpha: .45);
+          }
         }
-
-        &:focus {
-          background-color: #ccc;
-          border: 1px solid #bdbdbd;
-        }
-
-        svg {
-          width: 16px;
-          height: 16px;
-          margin-top: 2px;
-          margin-right: 10px;
-        }
-      }
-
-      a {
-        margin-left: 20px;
+       
       }
     }
   }
