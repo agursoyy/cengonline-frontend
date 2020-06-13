@@ -109,24 +109,29 @@ const Course: FC<IProps> = ({ store }) => {
                   {course.teacher.name} {course.teacher.surname}
                 </div>
                 {store.user.isTeacher() && (
-                  <div className="sidebar__edit-course">
-                    <IconButton
-                      aria-label="edit"
-                      onClick={() => {
-                        setShowEditModal(true);
-                      }}
-                    >
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => {
-                        setShowDeleteModal(true);
-                      }}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  </div>
+                  <>
+                    <div className="sidebar-code">
+                      Course Code: <span>{course.id}</span>
+                    </div>
+                    <div className="sidebar__edit-course">
+                      <IconButton
+                        aria-label="edit"
+                        onClick={() => {
+                          setShowEditModal(true);
+                        }}
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => {
+                          setShowDeleteModal(true);
+                        }}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
