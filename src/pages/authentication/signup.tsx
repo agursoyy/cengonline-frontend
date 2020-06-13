@@ -28,7 +28,7 @@ const Signup: FC<IProps> = (props) => {
     <div className="auth-container d-flex align-items-center">
       <div className="container">
         <div className="row d-flex justify-content-center">
-          <div className="col-md-5 p-0">
+          <div className="col-md-4">
             <div className="auth-container__box">
               <h1 className="auth-container__box__header">Sign up to continue to Cengonline</h1>
               <Formik

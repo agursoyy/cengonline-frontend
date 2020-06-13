@@ -38,7 +38,7 @@ const Login: FC<IProps> = ({ store, location }) => {
     <div className="auth-container d-flex align-items-center">
       <div className="container">
         <div className="row d-flex justify-content-center">
-          <div className="col-md-5 p-0">
+          <div className="col-md-4">
             <div className="auth-container__box">
               <h1 className="auth-container__box__header">Sign in to continue to Cengonline</h1>
               <Formik
@@ -54,12 +54,12 @@ const Login: FC<IProps> = ({ store, location }) => {
                   if (success && user) {
                     console.log('LOGIN SUCCEEDED');
                     // window.location.href = '/';
+                    setSubmitting(false);
                     history.push('/');
                   } else {
                     const { message } = result;
                     setFieldError('password', message);
                   }
-                  setSubmitting(false);
                 }}
               >
                 {({ errors, touched, values, isSubmitting }) => (
