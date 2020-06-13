@@ -53,7 +53,8 @@ const Login: FC<IProps> = ({ store, location }) => {
                   const user = await store?.user.getCurrent();
                   if (success && user) {
                     console.log('LOGIN SUCCEEDED');
-                    window.location.href = '/';
+                    // window.location.href = '/';
+                    history.push('/');
                   } else {
                     const { message } = result;
                     setFieldError('password', message);
