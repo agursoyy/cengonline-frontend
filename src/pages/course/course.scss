@@ -19,6 +19,8 @@
     position: sticky;
     top: 16px;
     margin-bottom: 2rem;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
 
     &-term,
     &-teacher,
@@ -39,8 +41,26 @@
     }
 
     &__edit-course {
-      margin-top: 2rem;
+      margin-bottom: 1rem;
       display: flex;
+    }
+
+    .students {
+      .student {
+        margin-top: 10px;
+        font-size: 1.4rem;
+        padding-left: 2px;
+
+        &:nth-of-type(1) {
+          margin-top: 15px;
+        }
+
+        &-email {
+          line-height: 12px;
+          font-size: 1.3rem;
+          color: rgba(0, 0, 0, 0.55);
+        }
+      }
     }
   }
 

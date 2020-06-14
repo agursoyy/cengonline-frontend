@@ -7,6 +7,7 @@ export default class Course {
   };
   @observable
   public course: any; // course-detail
+  public studentsOfCourse: any;
   public courses: any;
 
   constructor(private store: Store) {}
@@ -30,6 +31,18 @@ export default class Course {
     if (!status) {
       this.course = response;
     } else this.course = null;
+  };
+
+  public fetchStudents = async (courseID): Promise<void> => {
+    const url = `${this.url.base}/students/${courseID}`;
+    const response = await this.store.api.fetch({ url }, 200);
+
+    const { status } = response;
+    if (!status) {
+      if (Array.isArray(response)) {
+        this.studentsOfCourse = response;
+      }
+    } else this.studentsOfCourse = [];
   };
 
   public addCourse = async ({

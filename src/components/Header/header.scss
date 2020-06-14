@@ -1,6 +1,9 @@
 @import '../../styles/mixins/';
 
 .header {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px rgba(0, 0, 0, 0.03),
+    0 4px 4px rgba(0, 0, 0, 0.02), 0 8px 8px rgba(0, 0, 0, 0.01), 0 16px 16px rgba(0, 0, 0, 0.01);
+
   .navbar {
     &-brand {
       color: #3d3d3d;
@@ -21,15 +24,14 @@
             svg {
               width: 16px;
               height: 16px;
-              margin-right: .2rem;
+              margin-right: 0.2rem;
             }
           }
           .authentication-button {
             font-weight: 600;
-            color: rgba($color: #000000, $alpha: .45);
+            color: rgba($color: #000000, $alpha: 0.45);
           }
         }
-       
       }
     }
   }

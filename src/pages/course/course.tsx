@@ -9,6 +9,9 @@ import AnnouncementContent from '../../components/AnnouncementContent';
 import AssignmentContent from '../../components/AssignmentContent';
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+
 import ReactModal from 'react-modal';
 import './course.scss';
 import EditCourse from '../../components/EditCourse';
@@ -21,6 +24,7 @@ const Course: FC<IProps> = ({ store }) => {
   const [unMount, setUnMount] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showStudents, setShowStudents] = useState(false);
   const [success, setSuccess] = useState(true);
 
   const { id: CourseID } = useParams();
@@ -30,6 +34,7 @@ const Course: FC<IProps> = ({ store }) => {
     const fetchData = async () => {
       await Promise.all([
         store!.course.fetchCourse(CourseID),
+        store!.course.fetchStudents(CourseID),
         store!.announcement.fetchAllAnnouncements(CourseID),
         store!.assignment.fetchAllAssignments(CourseID),
       ]);
@@ -39,6 +44,7 @@ const Course: FC<IProps> = ({ store }) => {
       // unsubscribe
       return () => {
         store!.course.course = null;
+        store!.course.studentsOfCourse = null;
         store!.announcement.announcements = null;
         store!.assignment.assignments = null;
       };
@@ -47,7 +53,7 @@ const Course: FC<IProps> = ({ store }) => {
   }, []);
 
   const {
-    course: { course, deleteCourse },
+    course: { course, studentsOfCourse, deleteCourse },
     user: { user, isTeacher },
   } = store!;
 
@@ -97,6 +103,12 @@ const Course: FC<IProps> = ({ store }) => {
     <p>No assignment in this course yet!</p>
   );
 
+  const handleShowStudents = () => {
+    if (studentsOfCourse.length > 0) {
+      setShowStudents(!showStudents);
+    }
+  };
+
   return unMount ? (
     course ? (
       <div className="course-container">
@@ -131,6 +143,30 @@ const Course: FC<IProps> = ({ store }) => {
                       >
                         <DeleteIcon fontSize="small" />
                       </IconButton>
+                    </div>
+                    <div className="students">
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        endIcon={
+                          studentsOfCourse.length > 0 &&
+                          (showStudents ? <ExpandLessIcon /> : <ExpandMoreIcon />)
+                        }
+                        onClick={handleShowStudents}
+                      >
+                        <span>Students ({studentsOfCourse.length})</span>
+                      </Button>
+                      {studentsOfCourse &&
+                        showStudents &&
+                        studentsOfCourse.length > 0 &&
+                        studentsOfCourse.map((s) => (
+                          <div className="student" key={`student-${s.id}`}>
+                            <div className="student-name">
+                              {s.name} {s.surname}
+                            </div>
+                            <div className="student-email">{s.email}</div>
+                          </div>
+                        ))}
                     </div>
                   </>
                 )}
