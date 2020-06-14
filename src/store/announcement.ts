@@ -54,6 +54,7 @@ export default class Announcement {
     }
     return false;
   };
+
   public updateAnnouncement = async ({ courseId, announcementId, announcementDescription }: {
     courseId: number, announcementId: number,
     announcementDescription: string

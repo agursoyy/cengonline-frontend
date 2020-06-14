@@ -10,8 +10,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { Typography, Button, Box } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
+import { Typography, Button, Box, TextField } from '@material-ui/core';
 
 const formSchema = Yup.object().shape({
   description: Yup.string().trim().required('Required'),
@@ -24,7 +23,7 @@ type IProps = {
   courseID: number;
 };
 const CreateAssignment: FC<IProps> = ({ courseID, store }) => {
-  var dateLimit = new Date();
+  const dateLimit = new Date();
   dateLimit.setFullYear(dateLimit.getFullYear() + 2);
 
   return courseID > 0 ? (

@@ -85,7 +85,6 @@ export default class Course {
     const url = `${this.url.base}/${id}`;
     const response = await this.store.api.fetch({ url, method: 'delete' }, 200);
     const { status } = response;
-    console.log(response);
     if (status === 'OK') {
       return true;
     }

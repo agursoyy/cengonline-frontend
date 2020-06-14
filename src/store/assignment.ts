@@ -17,7 +17,7 @@ export default class Assignment {
   @observable
   public assignments: Array<IAssignment> = [];
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   public fetchAllAssignments = async (courseID: number): Promise<void> => {
     const url = `${this.url.base}/course/${courseID}`;
@@ -62,6 +62,52 @@ export default class Assignment {
     const { status } = response;
     console.log(response);
     if (status === 'OK') {
+      return true;
+    }
+    return false;
+  };
+
+  public updateAssignment = async ({
+    courseId,
+    assignmentId,
+    assignmentTitle,
+    assignmentDescription,
+    assignmentDueDate,
+    assignmentDueTime,
+  }: {
+    courseId: number;
+    assignmentId: number;
+    assignmentTitle: string;
+    assignmentDescription: string;
+    assignmentDueDate: Date;
+    assignmentDueTime: Date;
+  }): Promise<boolean> => {
+    let hoursString =
+      assignmentDueTime.getHours() < 10
+        ? `0${assignmentDueTime.getHours()}`
+        : assignmentDueTime.getHours();
+    let minutesString =
+      assignmentDueTime.getMinutes() < 10
+        ? `0${assignmentDueTime.getMinutes()}`
+        : assignmentDueTime.getMinutes();
+    const date = `${assignmentDueDate.toLocaleDateString()} ${hoursString}:${minutesString}`;
+
+    const url = `${this.url.base}/${assignmentId}`;
+    const response = await this.store.api.fetch(
+      {
+        url,
+        method: 'put',
+        form: {
+          title: assignmentTitle,
+          description: assignmentDescription,
+          dueDate: date,
+        },
+      },
+      200,
+    );
+    const { status } = response;
+    if (!status) {
+      await this.fetchAllAssignments(courseId);
       return true;
     }
     return false;

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Route, Redirect, useParams, useHistory } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import Store from '../../store';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -84,6 +84,7 @@ const Course: FC<IProps> = ({ store }) => {
           id={a.id}
           teacherName={`${course.teacher.name} ${course.teacher.surname}`}
           date={a.createdAt}
+          updatedAt={a.updatedAt}
           content={a.description}
           title={a.title}
           dueDate={a.dueDate}

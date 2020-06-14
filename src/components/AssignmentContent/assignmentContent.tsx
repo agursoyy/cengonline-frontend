@@ -8,6 +8,8 @@ import ReactModal from 'react-modal';
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 
+import EditAssignment from '../EditAssignment';
+
 import './assignmentContent.scss';
 
 interface IProps {
@@ -15,6 +17,7 @@ interface IProps {
   id: any;
   teacherName: string;
   date: Date;
+  updatedAt: Date;
   dueDate: Date;
   submitted: boolean;
   title: string;
@@ -25,6 +28,7 @@ const AssignmentContent: FC<IProps> = ({
   id,
   teacherName,
   date,
+  updatedAt,
   dueDate,
   submitted,
   title,
@@ -76,6 +80,14 @@ const AssignmentContent: FC<IProps> = ({
   let dHoursString = dHours < 10 ? `0${dHours}` : dHours;
   const dDateString = `${due.toLocaleDateString()} ${dHoursString}:${dMinutesString}`;
 
+  const updatedAtDate = new Date(updatedAt);
+  const updatedAtMinutes = updatedAtDate.getMinutes();
+  const updatedAtHours = updatedAtDate.getHours();
+
+  let updatedAtMinutesString = updatedAtMinutes < 10 ? `0${updatedAtMinutes}` : updatedAtMinutes;
+  let updatedAtHoursString = updatedAtHours < 10 ? `0${updatedAtHours}` : updatedAtHours;
+  const updatedAtString = `${updatedAtDate.toLocaleDateString()} ${updatedAtHoursString}:${updatedAtMinutesString}`;
+
   return (
     <div className="assignment-detail">
       <div className="assignment-firstline">
@@ -83,7 +95,10 @@ const AssignmentContent: FC<IProps> = ({
         <span className="due-date">Due Date: {dDateString}</span>
       </div>
       <div className="assignment-secondline">
-        <span>{dateString}</span>
+        <span>
+          {dateString}{' '}
+          {updatedAtDate.getTime() > dateTime.getTime() && `(Updated: ${updatedAtString})`}
+        </span>
         {!store!.user.isTeacher() && (
           <span className={submitted ? 'submitted' : 'not-submitted'}>
             {submitted ? 'Submitted' : 'Not Submitted'}
@@ -117,7 +132,17 @@ const AssignmentContent: FC<IProps> = ({
           setSuccess(true);
         }}
         closeTimeoutMS={50}
-      ></ReactModal>
+      >
+        <EditAssignment
+          id={Number(id)}
+          titleP={title}
+          descriptionP={content}
+          dueDateP={dueDate}
+          closeModal={() => {
+            setShowEditModal(false);
+          }}
+        />
+      </ReactModal>
       <ReactModal
         isOpen={showDeleteModal}
         contentLabel="Delete Assignment"

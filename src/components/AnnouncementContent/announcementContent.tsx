@@ -7,7 +7,6 @@ import ReactModal from 'react-modal';
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import EditAnnouncement from '../EditAnnouncement';
-import CreateClass from '../CreateClass';
 
 import './announcementContent.scss';
 
