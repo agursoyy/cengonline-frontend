@@ -9,6 +9,7 @@ import AnnouncementContent from '../../components/AnnouncementContent';
 import AssignmentContent from '../../components/AssignmentContent';
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
+import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
@@ -156,17 +157,19 @@ const Course: FC<IProps> = ({ store }) => {
                       >
                         <span>Students ({studentsOfCourse.length})</span>
                       </Button>
-                      {studentsOfCourse &&
-                        showStudents &&
-                        studentsOfCourse.length > 0 &&
-                        studentsOfCourse.map((s) => (
-                          <div className="student" key={`student-${s.id}`}>
-                            <div className="student-name">
-                              {s.name} {s.surname}
+                      <Collapse in={showStudents} timeout="auto" unmountOnExit>
+                        {studentsOfCourse &&
+                          showStudents &&
+                          studentsOfCourse.length > 0 &&
+                          studentsOfCourse.map((s) => (
+                            <div className="student" key={`student-${s.id}`}>
+                              <div className="student-name">
+                                {s.name} {s.surname}
+                              </div>
+                              <div className="student-email">{s.email}</div>
                             </div>
-                            <div className="student-email">{s.email}</div>
-                          </div>
-                        ))}
+                          ))}
+                      </Collapse>
                     </div>
                   </>
                 )}

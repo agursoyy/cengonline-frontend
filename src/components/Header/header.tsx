@@ -9,7 +9,6 @@ import CreateClass from '../CreateClass';
 import AttendClass from '../AttendClass';
 import Button from '@material-ui/core/Button';
 
-
 interface IProps {
   store?: Store;
 }
@@ -31,9 +30,18 @@ const Header: FC<IProps> = ({ store }) => {
     <header className="header">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
-          <Link className="navbar-brand" to="/">Cengonline</Link>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <Link className="navbar-brand" to="/">
+            CengOnline
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
 
@@ -57,18 +65,25 @@ const Header: FC<IProps> = ({ store }) => {
               )}
               <li className="nav-item">
                 <Button href="#text-buttons">
-                  <Link to="/messages" className="nav-link">Messages</Link>
+                  <Link to="/messages" className="nav-link">
+                    Messages
+                  </Link>
                 </Button>
               </li>
               <li className="nav-item ml-md-5 logout-item">
-                <Button variant="outlined" className="authentication-button" onClick={() => { store.auth.logout(); }}>
+                <Button
+                  variant="outlined"
+                  className="authentication-button"
+                  onClick={() => {
+                    store.auth.logout();
+                  }}
+                >
                   Logout
-                 </Button>
+                </Button>
               </li>
             </ul>
           </div>
         </div>
-
       </nav>
       <ReactModal
         isOpen={showCreateClassModal}
