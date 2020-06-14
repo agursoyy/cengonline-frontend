@@ -61,46 +61,46 @@ const AttendClass: FC<IProps> = (props) => {
           isValid,
           dirty,
         }) => (
-          <Form noValidate>
-            <div className="form-group description">
-              <Box width="100%" mb={2}>
-                <TextField
-                  id="code"
-                  name="code"
-                  label="Course Code"
-                  variant="filled"
-                  type="number"
-                  onChange={handleChange('code')}
-                  fullWidth
-                  required
-                />
-                <ErrorMessage name="code" component="div" className="form__error text-danger" />
-              </Box>
-            </div>
-            <ErrorMessage name="errorMsg" component="div" className="form--error " />
-            <ErrorMessage name="successMsg" component="div" className="form--success " />
+            <Form noValidate>
+              <div className="form-group description">
+                <Box width="100%" mb={2}>
+                  <TextField
+                    id="code"
+                    name="code"
+                    label="Course Code"
+                    variant="filled"
+                    type="number"
+                    onChange={handleChange('code')}
+                    fullWidth
+                    required
+                  />
+                  <ErrorMessage name="code" component="div" className="form__error text-danger" />
+                </Box>
+              </div>
+              <ErrorMessage name="errorMsg" component="div" className="form--error " />
+              <ErrorMessage name="successMsg" component="div" className="form--success " />
 
-            <div className={'button-container d-flex justify-content-end'}>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  props.closeModal();
-                }}
-                className="mr-2"
-              >
-                Cancel
+              <div className={'button-container d-flex justify-content-end'}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    props.closeModal();
+                  }}
+                  className="mr-2"
+                >
+                  Cancel
               </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={!(dirty && isValid)}
-              >
-                Attend
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={!(dirty && isValid)}
+                >
+                  Attend
               </Button>
-            </div>
-          </Form>
-        )}
+              </div>
+            </Form>
+          )}
       </Formik>
     </div>
   );

@@ -6,6 +6,7 @@ import User from './user';
 import Course from './course';
 import Announcement from './announcement';
 import Assignment from './assignment';
+import { createBrowserHistory } from 'history';
 
 export default class Store {
   public api = new Api(this);
@@ -15,6 +16,8 @@ export default class Store {
   public course = new Course(this);
   public announcement = new Announcement(this);
   public assignment = new Assignment(this);
+  public customHistory = createBrowserHistory();
+
   [name: string]: any;
 
   /* public export = (): string => Stringify(this);

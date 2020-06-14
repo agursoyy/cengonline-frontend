@@ -41,7 +41,6 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
       store.api.accessToken = undefined;
       store.cookies.remove('accessToken');
     }
-    if (!firstRender) setFirstRender(true);
   };
 
   useEffect(() => {
@@ -49,6 +48,7 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
       await handleCookieAuth(store!);
     };
     authAsync();
+    if (!firstRender) setFirstRender(true);
   }, []);
 
   const config: IpageConfig = {
@@ -71,8 +71,8 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
             {footer && <p className="text-center">CengOnline &copy; 2020</p>}
           </>
         ) : (
-          <Component {...rest} {...props} />
-        );
+            <Component {...rest} {...props} />
+          );
 
         return auth && user ? (
           newComponent
@@ -85,11 +85,11 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
           user ? (
             <Redirect to={{ pathname: '/' }} />
           ) : (
-            newComponent
-          )
+              newComponent
+            )
         ) : (
-          newComponent
-        );
+                newComponent
+              );
       }}
     />
   ) : null;

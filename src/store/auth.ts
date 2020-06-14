@@ -17,7 +17,7 @@ export default class Auth {
   private url = '/auth';
   public loading = '/false';
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
   public login = async ({
     email,
     password,
@@ -53,6 +53,13 @@ export default class Auth {
     return { success: false, message: 'Something has gone wrong' };
   };
 
+  public logout = () => {
+    this.store.user.user = null;
+    this.store.api.accessToken = null;
+    this.store.api.refreshToken = null;
+    this.store.cookies.remove('accessToken');
+    this.store.customHistory.push('/sign-in');
+  }
   public signup = async ({
     name,
     surname,
