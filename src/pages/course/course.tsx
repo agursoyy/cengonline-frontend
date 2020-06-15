@@ -38,6 +38,7 @@ const Course: FC<IProps> = ({ store }) => {
         store!.course.fetchStudents(CourseID),
         store!.announcement.fetchAllAnnouncements(CourseID),
         store!.assignment.fetchAllAssignments(CourseID),
+        store!.assignment.fetchSubmissionsOfStudent(store!.user.user.id),
       ]);
 
       setUnMount(true);
@@ -48,6 +49,7 @@ const Course: FC<IProps> = ({ store }) => {
         store!.course.studentsOfCourse = null;
         store!.announcement.announcements = null;
         store!.assignment.assignments = null;
+        store!.assignment.submissionsOfStudent = null;
       };
     };
     fetchData();
@@ -80,7 +82,9 @@ const Course: FC<IProps> = ({ store }) => {
       let isSubmitted = false;
 
       if (!isTeacher()) {
-        const submission = a.submissions.find((s) => s.user.id === store!.user.user.id);
+        const submission = a.submissions.find(
+          (s) => s.user.id === store!.user.user.id || s.user === store!.user.user.id,
+        );
         if (submission) {
           isSubmitted = true;
         }
@@ -145,34 +149,34 @@ const Course: FC<IProps> = ({ store }) => {
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </div>
-                    <div className="students">
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        endIcon={
-                          studentsOfCourse.length > 0 &&
-                          (showStudents ? <ExpandLessIcon /> : <ExpandMoreIcon />)
-                        }
-                        onClick={handleShowStudents}
-                      >
-                        <span>Students ({studentsOfCourse.length})</span>
-                      </Button>
-                      <Collapse in={showStudents} timeout="auto" unmountOnExit>
-                        {studentsOfCourse &&
-                          showStudents &&
-                          studentsOfCourse.length > 0 &&
-                          studentsOfCourse.map((s) => (
-                            <div className="student" key={`student-${s.id}`}>
-                              <div className="student-name">
-                                {s.name} {s.surname}
-                              </div>
-                              <div className="student-email">{s.email}</div>
-                            </div>
-                          ))}
-                      </Collapse>
-                    </div>
                   </>
                 )}
+                <div className="students">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    endIcon={
+                      studentsOfCourse.length > 0 &&
+                      (showStudents ? <ExpandLessIcon /> : <ExpandMoreIcon />)
+                    }
+                    onClick={handleShowStudents}
+                  >
+                    <span>Students ({studentsOfCourse.length})</span>
+                  </Button>
+                  <Collapse in={showStudents} timeout="auto" unmountOnExit>
+                    {studentsOfCourse &&
+                      showStudents &&
+                      studentsOfCourse.length > 0 &&
+                      studentsOfCourse.map((s) => (
+                        <div className="student" key={`student-${s.id}`}>
+                          <div className="student-name">
+                            {s.name} {s.surname}
+                          </div>
+                          <div className="student-email">{s.email}</div>
+                        </div>
+                      ))}
+                  </Collapse>
+                </div>
               </div>
             </div>
             <div className="col-sm-8">

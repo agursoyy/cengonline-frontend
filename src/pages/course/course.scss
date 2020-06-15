@@ -29,9 +29,11 @@
       color: rgba(0, 0, 0, 0.55);
     }
 
-    &-code {
-      margin-top: 5px;
+    &-teacher {
+      margin-bottom: 5px;
+    }
 
+    &-code {
       span {
         border-radius: 3px;
         display: inline-block;
@@ -41,11 +43,12 @@
     }
 
     &__edit-course {
-      margin-bottom: 1rem;
       display: flex;
     }
 
     .students {
+      margin-top: 1rem;
+
       .student {
         margin-top: 10px;
         font-size: 1.4rem;

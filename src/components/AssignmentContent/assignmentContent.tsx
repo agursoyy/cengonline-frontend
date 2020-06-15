@@ -7,8 +7,12 @@ import ReactModal from 'react-modal';
 
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
+import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import EditAssignment from '../EditAssignment';
+import SubmitAssignment from '../SubmitAssignment';
+import Submissions from '../Submissions';
 
 import './assignmentContent.scss';
 
@@ -37,12 +41,18 @@ const AssignmentContent: FC<IProps> = ({
 }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSubmissions, setShowSubmissions] = useState(false);
   const [success, setSuccess] = useState(true);
 
   const { id: courseID } = useParams();
 
   const {
-    assignment: { fetchAllAssignments, deleteAssignment: deleteAsn },
+    assignment: {
+      fetchAllAssignments,
+      fetchSubmissionsOfAssignment,
+      submissionsOfAssignment,
+      deleteAssignment: deleteAsn,
+    },
     user: { isTeacher },
   } = store;
 
@@ -52,6 +62,11 @@ const AssignmentContent: FC<IProps> = ({
 
   const deleteAnnouncement = () => {
     setShowDeleteModal(true);
+  };
+
+  const displaySubmissions = async () => {
+    await fetchSubmissionsOfAssignment(Number(id));
+    setShowSubmissions(true);
   };
 
   const dateTime = new Date(date);
@@ -88,6 +103,17 @@ const AssignmentContent: FC<IProps> = ({
   let updatedAtHoursString = updatedAtHours < 10 ? `0${updatedAtHours}` : updatedAtHours;
   const updatedAtString = `${updatedAtDate.toLocaleDateString()} ${updatedAtHoursString}:${updatedAtMinutesString}`;
 
+  const work = store!.assignment.submissionsOfStudent.find((s) => s.assignment.id == id);
+  let workDateString;
+  if (work) {
+    const workDate = new Date(work.createdAt);
+    const workDateHours = workDate.getHours();
+    const workDateMinutes = workDate.getMinutes();
+    const workDateHoursString = workDateHours < 10 ? `0${workDateHours}` : workDateHours;
+    const workDateMinutesString = workDateMinutes < 10 ? `0${workDateMinutes}` : workDateMinutes;
+    workDateString = `${workDate.toLocaleDateString()} ${workDateHoursString}:${workDateMinutesString}`;
+  }
+
   return (
     <div className="assignment-detail">
       <div className="assignment-firstline">
@@ -99,29 +125,57 @@ const AssignmentContent: FC<IProps> = ({
           {dateString}{' '}
           {updatedAtDate.getTime() > dateTime.getTime() && `(Updated: ${updatedAtString})`}
         </span>
-        {!store!.user.isTeacher() && (
+        {!isTeacher() && (
           <span className={submitted ? 'submitted' : 'not-submitted'}>
             {submitted ? 'Submitted' : 'Not Submitted'}
           </span>
         )}
       </div>
-      <h4
-        className="assignment-title"
-        style={store!.user.isTeacher() ? { marginTop: '-18px' } : {}}
-      >
+      <h4 className="assignment-title" style={isTeacher() ? { marginTop: '-15px' } : {}}>
         <p>{title}</p>
-        {store!.user.isTeacher() && (
+        {isTeacher() && (
           <Box>
-            <IconButton aria-label="edit" onClick={editAnnouncement}>
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton aria-label="delete" onClick={deleteAnnouncement}>
-              <DeleteIcon fontSize="small" />
-            </IconButton>
+            <Tooltip title="View Submissions" arrow>
+              <IconButton aria-label="view" onClick={displaySubmissions}>
+                <ViewHeadlineIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Edit Assignment" arrow>
+              <IconButton aria-label="edit" onClick={editAnnouncement}>
+                <EditIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete Assignment" arrow>
+              <IconButton aria-label="delete" onClick={deleteAnnouncement}>
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
           </Box>
         )}
       </h4>
       <div className="assignment-content">{content}</div>
+      {!submitted && !isTeacher() && new Date().getTime() <= due.getTime() && (
+        <SubmitAssignment courseID={courseID} assignmentID={Number(id)} />
+      )}
+      {submitted && !isTeacher() && (
+        <>
+          <h4 className="assignment-title mt-4">Your Work:</h4>
+          <div className="assignment-secondline">{workDateString}</div>
+          <div className="assignment-content">{work.content}</div>
+        </>
+      )}
+      <ReactModal
+        isOpen={showSubmissions}
+        contentLabel="Display Submissions"
+        className="class-modal"
+        ariaHideApp={false}
+        onRequestClose={() => {
+          setShowSubmissions(false);
+        }}
+        closeTimeoutMS={50}
+      >
+        <Submissions />
+      </ReactModal>
       <ReactModal
         isOpen={showEditModal}
         contentLabel="Delete Announcement"

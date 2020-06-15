@@ -17,6 +17,12 @@ export default class Assignment {
   @observable
   public assignments: Array<IAssignment> = [];
 
+  @observable
+  public submissionsOfStudent: Array<any> = [];
+
+  @observable
+  public submissionsOfAssignment: Array<any> = [];
+
   constructor(private store: Store) {}
 
   public fetchAllAssignments = async (courseID: number): Promise<void> => {
@@ -111,5 +117,48 @@ export default class Assignment {
       return true;
     }
     return false;
+  };
+
+  public submitAssignment = async ({
+    assignmentID,
+    content,
+  }: {
+    assignmentID: number;
+    content: string;
+  }): Promise<boolean> => {
+    const url = `/submissions/${assignmentID}`;
+    const form = { content };
+    const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
+    const { status } = response;
+    console.log(response);
+    if (!status) {
+      await this.fetchSubmissionsOfStudent(response.user.id);
+      return true;
+    }
+    return false;
+  };
+
+  public fetchSubmissionsOfStudent = async (studentID: number): Promise<void> => {
+    const url = `/submissions/student/${studentID}`;
+    const response = await this.store.api.fetch({ url }, 200);
+    const { status } = response;
+    console.log('submss', response);
+    if (!status) {
+      this.submissionsOfStudent = response;
+    } else {
+      this.assignments = [];
+    }
+  };
+
+  public fetchSubmissionsOfAssignment = async (assignmentID: number): Promise<void> => {
+    const url = `/submissions/assignment/${assignmentID}`;
+    const response = await this.store.api.fetch({ url }, 200);
+    const { status } = response;
+    console.log('subass', response);
+    if (!status) {
+      this.submissionsOfAssignment = response;
+    } else {
+      this.submissionsOfAssignment = [];
+    }
   };
 }
