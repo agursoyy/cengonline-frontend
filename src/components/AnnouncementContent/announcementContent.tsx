@@ -5,6 +5,7 @@ import Store from '../../store';
 import ReactModal from 'react-modal';
 
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import EditAnnouncement from '../EditAnnouncement';
 
@@ -67,12 +68,16 @@ const AnnouncementContent: FC<IProps> = ({ id, teacherName, date, updatedAt, con
         </div>
         {isTeacher() && (
           <div className="ann-icons">
-            <IconButton aria-label="edit">
-              <EditIcon fontSize="small" onClick={editAnnouncement} />
-            </IconButton>
-            <IconButton aria-label="delete" onClick={deleteAnnouncement}>
-              <DeleteIcon fontSize="small" />
-            </IconButton>
+            <Tooltip title="Edit Announcement" arrow>
+              <IconButton aria-label="edit">
+                <EditIcon fontSize="small" onClick={editAnnouncement} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete Announcement" arrow>
+              <IconButton aria-label="delete" onClick={deleteAnnouncement}>
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
           </div>
         )}
       </div>

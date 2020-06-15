@@ -10,6 +10,7 @@ import AssignmentContent from '../../components/AssignmentContent';
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import Collapse from '@material-ui/core/Collapse';
+import Tooltip from '@material-ui/core/Tooltip';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
@@ -132,22 +133,26 @@ const Course: FC<IProps> = ({ store }) => {
                       Course Code: <span>{course.id}</span>
                     </div>
                     <div className="sidebar__edit-course">
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => {
-                          setShowEditModal(true);
-                        }}
-                      >
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => {
-                          setShowDeleteModal(true);
-                        }}
-                      >
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
+                      <Tooltip title="Edit Course" arrow placement="top">
+                        <IconButton
+                          aria-label="edit"
+                          onClick={() => {
+                            setShowEditModal(true);
+                          }}
+                        >
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Delete Course" arrow placement="top">
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => {
+                            setShowDeleteModal(true);
+                          }}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
                     </div>
                   </>
                 )}
