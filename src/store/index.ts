@@ -4,6 +4,7 @@ import Auth from './auth';
 import Api from './api';
 import User from './user';
 import Course from './course';
+import Post from './post';
 import Announcement from './announcement';
 import Assignment from './assignment';
 import { createBrowserHistory } from 'history';
@@ -15,6 +16,7 @@ export default class Store {
   public user = new User(this);
   public course = new Course(this);
   public announcement = new Announcement(this);
+  public post = new Post(this);
   public assignment = new Assignment(this);
   public customHistory = createBrowserHistory();
 

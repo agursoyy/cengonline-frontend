@@ -1,0 +1,106 @@
+.post-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dee2e6;
+  border-radius: .5rem;
+
+  & + .post-container {
+    margin-top: 20px;
+  }
+  .post-date {
+    font-size: 1.4rem;
+    color: rgba(0, 0, 0, 0.55);
+    line-height: 14px;
+    margin-bottom: 12px;
+  }
+  .post-content {
+    padding: 1.6rem 1rem 1.6rem 2.4rem;
+    border-bottom: 1px solid #dee2e6;
+    .post-teacher {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .post-body {
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+  }
+
+  .comment-container {
+    &__comments {
+      padding: 1rem 2.4rem;
+      &.show {
+        padding-bottom: 0 !important;
+      }
+  
+      border-bottom: 1px rgba(0, 0, 0, 0.15) solid;
+      &-count {
+        button {
+          margin-left: -.8rem;
+          font-size: 1.4rem;
+          text-transform: lowercase;
+        }
+      }
+      &-single {
+        margin-top: 2rem;
+        .user {
+
+        }
+        .body {
+          font-size: 1.4rem;
+          font-weight: 400;
+        }
+        &:last-child{
+          margin-bottom: 1.2rem;
+        }
+      }
+      
+    }
+    &__form {
+      padding: 1.4rem 2rem;
+      .comment-form-group {
+        width: 100%;
+        position: relative;
+        .comment-text {
+          .cssOutlinedInput {
+            border-radius: 25px;
+            padding-right: 64px;
+            .notchedOutline  {
+              border-width: 1.6px;
+              border-color: #dee2e6;
+            }
+            &:hover {
+              .notchedOutline  {
+                border-color: #dee2e6;;
+              }
+            }
+          }
+          .cssFocused {
+            .notchedOutline  {
+              border-width: 2px;
+              border-color: #abadaf;
+            }
+            &:hover {
+              .notchedOutline  {
+                border-color: #abadaf;
+              }
+            }
+          }  
+        }
+        .submit-btn {
+          position: absolute;
+          height: 100%;
+          border-top-right-radius: 25px;
+          border-bottom-right-radius: 25px;
+          right: 0;
+          img {
+            width: 18px;
+            height: 18px;
+          }
+        } 
+          
+      }      
+    } 
+  }
+}

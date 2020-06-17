@@ -39,6 +39,7 @@ export default class Announcement {
     const response = await this.store.api.fetch({ url, form, method: 'post' }, 200);
     const { status } = response;
     if (!status) {
+      await this.fetchAllAnnouncements(courseID);
       return true;
     }
     return false;
@@ -68,4 +69,5 @@ export default class Announcement {
     }
     return false;
   }
+
 }

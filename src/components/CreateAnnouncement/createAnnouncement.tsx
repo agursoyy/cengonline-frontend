@@ -32,7 +32,6 @@ const CreateAnnouncement: FC<IProps> = ({ courseID, store }) => {
 
             const success = await createAnnouncement({ courseID, description });
             if (success) {
-              await store!.announcement.fetchAllAnnouncements(courseID);
               setTimeout(() => {
                 resetForm();
               }, 1000);
@@ -70,7 +69,7 @@ const CreateAnnouncement: FC<IProps> = ({ courseID, store }) => {
               <div
                 className={`${
                   !values.description ? 'd-none' : 'button-container d-flex justify-content-end'
-                } `}
+                  } `}
               >
                 <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
                   Submit
