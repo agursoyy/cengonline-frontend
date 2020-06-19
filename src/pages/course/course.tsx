@@ -4,8 +4,10 @@ import { observer, inject } from 'mobx-react';
 import Store from '../../store';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CreateAnnouncement from '../../components/CreateAnnouncement';
+import CreatePost from '../../components/CreatePost';
 import CreateAssignment from '../../components/CreateAssignment';
 import AnnouncementContent from '../../components/AnnouncementContent';
+import PostContent from '../../components/PostContent';
 import AssignmentContent from '../../components/AssignmentContent';
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
@@ -38,6 +40,7 @@ const Course: FC<IProps> = ({ store }) => {
         store!.course.fetchCourse(CourseID),
         store!.course.fetchStudents(CourseID),
         store!.announcement.fetchAllAnnouncements(CourseID),
+        store!.post.fetchAllPosts(CourseID),
         store!.assignment.fetchAllAssignments(CourseID),
         store!.assignment.fetchSubmissionsOfStudent(store!.user.user.id),
       ]);
@@ -75,8 +78,22 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No announcement in this course yet!</p>
-  );
+      <p>No announcement in this course yet!</p>
+    );
+  const postsTab = store!.post.posts.length ? (
+    store!.post.posts.map((p) => {
+      return (
+        <PostContent
+          teacherName={`${course.teacher.name} ${course.teacher.surname}`}
+          courseId={course.id}
+          post={p}
+          key={`posts-${p.id}`}
+        />
+      );
+    })
+  ) : (
+      <p>No post in this course yet!</p>
+    );
 
   const assignmentsTab = store!.assignment.assignments.length ? (
     store!.assignment.assignments.map((a) => {
@@ -106,8 +123,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No assignment in this course yet!</p>
-  );
+      <p>No assignment in this course yet!</p>
+    );
 
   const handleShowStudents = () => {
     if (studentsOfCourse.length > 0) {
@@ -189,6 +206,7 @@ const Course: FC<IProps> = ({ store }) => {
                 <Tabs>
                   <TabList>
                     <Tab>Announcements</Tab>
+                    <Tab>Posts</Tab>
                     <Tab>Assignments</Tab>
                   </TabList>
 
@@ -202,6 +220,18 @@ const Course: FC<IProps> = ({ store }) => {
                         <CreateAnnouncement courseID={CourseID} />
                       </div>
                       {announcementsTab}
+                    </div>
+                  </TabPanel>
+                  <TabPanel>
+                    <div className="react-tabs__tab-panel__course-post">
+                      <div
+                        className={
+                          !isTeacher() ? 'd-none' : 'course-container__content__create-announcement'
+                        }
+                      >
+                        <CreatePost courseID={CourseID} />
+                      </div>
+                      {postsTab}
                     </div>
                   </TabPanel>
                   <TabPanel>
@@ -288,18 +318,18 @@ const Course: FC<IProps> = ({ store }) => {
                 </Box>
               </>
             ) : (
-              <Typography>Something went wrong. Please try again.</Typography>
-            )}
+                <Typography>Something went wrong. Please try again.</Typography>
+              )}
           </Box>
         </ReactModal>
       </div>
     ) : (
-      <Redirect
-        to={{
-          pathname: '/',
-        }}
-      />
-    )
+        <Redirect
+          to={{
+            pathname: '/',
+          }}
+        />
+      )
   ) : null;
 };
 

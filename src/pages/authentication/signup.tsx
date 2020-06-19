@@ -57,7 +57,6 @@ const Signup: FC<IProps> = (props) => {
                     setFieldError('successMsg', message);
                     setTimeout(() => {
                       history.push('/sign-in');
-                      setSubmitting(false);
                     }, 2000);
                   } else {
                     console.log(result);
