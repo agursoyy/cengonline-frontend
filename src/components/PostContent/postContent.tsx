@@ -40,23 +40,26 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
     user: { isTeacher },
   } = store;
 
+  const dateFormatter = (createdAt: Date, updatedAt: Date): { updatedAtDate: Date, dateTime: Date, dateString: string, updatedAtString: string } => {
+    const dateTime = new Date(createdAt);
+    const dateMinutes = dateTime.getMinutes();
+    const dateHours = dateTime.getHours();
+
+    let dateMinutesString = dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes;
+    let dateHoursString = dateHours < 10 ? `0${dateHours}` : dateHours;
+    const dateString = `${dateTime.toLocaleDateString()} ${dateHoursString}:${dateMinutesString}`;
+
+    const updatedAtDate = new Date(updatedAt);
+    const updatedAtMinutes = updatedAtDate.getMinutes();
+    const updatedAtHours = updatedAtDate.getHours();
+
+    let updatedAtMinutesString = updatedAtMinutes < 10 ? `0${updatedAtMinutes}` : updatedAtMinutes;
+    let updatedAtHoursString = updatedAtHours < 10 ? `0${updatedAtHours}` : updatedAtHours;
+    const updatedAtString = `${updatedAtDate.toLocaleDateString()} ${updatedAtHoursString}:${updatedAtMinutesString}`;
+    return { dateString, updatedAtString, updatedAtDate, dateTime };
+  };
 
 
-  const dateTime = new Date(createdAt);
-  const dateMinutes = dateTime.getMinutes();
-  const dateHours = dateTime.getHours();
-
-  let dateMinutesString = dateMinutes < 10 ? `0${dateMinutes}` : dateMinutes;
-  let dateHoursString = dateHours < 10 ? `0${dateHours}` : dateHours;
-  const dateString = `${dateTime.toLocaleDateString()} ${dateHoursString}:${dateMinutesString}`;
-
-  const updatedAtDate = new Date(updatedAt);
-  const updatedAtMinutes = updatedAtDate.getMinutes();
-  const updatedAtHours = updatedAtDate.getHours();
-
-  let updatedAtMinutesString = updatedAtMinutes < 10 ? `0${updatedAtMinutes}` : updatedAtMinutes;
-  let updatedAtHoursString = updatedAtHours < 10 ? `0${updatedAtHours}` : updatedAtHours;
-  const updatedAtString = `${updatedAtDate.toLocaleDateString()} ${updatedAtHoursString}:${updatedAtMinutesString}`;
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(event.target.value);
@@ -75,8 +78,9 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
           <div>
             <div>{teacherName}</div>
             <div className="post-date">
-              {dateString}{' '}
-              {updatedAtDate.getTime() > dateTime.getTime() && `(Updated: ${updatedAtString})`}
+              {dateFormatter(createdAt, updatedAt).dateString}{' '}
+              {dateFormatter(createdAt, updatedAt).updatedAtDate.getTime() > dateFormatter(createdAt, updatedAt).dateTime.getTime()
+                && `(Updated: ${dateFormatter(createdAt, updatedAt).updatedAtString})`}
             </div>
           </div>
           {isTeacher() && (
@@ -103,8 +107,9 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
                 <div className="user">
                   <div>{c.user.name} {c.user.surname}</div>
                   <div className="post-date">
-                    {dateString}{' '}
-                    {updatedAtDate.getTime() > dateTime.getTime() && `(Updated: ${updatedAtString})`}
+                    {dateFormatter(c.createdAt, c.updatedAt).dateString}{' '}
+                    {dateFormatter(c.createdAt, c.updatedAt).updatedAtDate.getTime() > dateFormatter(c.createdAt, c.updatedAt).dateTime.getTime()
+                      && `(Updated: ${dateFormatter(c.createdAt, c.updatedAt).updatedAtString})`}
                   </div>
                 </div>
                 <div className="body">

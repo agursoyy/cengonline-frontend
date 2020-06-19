@@ -30,17 +30,23 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
 
   const handleCookieAuth = async (store: Store) => {
     const accessToken = store.cookies.get('accessToken');
-    console.log(accessToken);
     if (accessToken) {
       store.api.accessToken = accessToken;
     }
-    const user = await store.user.getCurrent();
+    if (accessToken) {
+      const user = await store.user.getCurrent();
 
-    if (!user) {
-      console.log('NO USER');
-      store.api.accessToken = undefined;
-      store.cookies.remove('accessToken');
+      if (!user) {
+        console.log('NO USER');
+        store.api.accessToken = undefined;
+        store.cookies.remove('accessToken');
+      }
     }
+
+    if (!firstRender) {
+      setFirstRender(true);
+    }
+
   };
 
   useEffect(() => {
@@ -48,7 +54,6 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
       await handleCookieAuth(store!);
     };
     authAsync();
-    if (!firstRender) setFirstRender(true);
   }, []);
 
   const config: IpageConfig = {
@@ -70,25 +75,22 @@ const PageRoute: FC<IProps> = ({ pageConfiguration, Component, store, ...rest })
             <Component {...rest} {...props} />
           </>
         ) : (
-          <Component {...rest} {...props} />
-        );
+            <Component {...rest} {...props} />
+          );
 
         return auth && user ? (
           newComponent
-        ) : auth ? (
-          /*(Redirected) ?  // to prevent infinite redirection.(maximum-depth exceeded error).
-                newComponent
-              : */
+        ) : auth ? (  // but user not logged in.
           <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
         ) : path === '/sign-in' || path === '/sign-up' ? (
           user ? (
             <Redirect to={{ pathname: '/' }} />
           ) : (
-            newComponent
-          )
+              newComponent
+            )
         ) : (
-          newComponent
-        );
+                newComponent
+              );
       }}
     />
   ) : null;

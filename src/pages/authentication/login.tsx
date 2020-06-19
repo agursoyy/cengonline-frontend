@@ -52,9 +52,6 @@ const Login: FC<IProps> = ({ store, location }) => {
                   const { success } = result;
                   const user = await store?.user.getCurrent();
                   if (success && user) {
-                    console.log('LOGIN SUCCEEDED');
-                    // window.location.href = '/';
-                    setSubmitting(false);
                     history.push('/');
                   } else {
                     const { message } = result;
