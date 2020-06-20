@@ -1,10 +1,10 @@
 @import '../../styles/mixins/index.scss';
 @import '../../styles/variables/colors';
 
-$primary: #79C7C5;
-$secondary: #A1E2D9;
+$primary: #79c7c5;
+$secondary: #a1e2d9;
 $dark: #777777;
-$body: #F9FBFF;
+$body: #f9fbff;
 
 .message-box {
   border-radius: 2rem;
@@ -16,7 +16,7 @@ $body: #F9FBFF;
   &__header {
     display: flex;
     align-items: center;
-    padding: .8rem 1.8rem;
+    padding: 0.8rem 1.8rem;
     background-color: #fff;
     .first-letter {
       height: 4.2rem;
@@ -24,13 +24,13 @@ $body: #F9FBFF;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius:50%;
-      -moz-border-radius:50%;
-      -webkit-border-radius:50%;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
       font-size: 2rem;
       text-transform: uppercase;
       color: $white;
-      background-color: lighten($color: $primary, $amount: 7%)
+      background-color: lighten($color: $primary, $amount: 7%);
     }
     .receiver-name {
       margin-left: 1rem;
@@ -42,10 +42,11 @@ $body: #F9FBFF;
   &__body {
     min-height: 14rem;
     max-height: 30rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     background-color: $body;
     padding: 1.4rem 1.8rem;
     .bubble {
+      max-width: 70%;
       position: relative;
       display: inline-block;
       margin-bottom: 5px;
@@ -58,7 +59,6 @@ $body: #F9FBFF;
       display: flex;
       justify-content: start;
       .bubble {
-        width: 50%;
         background: lighten($dark, 27%);
       }
     }
@@ -75,48 +75,47 @@ $body: #F9FBFF;
     form {
       .message-form-group {
         width: 100%;
-          position: relative;
-          .message-input {
-            .cssOutlinedInput {
-              border-radius: 25px;
-              padding-right: 64px;
-              .notchedOutline  {
-                border-width: 1.6px;
+        position: relative;
+        .message-input {
+          .cssOutlinedInput {
+            border-radius: 25px;
+            padding-right: 64px;
+            .notchedOutline {
+              border-width: 1.6px;
+              border-color: #dee2e6;
+            }
+            &:hover {
+              .notchedOutline {
                 border-color: #dee2e6;
               }
-              &:hover {
-                .notchedOutline  {
-                  border-color: #dee2e6;;
-                }
-              }
             }
-            .cssFocused {
-              .notchedOutline  {
-                border-width: 1.8px;
+          }
+          .cssFocused {
+            .notchedOutline {
+              border-width: 1.8px;
+              border-color: $primary;
+            }
+            &:hover {
+              .notchedOutline {
                 border-color: $primary;
               }
-              &:hover {
-                .notchedOutline  {
-                  border-color: $primary;
-                }
-              }
-            }  
-          }
-          .submit-btn {
-            position: absolute;
-            height: 100%;
-            border-top-right-radius: 25px;
-            border-bottom-right-radius: 25px;
-            right: 0;
-            display: flex;
-            align-items: center;
-            img {
-              width: 18px;
-              height: 18px;
             }
-          } 
+          }
+        }
+        .submit-btn {
+          position: absolute;
+          height: 100%;
+          border-top-right-radius: 25px;
+          border-bottom-right-radius: 25px;
+          right: 0;
+          display: flex;
+          align-items: center;
+          img {
+            width: 18px;
+            height: 18px;
+          }
+        }
       }
     }
-  
   }
 }
