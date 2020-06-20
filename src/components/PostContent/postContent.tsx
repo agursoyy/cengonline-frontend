@@ -6,15 +6,22 @@ import ReactModal from 'react-modal';
 import './postContent.scss';
 import IPost from '../../interfaces/post';
 
-import { Box, IconButton, Button, Typography, FormControl, Input, InputAdornment } from '@material-ui/core';
+import {
+  Box,
+  IconButton,
+  Button,
+  Typography,
+  FormControl,
+  Input,
+  InputAdornment,
+} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import EditPost from '../EditPost';
 
 import send from '../../static/icons/send.svg';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-
-
 
 interface IProps {
   store?: Store;
@@ -23,7 +30,12 @@ interface IProps {
   post: IPost;
 }
 
-const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, createdAt, updatedAt, comments }, store }) => {
+const PostContent: FC<IProps> = ({
+  teacherName,
+  courseId,
+  post: { id, body, createdAt, updatedAt, comments },
+  store,
+}) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [success, setSuccess] = useState(true);
@@ -40,7 +52,10 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
     user: { isTeacher },
   } = store;
 
-  const dateFormatter = (createdAt: Date, updatedAt: Date): { updatedAtDate: Date, dateTime: Date, dateString: string, updatedAtString: string } => {
+  const dateFormatter = (
+    createdAt: Date,
+    updatedAt: Date,
+  ): { updatedAtDate: Date; dateTime: Date; dateString: string; updatedAtString: string } => {
     const dateTime = new Date(createdAt);
     const dateMinutes = dateTime.getMinutes();
     const dateHours = dateTime.getHours();
@@ -58,8 +73,6 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
     const updatedAtString = `${updatedAtDate.toLocaleDateString()} ${updatedAtHoursString}:${updatedAtMinutesString}`;
     return { dateString, updatedAtString, updatedAtDate, dateTime };
   };
-
-
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(event.target.value);
@@ -79,45 +92,66 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
             <div>{teacherName}</div>
             <div className="post-date">
               {dateFormatter(createdAt, updatedAt).dateString}{' '}
-              {dateFormatter(createdAt, updatedAt).updatedAtDate.getTime() > dateFormatter(createdAt, updatedAt).dateTime.getTime()
-                && `(Updated: ${dateFormatter(createdAt, updatedAt).updatedAtString})`}
+              {dateFormatter(createdAt, updatedAt).updatedAtDate.getTime() >
+                dateFormatter(createdAt, updatedAt).dateTime.getTime() &&
+                `(Updated: ${dateFormatter(createdAt, updatedAt).updatedAtString})`}
             </div>
           </div>
           {isTeacher() && (
             <div className="ann-icons">
-              <IconButton aria-label="edit">
-                <EditIcon fontSize="small" onClick={() => { setShowEditModal(true); }} />
-              </IconButton>
-              <IconButton aria-label="delete" onClick={() => { setShowDeleteModal(true); }}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
+              <Tooltip title="Edit Post" arrow>
+                <IconButton aria-label="edit">
+                  <EditIcon
+                    fontSize="small"
+                    onClick={() => {
+                      setShowEditModal(true);
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete Post" arrow>
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => {
+                    setShowDeleteModal(true);
+                  }}
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
             </div>
           )}
         </div>
         <div className="post-body">{body}</div>
       </div>
       <div className="comment-container">
-        <div className={comments.length > 0 ? `comment-container__comments ${showComments && 'show'}` : 'd-none'}>
+        <div
+          className={
+            comments.length > 0 ? `comment-container__comments ${showComments && 'show'}` : 'd-none'
+          }
+        >
           <div className="comment-container__comments-count">
-            <Button color="primary" onClick={toggleForComments}>{comments.length} class comment{comments.length > 1 && 's'}</Button>
+            <Button color="primary" onClick={toggleForComments}>
+              {comments.length} class comment{comments.length > 1 && 's'}
+            </Button>
           </div>
-          {
-            showComments && comments.map((c, index) =>
+          {showComments &&
+            comments.map((c, index) => (
               <div key={index} className="comment-container__comments-single">
                 <div className="user">
-                  <div>{c.user.name} {c.user.surname}</div>
+                  <div>
+                    {c.user.name} {c.user.surname}
+                  </div>
                   <div className="post-date">
                     {dateFormatter(c.createdAt, c.updatedAt).dateString}{' '}
-                    {dateFormatter(c.createdAt, c.updatedAt).updatedAtDate.getTime() > dateFormatter(c.createdAt, c.updatedAt).dateTime.getTime()
-                      && `(Updated: ${dateFormatter(c.createdAt, c.updatedAt).updatedAtString})`}
+                    {dateFormatter(c.createdAt, c.updatedAt).updatedAtDate.getTime() >
+                      dateFormatter(c.createdAt, c.updatedAt).dateTime.getTime() &&
+                      `(Updated: ${dateFormatter(c.createdAt, c.updatedAt).updatedAtString})`}
                   </div>
                 </div>
-                <div className="body">
-                  {c.body}
-                </div>
+                <div className="body">{c.body}</div>
               </div>
-            )
-          }
+            ))}
         </div>
         <form className="comment-container__form" onSubmit={handleCommentSubmit}>
           <div className="">
@@ -134,8 +168,8 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
                   classes: {
                     root: 'cssOutlinedInput',
                     focused: 'cssFocused',
-                    notchedOutline: 'notchedOutline'
-                  }
+                    notchedOutline: 'notchedOutline',
+                  },
                 }}
                 value={commentInput}
                 onChange={handleCommentChange}
@@ -144,9 +178,7 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
                 <img src={send} alt="submit" />
               </Button>
             </FormControl>
-
           </div>
-
         </form>
       </div>
       <ReactModal
@@ -213,8 +245,8 @@ const PostContent: FC<IProps> = ({ teacherName, courseId, post: { id, body, crea
                 </Box>
               </>
             ) : (
-                <Typography>Something went wrong. Please try again.</Typography>
-              )}
+              <Typography>Something went wrong. Please try again.</Typography>
+            )}
           </Box>
         </div>
       </ReactModal>

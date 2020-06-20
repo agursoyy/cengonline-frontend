@@ -10,7 +10,11 @@ import AnnouncementContent from '../../components/AnnouncementContent';
 import PostContent from '../../components/PostContent';
 import AssignmentContent from '../../components/AssignmentContent';
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
-import { Delete as DeleteIcon, Edit as EditIcon, MailOutline as MessageIcon } from '@material-ui/icons';
+import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  MailOutline as MessageIcon,
+} from '@material-ui/icons';
 import Collapse from '@material-ui/core/Collapse';
 import Tooltip from '@material-ui/core/Tooltip';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -67,8 +71,6 @@ const Course: FC<IProps> = ({ store }) => {
     fetchData();
   }, []);
 
-
-
   const {
     course: { course, studentsOfCourse, deleteCourse },
     user: { user, isTeacher },
@@ -92,8 +94,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-      <p>No announcement in this course yet!</p>
-    );
+    <p>No announcement in this course yet!</p>
+  );
   const postsTab = store!.post.posts.length ? (
     store!.post.posts.map((p) => {
       return (
@@ -106,8 +108,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-      <p>No post in this course yet!</p>
-    );
+    <p>No post in this course yet!</p>
+  );
 
   const assignmentsTab = store!.assignment.assignments.length ? (
     store!.assignment.assignments.map((a) => {
@@ -137,8 +139,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-      <p>No assignment in this course yet!</p>
-    );
+    <p>No assignment in this course yet!</p>
+  );
 
   const handleShowStudents = () => {
     if (studentsOfCourse.length > 0) {
@@ -156,9 +158,23 @@ const Course: FC<IProps> = ({ store }) => {
                 <div className="sidebar-title">{course.title}</div>
                 <div className="sidebar-term">{course.term}</div>
                 <div className="sidebar-teacher">
-                  {course.teacher.name} {course.teacher.surname}
+                  <span className="mr-2">
+                    {course.teacher.name} {course.teacher.surname}
+                  </span>
+                  {!isTeacher() && (
+                    <Tooltip title="Send Message" arrow placement="right">
+                      <IconButton
+                        aria-label="new-message"
+                        onClick={() => {
+                          sendMessage(course.teacher.id);
+                        }}
+                      >
+                        <MessageIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
                 </div>
-                {store.user.isTeacher() && (
+                {isTeacher() && (
                   <>
                     <div className="sidebar-code">
                       Course Code: <span>{course.id}</span>
@@ -211,21 +227,21 @@ const Course: FC<IProps> = ({ store }) => {
                             </div>
                             <div className="student-info-email">{s.email}</div>
                           </div>
-                          {
-                            (s.id !== store.user.user.id)
-                            &&
+                          {s.id !== store.user.user.id && (
                             <div className="new-message-btn">
-                              <IconButton
-                                aria-label="new-message"
-                                onClick={() => {
-                                  console.log('pressed');
-                                  sendMessage(s.id);
-                                }}
-                              >
-                                <MessageIcon fontSize="small" />
-                              </IconButton>
+                              <Tooltip title="Send Message" arrow>
+                                <IconButton
+                                  aria-label="new-message"
+                                  onClick={() => {
+                                    console.log('pressed');
+                                    sendMessage(s.id);
+                                  }}
+                                >
+                                  <MessageIcon fontSize="small" />
+                                </IconButton>
+                              </Tooltip>
                             </div>
-                          }
+                          )}
                         </div>
                       ))}
                   </Collapse>
@@ -349,8 +365,8 @@ const Course: FC<IProps> = ({ store }) => {
                 </Box>
               </>
             ) : (
-                <Typography>Something went wrong. Please try again.</Typography>
-              )}
+              <Typography>Something went wrong. Please try again.</Typography>
+            )}
           </Box>
         </ReactModal>
         <ReactModal
@@ -364,17 +380,15 @@ const Course: FC<IProps> = ({ store }) => {
           closeTimeoutMS={50}
         >
           <MessageBox receiverId={messageReceiverId} />
-
         </ReactModal>
-
       </div>
     ) : (
-        <Redirect
-          to={{
-            pathname: '/',
-          }}
-        />
-      )
+      <Redirect
+        to={{
+          pathname: '/',
+        }}
+      />
+    )
   ) : null;
 };
 
