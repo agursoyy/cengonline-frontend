@@ -1,0 +1,122 @@
+@import '../../styles/mixins/index.scss';
+@import '../../styles/variables/colors';
+
+$primary: #79C7C5;
+$secondary: #A1E2D9;
+$dark: #777777;
+$body: #F9FBFF;
+
+.message-box {
+  border-radius: 2rem;
+  overflow: hidden;
+  width: 300px;
+  @include respond-above(sm) {
+    width: 440px;
+  }
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: .8rem 1.8rem;
+    background-color: #fff;
+    .first-letter {
+      height: 4.2rem;
+      width: 4.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius:50%;
+      -moz-border-radius:50%;
+      -webkit-border-radius:50%;
+      font-size: 2rem;
+      text-transform: uppercase;
+      color: $white;
+      background-color: lighten($color: $primary, $amount: 7%)
+    }
+    .receiver-name {
+      margin-left: 1rem;
+      font-size: 1.4rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+  &__body {
+    min-height: 14rem;
+    max-height: 30rem;
+    overflow-y: scroll;
+    background-color: $body;
+    padding: 1.4rem 1.8rem;
+    .bubble {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 5px;
+      color: $white;
+      font-size: 1.2rem;
+      padding: 10px 10px 10px 12px;
+      border-radius: 20px;
+    }
+    .incoming {
+      display: flex;
+      justify-content: start;
+      .bubble {
+        width: 50%;
+        background: lighten($dark, 27%);
+      }
+    }
+    .outgoing {
+      display: flex;
+      justify-content: flex-end;
+      .bubble {
+        background: $primary;
+      }
+    }
+  }
+  &__footer {
+    padding: 1.2rem 1.8rem;
+    form {
+      .message-form-group {
+        width: 100%;
+          position: relative;
+          .message-input {
+            .cssOutlinedInput {
+              border-radius: 25px;
+              padding-right: 64px;
+              .notchedOutline  {
+                border-width: 1.6px;
+                border-color: #dee2e6;
+              }
+              &:hover {
+                .notchedOutline  {
+                  border-color: #dee2e6;;
+                }
+              }
+            }
+            .cssFocused {
+              .notchedOutline  {
+                border-width: 1.8px;
+                border-color: $primary;
+              }
+              &:hover {
+                .notchedOutline  {
+                  border-color: $primary;
+                }
+              }
+            }  
+          }
+          .submit-btn {
+            position: absolute;
+            height: 100%;
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+            right: 0;
+            display: flex;
+            align-items: center;
+            img {
+              width: 18px;
+              height: 18px;
+            }
+          } 
+      }
+    }
+  
+  }
+}

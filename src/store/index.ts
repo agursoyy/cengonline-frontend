@@ -7,6 +7,7 @@ import Course from './course';
 import Post from './post';
 import Announcement from './announcement';
 import Assignment from './assignment';
+import Message from './message';
 import { createBrowserHistory } from 'history';
 
 export default class Store {
@@ -18,6 +19,7 @@ export default class Store {
   public announcement = new Announcement(this);
   public post = new Post(this);
   public assignment = new Assignment(this);
+  public message = new Message(this);
   public customHistory = createBrowserHistory();
 
   [name: string]: any;

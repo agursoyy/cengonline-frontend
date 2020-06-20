@@ -10,7 +10,7 @@ import AnnouncementContent from '../../components/AnnouncementContent';
 import PostContent from '../../components/PostContent';
 import AssignmentContent from '../../components/AssignmentContent';
 import { Box, IconButton, Button, Typography } from '@material-ui/core';
-import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
+import { Delete as DeleteIcon, Edit as EditIcon, MailOutline as MessageIcon } from '@material-ui/icons';
 import Collapse from '@material-ui/core/Collapse';
 import Tooltip from '@material-ui/core/Tooltip';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -19,9 +19,16 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ReactModal from 'react-modal';
 import './course.scss';
 import EditCourse from '../../components/EditCourse';
+import MessageBox from '../../components/MessageBox';
 
 type IProps = {
   store?: Store;
+};
+
+const useStateCallbackWrapper = (initilValue, callBack) => {
+  const [state, setState] = useState(initilValue);
+  useEffect(() => callBack(state), [state]);
+  return [state, setState];
 };
 
 const Course: FC<IProps> = ({ store }) => {
@@ -29,8 +36,9 @@ const Course: FC<IProps> = ({ store }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showStudents, setShowStudents] = useState(false);
+  const [showMessageBox, setShowMessageBox] = useState(false);
   const [success, setSuccess] = useState(true);
-
+  const [messageReceiverId, setMessageReceiverId] = useState(-1);
   const { id: CourseID } = useParams();
   const history = useHistory();
 
@@ -59,11 +67,17 @@ const Course: FC<IProps> = ({ store }) => {
     fetchData();
   }, []);
 
+
+
   const {
     course: { course, studentsOfCourse, deleteCourse },
     user: { user, isTeacher },
   } = store!;
 
+  const sendMessage = (receiverId: number) => {
+    setMessageReceiverId(receiverId);
+    setShowMessageBox(true);
+  };
   const announcementsTab = store!.announcement.announcements.length ? (
     store!.announcement.announcements.map((a) => {
       return (
@@ -191,10 +205,27 @@ const Course: FC<IProps> = ({ store }) => {
                       studentsOfCourse.length > 0 &&
                       studentsOfCourse.map((s) => (
                         <div className="student" key={`student-${s.id}`}>
-                          <div className="student-name">
-                            {s.name} {s.surname}
+                          <div className="student-info">
+                            <div className="student-info-name">
+                              {s.name} {s.surname}
+                            </div>
+                            <div className="student-info-email">{s.email}</div>
                           </div>
-                          <div className="student-email">{s.email}</div>
+                          {
+                            (s.id !== store.user.user.id)
+                            &&
+                            <div className="new-message-btn">
+                              <IconButton
+                                aria-label="new-message"
+                                onClick={() => {
+                                  console.log('pressed');
+                                  sendMessage(s.id);
+                                }}
+                              >
+                                <MessageIcon fontSize="small" />
+                              </IconButton>
+                            </div>
+                          }
                         </div>
                       ))}
                   </Collapse>
@@ -322,6 +353,20 @@ const Course: FC<IProps> = ({ store }) => {
               )}
           </Box>
         </ReactModal>
+        <ReactModal
+          isOpen={showMessageBox}
+          contentLabel="Edit Course"
+          className="class-modal"
+          ariaHideApp={false}
+          onRequestClose={() => {
+            setShowMessageBox(false);
+          }}
+          closeTimeoutMS={50}
+        >
+          <MessageBox receiverId={messageReceiverId} />
+
+        </ReactModal>
+
       </div>
     ) : (
         <Redirect
