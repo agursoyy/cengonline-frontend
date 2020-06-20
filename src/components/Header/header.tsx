@@ -6,6 +6,8 @@ import { Plus } from '../Icons';
 import './header.scss';
 import ReactModal from 'react-modal';
 import CreateClass from '../CreateClass';
+import AllUsers from '../AllUsers';
+import MessageBox from '../MessageBox';
 import AttendClass from '../AttendClass';
 import Button from '@material-ui/core/Button';
 
@@ -16,6 +18,10 @@ interface IProps {
 const Header: FC<IProps> = ({ store }) => {
   const [showCreateClassModal, setShowCreateClassModal] = useState(false);
   const [showAttendIntoModal, setShowAttendIntoModal] = useState(false);
+  const [showMessagesModal, setShowMessagesModal] = useState(false);
+  const [sendMessageModal, setSendMessageModal] = useState(false);
+  const [receiverId, setReceiverId] = useState(-1);
+
   const { user, isTeacher } = store!.user;
   let Redirected = false;
 
@@ -24,6 +30,14 @@ const Header: FC<IProps> = ({ store }) => {
   };
   const attendToClass = () => {
     setShowAttendIntoModal(true);
+  };
+  const showMessages = () => {
+    setShowMessagesModal(true);
+  };
+  const sendMessage = (id: number) => {
+    setReceiverId(id);
+    setShowMessagesModal(false);
+    setSendMessageModal(true);
   };
   const history = useHistory();
   return (
@@ -64,10 +78,8 @@ const Header: FC<IProps> = ({ store }) => {
                 </li>
               )}
               <li className="nav-item">
-                <Button href="#text-buttons">
-                  <Link to="/messages" className="nav-link">
-                    Messages
-                  </Link>
+                <Button onClick={showMessages} className="nav-link">
+                  Messages
                 </Button>
               </li>
               <li className="nav-item ml-md-5 logout-item">
@@ -120,6 +132,32 @@ const Header: FC<IProps> = ({ store }) => {
             }}
           />
         </div>
+      </ReactModal>
+      <ReactModal
+        isOpen={showMessagesModal}
+        contentLabel="Minimal Modal Example"
+        className="class-modal"
+        ariaHideApp={false}
+        onRequestClose={() => {
+          setShowMessagesModal(false);
+        }}
+        closeTimeoutMS={50}
+      >
+        <div className="modal-container">
+          <AllUsers close={sendMessage} />
+        </div>
+      </ReactModal>
+      <ReactModal
+        isOpen={sendMessageModal}
+        contentLabel="Edit Course"
+        className="class-modal"
+        ariaHideApp={false}
+        onRequestClose={() => {
+          setSendMessageModal(false);
+        }}
+        closeTimeoutMS={50}
+      >
+        <MessageBox receiverId={receiverId} />
       </ReactModal>
     </header>
   );

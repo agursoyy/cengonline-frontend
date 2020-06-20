@@ -1,0 +1,16 @@
+.messages-grid {
+  min-width: 400px;
+  padding: 0 20px 20px 20px;
+
+  .chatter {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      &.chatter-email {
+        color: rgba(0, 0, 0, 0.55);
+        font-size: 1.4rem;
+      }
+    }
+  }
+}

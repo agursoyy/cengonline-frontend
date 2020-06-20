@@ -11,7 +11,7 @@ export default class User {
     attendCourseUrl: '/attend-class',
   };
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   public getCurrent = async (): Promise<any> => {
     const url = `${this.url.base}${this.url.currentUrl}`;
@@ -27,6 +27,17 @@ export default class User {
       }
     }
     return this.user;
+  };
+
+  public getById = async (id: number): Promise<any> => {
+    const url = `${this.url.base}/${id}`;
+    const response = await this.store.api.fetch({ url }, 200);
+    const { status } = response;
+    if (!status) {
+      return response;
+    } else {
+      return null;
+    }
   };
 
   public isTeacher = () => {
