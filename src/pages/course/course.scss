@@ -53,16 +53,19 @@
         margin-top: 10px;
         font-size: 1.4rem;
         padding-left: 2px;
-
         &:nth-of-type(1) {
           margin-top: 15px;
         }
-
-        &-email {
-          line-height: 12px;
-          font-size: 1.3rem;
-          color: rgba(0, 0, 0, 0.55);
-        }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &-info {
+          &-email {
+            line-height: 12px;
+            font-size: 1.3rem;
+            color: rgba(0, 0, 0, 0.55);
+          }
+        } 
       }
     }
   }

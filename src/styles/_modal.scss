@@ -4,7 +4,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -70%);
+  transform: translate(-50%, -55%);
   border: 1px solid rgb(204, 204, 204);
   background: rgb(255, 255, 255);
   border-radius: 4px;
@@ -13,7 +13,7 @@
   .modal__container {
     padding: 2rem 2rem;
     @include respond-above(sm) {
-      width: 40rem;
+      min-width: 40rem;
       padding: 2rem 4rem;
     }
     .title {

@@ -1,17 +1,17 @@
 import Store from '.';
 import { observable } from 'mobx';
 import { TEACHER, STUDENT } from '../constants/role';
-
+import IUser from '../interfaces/user';
 export default class User {
   @observable
-  public user: any;
+  public user: IUser;
   private url = {
     base: '/users',
     currentUrl: '/current',
     attendCourseUrl: '/attend-class',
   };
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   public getCurrent = async (): Promise<any> => {
     const url = `${this.url.base}${this.url.currentUrl}`;

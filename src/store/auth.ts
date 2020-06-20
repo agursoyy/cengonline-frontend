@@ -58,7 +58,8 @@ export default class Auth {
     this.store.api.accessToken = null;
     this.store.api.refreshToken = null;
     this.store.cookies.remove('accessToken');
-    this.store.customHistory.push('/sign-in');
+    if (window)
+      window.location.replace('/sign-in');
   }
   public signup = async ({
     name,
