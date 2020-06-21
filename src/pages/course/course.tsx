@@ -69,7 +69,7 @@ const Course: FC<IProps> = ({ store }) => {
       };
     };
     fetchData();
-  }, []);
+  }, [CourseID]);
 
   const {
     course: { course, studentsOfCourse, deleteCourse },
