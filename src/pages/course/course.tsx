@@ -94,8 +94,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No announcement in this course yet!</p>
-  );
+      <p>No announcement in this course yet!</p>
+    );
   const postsTab = store!.post.posts.length ? (
     store!.post.posts.map((p) => {
       return (
@@ -108,8 +108,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No post in this course yet!</p>
-  );
+      <p>No post in this course yet!</p>
+    );
 
   const assignmentsTab = store!.assignment.assignments.length ? (
     store!.assignment.assignments.map((a) => {
@@ -139,8 +139,8 @@ const Course: FC<IProps> = ({ store }) => {
       );
     })
   ) : (
-    <p>No assignment in this course yet!</p>
-  );
+      <p>No assignment in this course yet!</p>
+    );
 
   const handleShowStudents = () => {
     if (studentsOfCourse.length > 0) {
@@ -365,8 +365,8 @@ const Course: FC<IProps> = ({ store }) => {
                 </Box>
               </>
             ) : (
-              <Typography>Something went wrong. Please try again.</Typography>
-            )}
+                <Typography>Something went wrong. Please try again.</Typography>
+              )}
           </Box>
         </ReactModal>
         <ReactModal
@@ -383,12 +383,12 @@ const Course: FC<IProps> = ({ store }) => {
         </ReactModal>
       </div>
     ) : (
-      <Redirect
-        to={{
-          pathname: '/',
-        }}
-      />
-    )
+        <Redirect
+          to={{
+            pathname: '/',
+          }}
+        />
+      )
   ) : null;
 };
 

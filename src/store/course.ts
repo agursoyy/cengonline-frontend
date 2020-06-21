@@ -7,21 +7,22 @@ export default class Course {
   };
   @observable
   public course: any; // course-detail
-  public studentsOfCourse: any;
+  @observable
   public courses: any;
 
-  constructor(private store: Store) {}
+  public studentsOfCourse: any;
+
+
+  constructor(private store: Store) { }
 
   public fetchAllCourses = async (): Promise<void> => {
     const url = `${this.url.base}`;
-    if (!this.courses) {
-      const response = await this.store.api.fetch({ url }, 200);
-      const { status } = response;
-      if (!status) {
-        console.log(response);
-        this.courses = response;
-      } else this.courses = null;
-    }
+    const response = await this.store.api.fetch({ url }, 200);
+    const { status } = response;
+    if (!status) {
+      console.log(response);
+      this.courses = response;
+    } else this.courses = null;
   };
 
   public fetchCourse = async (courseID): Promise<void> => {
